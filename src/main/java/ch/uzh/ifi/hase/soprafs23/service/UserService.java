@@ -15,6 +15,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.UUID;
 
+import java.time.LocalDate;
+
 /**
  * User Service
  * This class is the "worker" and responsible for all functionality related to
@@ -42,6 +44,7 @@ public class UserService {
   public User createUser(User newUser) {
     newUser.setToken(UUID.randomUUID().toString());
     newUser.setStatus(UserStatus.OFFLINE);
+    newUser.setCreationDate(LocalDate.now());
     checkIfUserExists(newUser);
     // saves the given entity but data is only persisted in the database once
     // flush() is called
@@ -76,4 +79,28 @@ public class UserService {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "name", "is"));
     }
   }
+
+    private void checkIfUserExistsForLogin(User userToBeLoggedIn){
+        User userByUsername = userRepository.findByUsername(userToBeLoggedIn.getUsername());
+        User userByPassword = userRepository.findByPassword(userToBeLoggedIn.getPassword());
+
+        if (userByUsername==null && userByPassword==null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "The username and password provided could not be found in our database. Please register to take full advantage of our awesome services!");
+        }
+        else if (userByUsername != userByPassword){
+            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT,
+                    "The username and password provided do not match. Please try again with your credentials Mr. Bond.");
+        }
+    }
+
+    public User loginUser(User userToBeLoggedIn){
+        checkIfUserExistsForLogin(userToBeLoggedIn);
+
+        userToBeLoggedIn.setStatus(UserStatus.ONLINE);
+        userToBeLoggedIn.setToken(UUID.randomUUID().toString());
+
+        return userToBeLoggedIn;
+
+    }
 }
