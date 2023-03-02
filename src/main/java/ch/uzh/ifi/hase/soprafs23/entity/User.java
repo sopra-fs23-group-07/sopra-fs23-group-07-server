@@ -25,7 +25,7 @@ public class User implements Serializable {
 
   @Id
   @GeneratedValue
-  private Long id;
+  private Long userId;
 
   @Column(nullable = false)
   private String name;
@@ -45,12 +45,16 @@ public class User implements Serializable {
   @Column(nullable = false, unique = false, updatable = false)
   private LocalDate creationDate;
 
-  public Long getId() {
-    return id;
+  @Column
+  private LocalDate birthdate;
+
+
+    public Long getUserId() {
+    return userId;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setUserId(Long userId) {
+    this.userId = userId;
   }
 
   public String getName() {
@@ -100,4 +104,13 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void setBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public LocalDate getBirthdate(){
+        return birthdate;
+    }
+
 }

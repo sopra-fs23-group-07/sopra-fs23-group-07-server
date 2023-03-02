@@ -42,6 +42,7 @@ public class UserController {
     return userGetDTOs;
   }
 
+  //registration
   @PostMapping("/users")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
@@ -65,4 +66,27 @@ public class UserController {
 
       return DTOMapper.INSTANCE.convertEntityToUserGetDTO(userToBeLoggedIn);
   }
+
+    //for accessing specific user
+    @GetMapping ("/users/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public UserGetDTO getUser(@PathVariable Long userId) {
+        // fetch user
+        User foundUser = userService.getUser(userId);
+        //converting internal representation to api representation
+        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(foundUser);}
+
+    // logout user
+    @PutMapping("/users/logout/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public UserGetDTO logoutUser(@PathVariable Long userId){
+        //get user and set status offline and logged_in false
+        User userToLogout=userService.getUser(userId);
+        userService.logoutUser(userToLogout);
+        // convert API user to internal representation
+        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(userToLogout);
+    }
+
 }

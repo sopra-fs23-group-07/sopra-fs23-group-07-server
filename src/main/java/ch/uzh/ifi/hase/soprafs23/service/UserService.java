@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import java.time.LocalDate;
@@ -43,8 +44,9 @@ public class UserService {
 
   public User createUser(User newUser) {
     newUser.setToken(UUID.randomUUID().toString());
-    newUser.setStatus(UserStatus.OFFLINE);
+    newUser.setStatus(UserStatus.ONLINE);
     newUser.setCreationDate(LocalDate.now());
+    newUser.setBirthdate(LocalDate.of(1900,01,01));
     checkIfUserExists(newUser);
     // saves the given entity but data is only persisted in the database once
     // flush() is called
@@ -103,4 +105,19 @@ public class UserService {
         return userToBeLoggedIn;
 
     }
+
+    public void logoutUser(User userToBeLoggedOut){
+      userToBeLoggedOut.setStatus(UserStatus.OFFLINE);
+      userToBeLoggedOut.setToken(null);
+    }
+
+    public User getUser(Long userId){
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if(optionalUser.isPresent()) {
+            return optionalUser.get();
+        }
+        else {//throw error if no user found for this id in the repository
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d could not be found", userId));
+        }
+  }
 }

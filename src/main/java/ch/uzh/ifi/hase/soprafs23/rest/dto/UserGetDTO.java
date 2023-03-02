@@ -6,21 +6,21 @@ import java.time.LocalDate;
 
 public class UserGetDTO {
 
-  private Long id;
+  private Long userId;
   private String name;
   private String username;
   private UserStatus status;
-
   private String token;
-
   private LocalDate creationDate;
 
-  public Long getId() {
-    return id;
+  private LocalDate birthdate;
+
+  public Long getUserId() {
+    return userId;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setUserId(Long userId) {
+    this.userId = userId;
   }
 
   public String getName() {
@@ -58,5 +58,13 @@ public class UserGetDTO {
     }
   public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public LocalDate getBirthdate(){
+      return birthdate;
+    }
+
+    public void setBirthdate(LocalDate birthdate){
+      this.birthdate = birthdate;
     }
 }
