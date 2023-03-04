@@ -1,12 +1,15 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
+import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPutDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,12 +84,23 @@ public class UserController {
     @PutMapping("/users/logout/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public UserGetDTO logoutUser(@PathVariable Long userId){
+    public UserPutDTO logoutUser(@PathVariable Long userId){
         //get user and set status offline and logged_in false
         User userToLogout=userService.getUser(userId);
         userService.logoutUser(userToLogout);
         // convert API user to internal representation
-        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(userToLogout);
+        return DTOMapper.INSTANCE.convertEntityToUserPutDTO(userToLogout);
     }
 
+    @PutMapping("/users/{userId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseBody
+    public void updateUser(@RequestBody UserPutDTO userPostDTO, @PathVariable Long userId){
+      if(!userPostDTO.getUserId().equals(userId)){
+          throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user with the provided ID (" + userId + ") could not be found");
+      }
+      userPostDTO.setUserId(userId);
+      User userInput = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(userPostDTO);
+      userService.updateUser(userInput);
+    }
 }
