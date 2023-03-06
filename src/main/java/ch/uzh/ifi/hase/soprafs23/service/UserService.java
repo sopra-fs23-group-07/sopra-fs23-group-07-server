@@ -100,17 +100,22 @@ public class UserService {
 
     public User loginUser(User userToBeLoggedIn) {
         checkIfUserExistsForLogin(userToBeLoggedIn);
+        User userInDb = userRepository.findByUsername(userToBeLoggedIn.getUsername());
+        userInDb.setStatus(UserStatus.ONLINE);
+        userInDb.setToken(UUID.randomUUID().toString());
+        userRepository.save(userInDb);
 
-        userToBeLoggedIn.setStatus(UserStatus.ONLINE);
-        userToBeLoggedIn.setToken(UUID.randomUUID().toString());
+        log.debug("Created Information for User: {}", userToBeLoggedIn);
 
-        return userToBeLoggedIn;
+        return userInDb;
 
     }
 
-    public void logoutUser(User userToBeLoggedOut) {
+    public void logoutUser(Long userId) {
+
+        User userToBeLoggedOut = getUser(userId);
         userToBeLoggedOut.setStatus(UserStatus.OFFLINE);
-        userToBeLoggedOut.setToken(null);
+
     }
 
     public User getUser(Long userId) {
@@ -151,9 +156,6 @@ public class UserService {
         return updatedUser;
 
 
-    }
-    public void setUserOffline(User userStatusToBeChanged){
-        userStatusToBeChanged.setStatus(UserStatus.OFFLINE);
     }
 
 }

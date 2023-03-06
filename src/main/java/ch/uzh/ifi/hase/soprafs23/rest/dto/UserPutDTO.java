@@ -43,4 +43,8 @@ public class UserPutDTO {
     public LocalDate getBirthdate(){
         return birthdate;
     }
+
+    public void setBirthdate(){
+        this.birthdate = birthdate;
+    }
 }

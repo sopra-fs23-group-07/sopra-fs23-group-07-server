@@ -27,29 +27,29 @@ public class User implements Serializable {
   @GeneratedValue
   private Long userId;
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   private String name;
 
-  @Column(nullable = false, unique = true)
+  @Column(nullable = true, unique = true)
   private String username;
 
-  @Column(nullable = false, unique = false)
+  @Column(nullable = true, unique = false)
   private String password;
 
-  @Column(nullable = false, unique = true)
+  @Column(nullable = true, unique = true)
   private String token;
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   private UserStatus status;
 
-  @Column(nullable = false, unique = false, updatable = false)
+  @Column(nullable = true, unique = false, updatable = false)
   private LocalDate creationDate;
 
   @Column
   private LocalDate birthdate;
 
 
-    public Long getUserId() {
+  public Long getUserId() {
     return userId;
   }
 

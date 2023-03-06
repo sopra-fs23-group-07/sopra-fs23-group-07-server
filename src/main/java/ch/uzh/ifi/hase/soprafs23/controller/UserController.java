@@ -59,7 +59,7 @@ public class UserController {
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
   }
 
-  @PostMapping("/login")
+  @PostMapping("/users/login")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public UserGetDTO loginUser(@RequestBody UserPostDTO userPostDTO){
@@ -81,15 +81,12 @@ public class UserController {
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(foundUser);}
 
     // logout user
-    @PutMapping("/users/logout/{userId}")
+    @PostMapping("/users/logout/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public UserPutDTO logoutUser(@PathVariable Long userId){
-        //get user and set status offline and logged_in false
-        User userToLogout=userService.getUser(userId);
-        userService.logoutUser(userToLogout);
-        // convert API user to internal representation
-        return DTOMapper.INSTANCE.convertEntityToUserPutDTO(userToLogout);
+    public void logoutUser(@PathVariable Long userId){
+        userService.logoutUser(userId);
+        System.out.println(userId);
     }
 
     @PutMapping("/users/{userId}")
