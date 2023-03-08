@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
-import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
@@ -86,18 +85,18 @@ public class UserController {
     @ResponseBody
     public void logoutUser(@PathVariable Long userId){
         userService.logoutUser(userId);
-        System.out.println(userId);
+
     }
 
     @PutMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
-    public void updateUser(@RequestBody UserPutDTO userPostDTO, @PathVariable Long userId){
-      if(!userPostDTO.getUserId().equals(userId)){
+    public void updateUser(@RequestBody UserPutDTO userPutDTO, @PathVariable Long userId){
+      if(!userPutDTO.getUserId().equals(userId)){
           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user with the provided ID (" + userId + ") could not be found");
       }
-      userPostDTO.setUserId(userId);
-      User userInput = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(userPostDTO);
+      userPutDTO.setUserId(userId);
+      User userInput = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(userPutDTO);
       userService.updateUser(userInput);
     }
 }

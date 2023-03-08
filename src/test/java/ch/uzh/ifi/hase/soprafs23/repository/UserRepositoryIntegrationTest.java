@@ -25,7 +25,7 @@ public class UserRepositoryIntegrationTest {
     User user = new User();
     user.setName("Firstname Lastname");
     user.setUsername("firstname@lastname");
-    user.setStatus(UserStatus.OFFLINE);
+    user.setStatus(UserStatus.ONLINE);
     user.setToken("1");
 
     entityManager.persist(user);
