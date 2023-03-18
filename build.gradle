@@ -67,4 +67,11 @@ if (secretPropsFile.exists()) {
     }
 }
 
+sonarqube {
+    properties {
+        property "sonar.projectKey", "sopra-fs23-group-07_sopra-fs23-group-07-server"
+        property "sonar.organization", "sopra-fs23-group-07"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+
 defaultTasks 'bootJar', 'build'
