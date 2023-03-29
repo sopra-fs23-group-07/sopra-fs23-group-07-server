@@ -98,7 +98,7 @@ public class User implements Serializable {
       this.creationDate = creationDate;
     }
 
-  public String getPassword() {
+    public String getPassword() {
         return password;
     }
 
