@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs23.entity;
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
 
 import java.time.LocalDate;
@@ -20,7 +21,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "USER")
 public class User implements Serializable {
-
+  @Serial
   private static final long serialVersionUID = 1L;
 
   @Id
@@ -28,7 +29,7 @@ public class User implements Serializable {
   private Long userId;
 
   @Column(nullable = true)
-  private String name;
+  private String email;
 
   @Column(nullable = true, unique = true)
   private String username;
@@ -57,12 +58,12 @@ public class User implements Serializable {
     this.userId = userId;
   }
 
-  public String getName() {
-    return name;
+  public String getEmail() {
+    return email;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setEmail(String email) {
+    this.email = email;
   }
 
   public String getUsername() {

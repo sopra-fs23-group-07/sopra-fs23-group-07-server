@@ -69,18 +69,10 @@ public class UserService {
      */
     private void checkIfUserExists(User userToBeCreated) {
         User userByUsername = userRepository.findByUsername(userToBeCreated.getUsername());
-        User userByName = userRepository.findByName(userToBeCreated.getName());
 
         String baseErrorMessage = "The %s provided %s not unique. Therefore, the user could not be created!";
-        if (userByUsername != null && userByName != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    String.format(baseErrorMessage, "username and the name", "are"));
-        }
-        else if (userByUsername != null) {
+        if (userByUsername != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "username", "is"));
-        }
-        else if (userByName != null) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "name", "is"));
         }
     }
 
@@ -103,7 +95,7 @@ public class UserService {
         User userInDb = userRepository.findByUsername(userToBeLoggedIn.getUsername());
         userInDb.setStatus(UserStatus.ONLINE);
         userInDb.setToken(UUID.randomUUID().toString());
-        userRepository.save(userInDb);
+        //userRepository.save(userInDb);
 
         log.debug("Created Information for User: {}", userToBeLoggedIn);
 
@@ -135,9 +127,9 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d not found"));
         }
         User databaseUser = getUser(inputUser.getUserId());
-        if (userRepository.findByUsername(inputUser.getUsername()) != null) {
+        /**if (userRepository.findByUsername(inputUser.getUsername()) != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("user with this username (" + inputUser.getUsername() + ") could not be found"));
-        }
+        }**/
 
         if (inputUser.getUsername()!=null && !inputUser.getUsername().equals("")){
             databaseUser.setUsername(inputUser.getUsername());
@@ -145,8 +137,8 @@ public class UserService {
         if (inputUser.getPassword()!=null && !inputUser.getPassword().equals("")){
             databaseUser.setPassword(inputUser.getPassword());
         }
-        if (inputUser.getName()!=null && !inputUser.getName().equals("")){
-            databaseUser.setName(inputUser.getName());
+        if (inputUser.getEmail()!=null && !inputUser.getEmail().equals("")){
+            databaseUser.setEmail(inputUser.getEmail());
         }
         if (inputUser.getBirthdate()!=null && !inputUser.getBirthdate().equals("")){
             databaseUser.setBirthdate(inputUser.getBirthdate());

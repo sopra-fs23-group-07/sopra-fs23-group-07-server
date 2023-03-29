@@ -23,14 +23,14 @@ public interface DTOMapper {
 
   DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
 
-  @Mapping(source = "name", target = "name")
+  @Mapping(source = "email", target = "email")
   @Mapping(source = "username", target = "username")
   @Mapping(source = "password", target= "password")
   @Mapping(source= "userId", target = "userId")
   User convertUserPostDTOtoEntity(UserPostDTO userPostDTO);
 
   @Mapping(source = "userId", target = "userId")
-  @Mapping(source = "name", target = "name")
+  @Mapping(source = "email", target = "email")
   @Mapping(source = "username", target = "username")
   @Mapping(source = "token" , target = "token")
   @Mapping(source = "status", target = "status")
@@ -42,7 +42,7 @@ public interface DTOMapper {
     //mapping internal representation of  User to UserPutDTO
     @Mapping(source = "userId", target = "userId")
     @Mapping(source = "username", target = "username")
-    @Mapping(source = "name", target = "name")
+    @Mapping(source = "email", target = "email")
     @Mapping(source = "password", target= "password")
     @Mapping(source = "birthdate", target = "birthdate")
     User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);

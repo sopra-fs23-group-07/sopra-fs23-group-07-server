@@ -7,7 +7,7 @@ import java.time.LocalDate;
 public class UserGetDTO {
 
   private Long userId;
-  private String name;
+  private String email;
   private String username;
   private UserStatus status;
   private String token;
@@ -23,12 +23,12 @@ public class UserGetDTO {
     this.userId = userId;
   }
 
-  public String getName() {
-    return name;
+  public String getEmail() {
+    return email;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setEmail(String email) {
+    this.email = email;
   }
 
   public String getUsername() {

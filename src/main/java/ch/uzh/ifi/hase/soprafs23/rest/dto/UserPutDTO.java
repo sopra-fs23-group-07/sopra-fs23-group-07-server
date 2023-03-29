@@ -9,7 +9,7 @@ public class UserPutDTO {
     private Long userId;
     private String password;
     private String username;
-    private String name;
+    private String email;
     private UserStatus userStatus;
     private String token;
 
@@ -23,9 +23,9 @@ public class UserPutDTO {
 
     public void setUsername(String username) {this.username = username;}
 
-    public String getName() {return name;}
+    public String getEmail() {return email;}
 
-    public void setName(String name) {this.name = name;}
+    public void setEmail(String email) {this.email = email;}
 
     public String getPassword() {return password; }
 
