@@ -256,7 +256,7 @@ public class UserControllerTest {
                 .content(asJsonString(updatedUserPutDTO));
 
         mockMvc.perform(putRequest)
-                .andExpect(status().isAccepted());
+                .andExpect(status().isNoContent());
 
         User returnedUser = user;
         given(userService.getUser(1L)).willReturn(returnedUser);

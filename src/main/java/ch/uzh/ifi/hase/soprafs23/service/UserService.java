@@ -46,7 +46,7 @@ public class UserService {
         newUser.setToken(UUID.randomUUID().toString());
         newUser.setStatus(UserStatus.ONLINE);
         newUser.setCreationDate(LocalDate.now());
-        newUser.setBirthdate(LocalDate.of(1900, 01, 01));
+        //newUser.setBirthdate(LocalDate.of(1900, 01, 01));
         checkIfUserExists(newUser);
         // saves the given entity but data is only persisted in the database once
         // flush() is called
@@ -63,8 +63,6 @@ public class UserService {
      * defined in the User entity. The method will do nothing if the input is unique
      * and throw an error otherwise.
      *
-     * @param userToBeCreated
-     * @throws org.springframework.web.server.ResponseStatusException
      * @see User
      */
     private void checkIfUserExists(User userToBeCreated) {
@@ -76,23 +74,15 @@ public class UserService {
         }
     }
 
-    private void checkIfUserExistsForLogin(User userToBeLoggedIn) {
-        User userByUsername = userRepository.findByUsername(userToBeLoggedIn.getUsername());
-        User userByPassword = userRepository.findByPassword(userToBeLoggedIn.getPassword());
-
-        if (userByUsername == null && userByPassword == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "The username and password provided could not be found in our database. Please register to take full advantage of our awesome services!");
-        }
-        else if (userByUsername != userByPassword) {
-            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT,
-                    "The username and password provided do not match. Please try again with your credentials Mr. Bond.");
-        }
-    }
-
     public User loginUser(User userToBeLoggedIn) {
-        checkIfUserExistsForLogin(userToBeLoggedIn);
         User userInDb = userRepository.findByUsername(userToBeLoggedIn.getUsername());
+        if (userInDb == null) {
+            String baseErrorMessage = "The %s provide %s not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "username", "was"));
+        }
+        if (!userInDb.getPassword().equals(userToBeLoggedIn.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong password");
+        }
         userInDb.setStatus(UserStatus.ONLINE);
         userInDb.setToken(UUID.randomUUID().toString());
         //userRepository.save(userInDb);
@@ -111,25 +101,16 @@ public class UserService {
     }
 
     public User getUser(Long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            return optionalUser.get();
+        Optional<User> userToFind = userRepository.findById(userId);
+        if (userToFind.isEmpty()) {
+            String baseErrorMessage = "The %s provide %s not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "userId", "was"));
         }
-        else {//throw error if no user found for this id in the repository
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d could not be found", userId));
-        }
+        return userToFind.get();
     }
 
-    public User updateUser(User inputUser) {
-        Optional<User> foundUser = userRepository.findById(inputUser.getUserId());
-        //does user exist?
-        if (foundUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user with userid %d not found"));
-        }
+    public void updateUser(User inputUser) {
         User databaseUser = getUser(inputUser.getUserId());
-        /**if (userRepository.findByUsername(inputUser.getUsername()) != null) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("user with this username (" + inputUser.getUsername() + ") could not be found"));
-        }**/
 
         if (inputUser.getUsername()!=null && !inputUser.getUsername().equals("")){
             databaseUser.setUsername(inputUser.getUsername());
@@ -140,14 +121,10 @@ public class UserService {
         if (inputUser.getEmail()!=null && !inputUser.getEmail().equals("")){
             databaseUser.setEmail(inputUser.getEmail());
         }
-        if (inputUser.getBirthdate()!=null && !inputUser.getBirthdate().equals("")){
+        if (inputUser.getBirthdate()!=null && !inputUser.getBirthdate().toString().equals("")){
             databaseUser.setBirthdate(inputUser.getBirthdate());
         }
 
-        User updatedUser = userRepository.save(databaseUser);
-        return updatedUser;
-
-
+        userRepository.save(databaseUser);
     }
-
 }

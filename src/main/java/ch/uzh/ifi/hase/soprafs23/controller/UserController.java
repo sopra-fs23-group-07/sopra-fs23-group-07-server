@@ -21,6 +21,7 @@ import java.util.List;
  * UserService and finally return the result.
  */
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
   private final UserService userService;
@@ -29,7 +30,7 @@ public class UserController {
     this.userService = userService;
   }
 
-  @GetMapping("/users")
+  @GetMapping("")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public List<UserGetDTO> getAllUsers() {
@@ -45,7 +46,7 @@ public class UserController {
   }
 
   //registration
-  @PostMapping("/users")
+  @PostMapping("/register")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public UserGetDTO createUser(@RequestBody UserPostDTO userPostDTO) {
@@ -58,7 +59,7 @@ public class UserController {
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
   }
 
-  @PostMapping("/users/login")
+  @PostMapping("/login")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public UserGetDTO loginUser(@RequestBody UserPostDTO userPostDTO){
@@ -70,7 +71,7 @@ public class UserController {
   }
 
     //for accessing specific user
-    @GetMapping ("/users/{userId}")
+    @GetMapping ("/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public UserGetDTO getUser(@PathVariable Long userId) {
@@ -80,22 +81,22 @@ public class UserController {
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(foundUser);}
 
     // logout user
-    @PostMapping("/users/logout/{userId}")
-    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/logout/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void logoutUser(@PathVariable Long userId){
         userService.logoutUser(userId);
 
     }
 
-    @PutMapping("/users/{userId}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PutMapping("/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void updateUser(@RequestBody UserPutDTO userPutDTO, @PathVariable Long userId){
       if(!userPutDTO.getUserId().equals(userId)){
           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user with the provided ID (" + userId + ") could not be found");
       }
-      userPutDTO.setUserId(userId);
+      //userPutDTO.setUserId(userId);
       User userInput = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(userPutDTO);
       userService.updateUser(userInput);
     }
