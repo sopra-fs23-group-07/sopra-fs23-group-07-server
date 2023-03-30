@@ -86,7 +86,7 @@ public class UserControllerTest {
     given(userService.createUser(Mockito.any())).willReturn(user);
 
     // when/then -> do the request + validate the result
-    MockHttpServletRequestBuilder postRequest = post("/users")
+    MockHttpServletRequestBuilder postRequest = post("/users/register")
         .contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(userPostDTO));
 
@@ -114,7 +114,7 @@ public class UserControllerTest {
 
       given(userService.createUser(Mockito.any())).willReturn(user);
 
-      MockHttpServletRequestBuilder postRequest = post("/users")
+      MockHttpServletRequestBuilder postRequest = post("/users/register")
               .contentType(MediaType.APPLICATION_JSON)
               .content(asJsonString(userPostDTO));
 
@@ -129,7 +129,7 @@ public class UserControllerTest {
       MockHttpServletRequestBuilder postRequestLogout = post("/users/logout/1");
 
       mockMvc.perform(postRequestLogout)
-              .andExpect(status().isOk());
+              .andExpect(status().isNoContent());
 
       User returnedUser = user;
       given(userService.getUser(1L)).willReturn(returnedUser);
@@ -156,7 +156,7 @@ public class UserControllerTest {
 
         given(userService.createUser(Mockito.any())).willReturn(user);
 
-        MockHttpServletRequestBuilder postRequest = post("/users")
+        MockHttpServletRequestBuilder postRequest = post("/users/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(userPostDTO));
 
@@ -195,7 +195,7 @@ public class UserControllerTest {
         given(userService.createUser(Mockito.any())).willReturn(user);
 
         // when/then -> do the request + validate the result
-        MockHttpServletRequestBuilder postRequest = post("/users")
+        MockHttpServletRequestBuilder postRequest = post("/users/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(userPostDTO));
 
@@ -233,7 +233,7 @@ public class UserControllerTest {
 
         given(userService.createUser(Mockito.any())).willReturn(user);
 
-        MockHttpServletRequestBuilder postRequest = post("/users")
+        MockHttpServletRequestBuilder postRequest = post("/users/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(userPostDTO));
 
