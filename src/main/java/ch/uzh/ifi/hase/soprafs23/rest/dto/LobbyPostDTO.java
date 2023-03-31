@@ -1,43 +1,47 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
 
+import javax.persistence.criteria.CriteriaBuilder;
 
 public class LobbyPostDTO {
-  private String email;
-  private String username;
-  private String password;
-  private Long userId;
+  private String lobbyName;
+  private String lobbyRegion;
+  private Long lobbyId;
+  private Integer lobbyMaxMembers;
+  private Integer lobbyTimeLimit;
 
 
-  public String getEmail() {
-    return email;
+  public String getLobbyName() {
+    return lobbyName;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setLobbyName(String lobbyName) {
+    this.lobbyName = lobbyName;
   }
 
-  public String getUsername() {
-    return username;
+  public String getLobbyRegion() {
+    return lobbyRegion;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setLobbyRegion(String lobbyRegion) {
+    this.lobbyRegion = lobbyRegion;
   }
 
-  public String getPassword() {
-        return password;
-    }
-  public void setPassword(String password) {
-        this.password = password;
+  public Long getLobbyId() {
+        return lobbyId;
     }
 
-    public Long getUserId() {
-        return userId;
+  public void setLobbyId(Long lobbyId) {
+        this.lobbyId = lobbyId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+  public Integer getLobbyMaxMembers() {return lobbyMaxMembers; }
+
+  public void setLobbyMaxMembers(Integer lobbyMaxMembers) {this.lobbyMaxMembers = lobbyMaxMembers; }
+
+  public Integer getLobbyTimeLimit() {return lobbyTimeLimit; }
+
+  public void setLobbyTimeLimit(Integer lobbyTimeLimit) {this.lobbyTimeLimit = lobbyTimeLimit; }
 
 }
+
