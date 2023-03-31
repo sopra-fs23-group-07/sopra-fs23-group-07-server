@@ -129,7 +129,7 @@ public class UserControllerTest {
       MockHttpServletRequestBuilder postRequestLogout = post("/users/logout/1");
 
       mockMvc.perform(postRequestLogout)
-              .andExpect(status().isNoContent());
+              .andExpect(status().isOk());
 
       User returnedUser = user;
       given(userService.getUser(1L)).willReturn(returnedUser);
