@@ -1,16 +1,16 @@
 package ch.uzh.ifi.hase.soprafs23.repository;
 
-import ch.uzh.ifi.hase.soprafs23.entity.User;
+import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository("userRepository")
-public interface LobbyRepository extends JpaRepository<User, Long> {
+@Repository("lobbyRepository")
+public interface LobbyRepository extends JpaRepository<Lobby, Long> {
 
-  User findByUsername(String username);
+  Lobby findByLobbyId(Long lobbyId);
 
-  Optional<User> findById(Long userId);
+  Lobby findByLobbyName(String lobbyName);
 
 }
