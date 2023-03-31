@@ -4,6 +4,10 @@ import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPutDTO;
+import ch.uzh.ifi.hase.soprafs23.entity.Event;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.EventGetDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.EventPostDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.EventPutDTO;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -38,12 +42,41 @@ public interface DTOMapper {
   @Mapping(source = "birthdate", target = "birthdate")
   UserGetDTO convertEntityToUserGetDTO(User user);
 
-
     //mapping internal representation of  User to UserPutDTO
-    @Mapping(source = "userId", target = "userId")
-    @Mapping(source = "username", target = "username")
-    @Mapping(source = "email", target = "email")
-    @Mapping(source = "password", target= "password")
-    @Mapping(source = "birthdate", target = "birthdate")
-    User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
+  @Mapping(source = "userId", target = "userId")
+  @Mapping(source = "username", target = "username")
+  @Mapping(source = "email", target = "email")
+  @Mapping(source = "password", target= "password")
+  @Mapping(source = "birthdate", target = "birthdate")
+  User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
+
+  @Mapping(source = "eventId", target = "eventId")
+  @Mapping(source = "eventName", target = "eventName")
+  @Mapping(source = "eventLocation", target = "eventLocation")
+  @Mapping(source = "eventDate", target = "eventDate")
+  @Mapping(source = "eventSport", target = "eventSport")
+  @Mapping(source = "eventRegion", target = "eventRegion")
+  @Mapping(source = "eventParticipants", target = "eventParticipants")
+  @Mapping(source = "eventMaxParticipants", target = "eventMaxParticipants")
+  Event convertEventPostDTOtoEntity(EventPostDTO eventPostDTO);
+
+  @Mapping(source = "eventId", target = "eventId")
+  @Mapping(source = "eventName", target = "eventName")
+  @Mapping(source = "eventLocation", target = "eventLocation")
+  @Mapping(source = "eventDate", target = "eventDate")
+  @Mapping(source = "eventSport", target = "eventSport")
+  @Mapping(source = "eventRegion", target = "eventRegion")
+  @Mapping(source = "eventParticipants", target = "eventParticipants")
+  @Mapping(source = "eventMaxParticipants", target = "eventMaxParticipants")
+  EventGetDTO convertEntityToEventGetDTO(Event event);
+
+  @Mapping(source = "eventId", target = "eventId")
+  @Mapping(source = "eventName", target = "eventName")
+  @Mapping(source = "eventLocation", target = "eventLocation")
+  @Mapping(source = "eventDate", target = "eventDate")
+  @Mapping(source = "eventSport", target = "eventSport")
+  @Mapping(source = "eventRegion", target = "eventRegion")
+  @Mapping(source = "eventParticipants", target = "eventParticipants")
+  @Mapping(source = "eventMaxParticipants", target = "eventMaxParticipants")
+  Event convertEventPutDTOtoEntity(EventPutDTO eventPutDTO);
 }

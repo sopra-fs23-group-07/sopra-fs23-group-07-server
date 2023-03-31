@@ -1,12 +1,15 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Internal User Representation
@@ -25,7 +28,8 @@ public class User implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+  @SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", initialValue = 1)
   private Long userId;
 
   @Column(nullable = true)
@@ -48,7 +52,14 @@ public class User implements Serializable {
 
   @Column
   private LocalDate birthdate;
-
+  @ManyToMany
+  @JoinTable(
+    name = "participant_event",
+    joinColumns = @JoinColumn(name = "userId"),
+    inverseJoinColumns = @JoinColumn(name = "eventId")
+  )
+  @JsonIgnoreProperties("users")
+  private List<Event> events = new ArrayList<>();
 
   public Long getUserId() {
     return userId;
@@ -102,17 +113,27 @@ public class User implements Serializable {
         return password;
     }
 
-    public void setPassword(String password) {
+  public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setBirthdate(LocalDate birthdate) {
+  public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 
-    public LocalDate getBirthdate(){
+  public LocalDate getBirthdate(){
         return birthdate;
     }
 
 
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void addEvent(Event event) {
+        this.events.add(event);
+    }
+    public void removeEvent(Event eventToRemove) {
+        events.removeIf(event -> event.equals(eventToRemove));
+    }
 }

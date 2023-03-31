@@ -21,7 +21,7 @@ import java.util.List;
  * UserService and finally return the result.
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/lobbies")
 public class LobbyController {
 
   private final UserService userService;

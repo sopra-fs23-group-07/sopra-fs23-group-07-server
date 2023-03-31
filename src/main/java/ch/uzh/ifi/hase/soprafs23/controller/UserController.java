@@ -82,7 +82,7 @@ public class UserController {
 
     // logout user
     @PostMapping("/logout/{userId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void logoutUser(@PathVariable Long userId){
         userService.logoutUser(userId);
