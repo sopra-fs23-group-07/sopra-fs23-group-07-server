@@ -1,7 +1,5 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
-import ch.uzh.ifi.hase.soprafs23.entity.User;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,7 +12,7 @@ public class EventGetDTO {
     private String eventSport;
     private String eventRegion;
     private Integer eventMaxParticipants;
-    private List<User> eventParticipants;
+    private List<ParticipantDTO> participantDTOs;
 
     public Long getEventId() {
         return eventId;
@@ -61,12 +59,12 @@ public class EventGetDTO {
         this.eventRegion = eventRegion;
     }
 
-    public List<User> getEventParticipants(){
-        return eventParticipants;
+    public List<ParticipantDTO> getParticipantDTOs(){
+        return participantDTOs;
     }
 
-    public void setEventParticipants(List<User> eventParticipants){
-        this.eventParticipants = eventParticipants;
+    public void setParticipantDTOs(List<ParticipantDTO> participantDTOs){
+        this.participantDTOs = participantDTOs;
     }
 
     public Integer getEventMaxParticipants() {

@@ -1,7 +1,5 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
@@ -48,9 +46,11 @@ public class Event implements Serializable {
     @Column(nullable = true, unique = false, updatable = false)
     private LocalDate eventDate;
 
-    @ManyToMany(mappedBy = "events")
-    @JsonIgnoreProperties("events")
-    private List<User> eventParticipants = new ArrayList<>();
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Participant> eventParticipants = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", insertable = false, updatable = false)
+    private User user;
 
 
     public Long getEventId() {
@@ -108,20 +108,20 @@ public class Event implements Serializable {
         this.eventSport = eventSport;
     }
 
-    public void setEventParticipants(List<User> eventParticipants) {
+    public void setEventParticipants(List<Participant> eventParticipants) {
         this.eventParticipants = eventParticipants;
     }
 
-    public List<User> getEventParticipants(){
+    public List<Participant> getEventParticipants(){
         return eventParticipants;
     }
 
-    public void addEventParticipant(User userToAdd) {
-        eventParticipants.add(userToAdd);
+    public void addEventParticipant(Participant participantToAdd) {
+        eventParticipants.add(participantToAdd);
     }
 
-    public void removeEventParticipant(User userToRemove) {
-        eventParticipants.removeIf(user -> user.equals(userToRemove));
+    public void removeEventParticipant(Participant participantToRemove) {
+        eventParticipants.removeIf(participant -> participant.equals(participantToRemove));
     }
 
     public boolean eventIsFull() {

@@ -3,7 +3,7 @@ package ch.uzh.ifi.hase.soprafs23.controller;
 import ch.uzh.ifi.hase.soprafs23.entity.Event;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.EventGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.EventPostDTO;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPutDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.UserEventDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.EventService;
 import org.springframework.http.HttpStatus;
@@ -37,7 +37,7 @@ public class EventController {
         List<Event> events = eventService.getEvents();
         List<EventGetDTO> eventGetDTOs = new ArrayList<>();
 
-        // convert each user to the API representation
+        // convert each event to the API representation
         for (Event event : events) {
             eventGetDTOs.add(DTOMapper.INSTANCE.convertEntityToEventGetDTO(event));
         }
@@ -51,10 +51,9 @@ public class EventController {
     public EventGetDTO createEvent(@RequestBody EventPostDTO eventPostDTO) {
         // convert API event to internal representation
         Event eventInput = DTOMapper.INSTANCE.convertEventPostDTOtoEntity(eventPostDTO);
-
         // create event
         Event createdEvent = eventService.createEvent(eventInput);
-        // convert internal representation of user back to API
+        // convert internal representation of event back to API
         return DTOMapper.INSTANCE.convertEntityToEventGetDTO(createdEvent);
     }
 
@@ -72,17 +71,17 @@ public class EventController {
     @PutMapping("/{eventId}/join")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
-    public void joinEvent(@RequestBody UserPutDTO userPutDTO, @PathVariable Long eventId){
+    public void joinEvent(@RequestBody UserEventDTO userEventDTO, @PathVariable Long eventId){
 
-        eventService.addUser(eventId, userPutDTO.getUserId());
+        eventService.addParticipant(eventId, userEventDTO.getUserId());
     }
 
     @PutMapping("/{eventId}/leave")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void leaveEvent(@RequestBody Long userId, @PathVariable Long eventId){
+    public void leaveEvent(@RequestBody UserEventDTO userEventDTO, @PathVariable Long eventId){
 
-        eventService.removeUser(eventId, userId);
+        eventService.removeParticipant(eventId, userEventDTO.getUserId());
     }
     @DeleteMapping("/{eventId}/delete")
     @ResponseStatus(HttpStatus.OK)

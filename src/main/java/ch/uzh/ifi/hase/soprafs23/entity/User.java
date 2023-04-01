@@ -1,12 +1,10 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +16,7 @@ import java.util.List;
  * Every variable will be mapped into a database field with the @Column
  * annotation
  * - nullable = false -> this cannot be left empty
- * - unique = true -> this value must be unqiue across the database -> composes
+ * - unique = true -> this value must be unique across the database -> composes
  * the primary key
  */
 @Entity
@@ -52,13 +50,10 @@ public class User implements Serializable {
 
   @Column
   private LocalDate birthdate;
-  @ManyToMany
-  @JoinTable(
-    name = "participant_event",
-    joinColumns = @JoinColumn(name = "userId"),
-    inverseJoinColumns = @JoinColumn(name = "eventId")
-  )
-  @JsonIgnoreProperties("users")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Participant> participants = new ArrayList<>();
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Event> events = new ArrayList<>();
 
   public Long getUserId() {
@@ -125,7 +120,6 @@ public class User implements Serializable {
         return birthdate;
     }
 
-
     public List<Event> getEvents() {
         return events;
     }
@@ -135,5 +129,6 @@ public class User implements Serializable {
     }
     public void removeEvent(Event eventToRemove) {
         events.removeIf(event -> event.equals(eventToRemove));
+
     }
 }
