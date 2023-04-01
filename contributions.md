@@ -5,3 +5,5 @@ Week Date, Name, GitHub Issue, Comment
 27/04/2023, Suleman, #112, created the Member class
 27/04/2023, Suleman, #106, created the Lobby class and skeleton of all functions and all getters and setters
 27/04/2023, Suleman, #75, created the EventDetails class
+27/04/2023, Suleman, #147, created the Lobby Repository class
+27/04/2023, Suleman, #148, added methods to LobbyRepository
