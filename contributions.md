@@ -9,3 +9,5 @@ Week Date, Name, GitHub Issue, Comment
 27/04/2023, Suleman, #148, added methods to LobbyRepository
 27/04/2023, Suleman, #141, added methods to DTOMapper for lobby
 27/04/2023, Suleman, #151, added methods to DTOMapperImpl.java for lobby
+27/04/2023, Suleman, #151, added methods to DTOMapperImpl.java for lobby
+27/04/2023, Omar, #27 & #29 & #11 & #14, integrated Mapbox api in home screen and events page, created table for events page, created table for lobby that allows user to pick up a sport (dropbdown, multiple selection) and allows user to lock his choice
