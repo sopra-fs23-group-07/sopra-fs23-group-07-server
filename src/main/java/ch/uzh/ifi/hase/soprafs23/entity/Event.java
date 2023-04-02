@@ -37,7 +37,7 @@ public class Event implements Serializable {
     @Column(nullable = true, unique = false)
     private String eventSport;
 
-    @Column(nullable = true, unique = true)
+    @Column(nullable = true, unique = false)
     private String eventRegion;
 
     @Column(nullable = true)

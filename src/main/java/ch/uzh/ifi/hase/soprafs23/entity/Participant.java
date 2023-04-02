@@ -14,8 +14,8 @@ public class Participant implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "participant_seq")
+    @SequenceGenerator(name = "participant_seq", sequenceName = "participant_sequence", initialValue = 1)
     private Long participantId;
     @Column(nullable = false)
     private Long userId;
