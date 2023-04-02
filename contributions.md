@@ -7,3 +7,4 @@ Week Date, Name, GitHub Issue, Comment
 27/04/2023, Suleman, #75, created the EventDetails class
 27/04/2023, Suleman, #147, created the Lobby Repository class
 27/04/2023, Suleman, #148, added methods to LobbyRepository
+27/04/2023, Suleman, #141, added methods to DTOMapper for lobby
