@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
 
+import ch.uzh.ifi.hase.soprafs23.entity.Member;
+
 import javax.persistence.criteria.CriteriaBuilder;
 
 public class LobbyPostDTO {
@@ -10,6 +12,12 @@ public class LobbyPostDTO {
   private Integer lobbyMaxMembers;
   private Integer lobbyTimeLimit;
 
+  private Member hostMember;
+
+
+  public Member getHostMember() {return hostMember; }
+
+  public void setHostMember(Member hostMember) {this.hostMember = hostMember; }
 
   public String getLobbyName() {
     return lobbyName;
