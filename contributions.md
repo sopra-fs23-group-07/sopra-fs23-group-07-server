@@ -8,3 +8,4 @@ Week Date, Name, GitHub Issue, Comment
 27/04/2023, Suleman, #147, created the Lobby Repository class
 27/04/2023, Suleman, #148, added methods to LobbyRepository
 27/04/2023, Suleman, #141, added methods to DTOMapper for lobby
+27/04/2023, Suleman, #151, added methods to DTOMapperImpl.java for lobby
