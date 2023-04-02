@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.rest.mapper;
 
+import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
 import ch.uzh.ifi.hase.soprafs23.entity.Participant;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
@@ -50,6 +51,26 @@ public interface DTOMapper {
   @Mapping(source = "birthdate", target = "birthdate")
   User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
 
+  @Mapping(source = "lobbyName", target = "lobbyName")
+  @Mapping(source = "lobbyRegion", target = "lobbyRegion")
+  @Mapping(source = "lobbyMaxMembers", target= "lobbyMaxMembers")
+  @Mapping(source = "lobbyTimeLimit", target= "lobbyTimeLimit")
+  @Mapping(source= "hostMember", target = "hostMember")
+  @Mapping(source= "lobbyId", target = "lobbyId")
+  Lobby convertLobbyPostDTOtoEntity(LobbyPostDTO lobbyPostDTO);
+
+  @Mapping(source = "lobbyId", target = "lobbyId")
+  @Mapping(source = "lobbyName", target = "lobbyName")
+  @Mapping(source = "lobbyMembers", target = "lobbyMembers")
+  @Mapping(source = "lobbyMaxMembers" , target = "lobbyMaxMembers")
+  @Mapping(source = "lobbyRegion", target = "lobbyRegion")
+  @Mapping(source = "lobbyTimeLimit", target = "lobbyTimeLimit")
+  @Mapping(source = "token", target = "token")
+  @Mapping(source = "lobbyDecidedLocation", target = "lobbyDecidedLocation")
+  @Mapping(source = "lobbyDecidedSport", target = "lobbyDecidedSport")
+  @Mapping(source = "lobbyDecidedDate", target = "lobbyDecidedDate")
+  @Mapping(source = "lobbyLocations", target = "lobbyLocations")
+  LobbyGetDTO convertEntityToLobbyGetDTO(Lobby lobby);
 
   @Mapping(source = "eventName", target = "eventName")
   @Mapping(source = "eventLocation", target = "eventLocation")
