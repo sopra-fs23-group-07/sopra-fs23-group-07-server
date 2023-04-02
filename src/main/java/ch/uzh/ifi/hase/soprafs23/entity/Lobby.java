@@ -63,7 +63,11 @@ public class Lobby implements Serializable {
   private String token;
 
 
-  public void Lobby(Long lobbyId, String lobbyName, Member hostMember, Integer lobbyMaxMembers, String lobbyRegion, Integer lobbyTimeLimit) {}
+  public ArrayList<Location> getLobbyLocations() {return lobbyLocations; }
+
+  public void addLobbyLocation(Location location) {}
+
+  public void removeLobbyLocation(Location location) {}
 
   public boolean isLobbyFull() {return false;}
 
@@ -83,9 +87,9 @@ public class Lobby implements Serializable {
 
   public OverlapColor checkDateOverlap(Date date) {return OverlapColor.RED;}
 
-  public void addLobbyMember(User user) {}
+  public void addLobbyMember(Member member) {}
 
-  public void removeLobbyMember(User user) {}
+  public void removeLobbyMember(Member member) {}
 
   public Long getLobbyId() {
     return lobbyId;
@@ -96,6 +100,8 @@ public class Lobby implements Serializable {
   }
 
   public ArrayList<Member> getLobbyMembers() {return this.lobbyMembers; }
+
+  public void setLobbyMaxMembers(Integer lobbyMaxMembers) {this.lobbyMaxMembers = lobbyMaxMembers; }
 
   public Integer getLobbyMaxMembers() {return this.lobbyMaxMembers;}
 
@@ -116,6 +122,8 @@ public class Lobby implements Serializable {
   }
 
   public Integer getLobbyTimeLimit() {return this.lobbyTimeLimit; }
+
+  public void setLobbyTimeLimit(Integer lobbyTimeLimit) {this.lobbyTimeLimit = lobbyTimeLimit; }
 
   public String getLobbyDecidedSport() {return lobbyDecidedSport; }
 
