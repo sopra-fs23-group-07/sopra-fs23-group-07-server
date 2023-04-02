@@ -36,10 +36,9 @@ public class LobbyGetDTO {
   private ArrayList<Location> lobbyLocations;
 
 
+  public ArrayList<Location> getLobbyLocations() {return lobbyLocations; }
 
-  public void addLobbyMember(User user) {}
-
-  public void removeLobbyMember(User user) {}
+  public void setLobbyLocations(ArrayList<Location> lobbyLocations) {this.lobbyLocations = lobbyLocations; }
 
   public Long getLobbyId() {
         return lobbyId;
@@ -51,7 +50,11 @@ public class LobbyGetDTO {
 
   public ArrayList<Member> getLobbyMembers() {return this.lobbyMembers; }
 
+  public void setLobbyMembers(ArrayList<Member> lobbyMembers) {this.lobbyMembers = lobbyMembers;}
+
   public Integer getLobbyMaxMembers() {return this.lobbyMaxMembers;}
+
+  public void setLobbyMaxMembers(Integer lobbyMaxMembers) {this.lobbyMaxMembers = lobbyMaxMembers; }
 
   public String getLobbyName() {
         return lobbyName;
@@ -71,6 +74,8 @@ public class LobbyGetDTO {
 
   public Integer getLobbyTimeLimit() {return this.lobbyTimeLimit; }
 
+  public void setLobbyTimeLimit(Integer lobbyTimeLimit) {this.lobbyTimeLimit = lobbyTimeLimit; }
+
   public String getLobbyDecidedSport() {return lobbyDecidedSport; }
 
   public void setLobbyDecidedSport(String lobbyDecidedSport) {this.lobbyDecidedSport = lobbyDecidedSport;}
@@ -82,8 +87,6 @@ public class LobbyGetDTO {
   public String getLobbyDecidedLocation() {return lobbyDecidedLocation;}
 
   public void setLobbyDecidedLocation(String lobbyDecidedLocation) {this.lobbyDecidedLocation = lobbyDecidedLocation;}
-
-  public Integer getNumberOfVotesForLocation(Location location) {return 0;}
 
   public String getToken() {
         return token;
