@@ -1,4 +1,4 @@
-Week Date, Name, GitHub Issue, Comment\n
+Week Date, Name, GitHub Issue, Comment
 27/04/2023, Suleman, #107, created the Lobby controller class
 27/04/2023, Suleman, #108, created the Lobby service class
 27/04/2023, Suleman, #109, created the Lobby GET and POST DTOs
