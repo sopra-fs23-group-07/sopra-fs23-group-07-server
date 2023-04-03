@@ -17,3 +17,6 @@ Week Date, Name, GitHub Issue, Comment
 27/04/2023, Patrick, #77, created class EventController
 27/04/2023, Patrick, #78, created class EventService
 27/04/2023, Patrick, #79, created class EventRepository
+02/04/2023, Raffael, #2, defined routing and guards
+02/04/2023, Raffael, #3, updated User model
+02/04/2023, Raffael, #21, created Lobbies page
