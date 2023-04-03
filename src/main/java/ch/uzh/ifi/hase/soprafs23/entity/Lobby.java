@@ -35,8 +35,8 @@ public class Lobby implements Serializable {
   @Column(nullable = false, unique = true)
   private String lobbyName;
 
-  @Column(nullable = false, unique = true)
-  private Member hostMember;
+  //@Column(nullable = false, unique = true)
+  //private Member hostMember;
 
   @Column(nullable = true)
   private ArrayList<Member> lobbyMembers;
@@ -66,9 +66,9 @@ public class Lobby implements Serializable {
   private String token;
 
 
-   public Member getHostMember() {return hostMember; }
+  //public Member getHostMember() {return hostMember; }
 
-  public void setHostMember(Member hostMember) {this.hostMember = hostMember; }
+  //public void setHostMember(Member hostMember) {this.hostMember = hostMember; }
 
   public ArrayList<Location> getLobbyLocations() {return lobbyLocations; }
 
