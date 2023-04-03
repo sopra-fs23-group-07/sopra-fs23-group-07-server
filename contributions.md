@@ -1,6 +1,6 @@
 | **Week** | **Date** | **Name** | **Github Issue** | **Comment** |
 |----------|----------|----------|------------------|-------------|
-|      1   |27/04/2023|Suleman   | #107             |created the Lobby controller class| 
+|      1   |27/04/2023|Suleman   | [#107 ](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/107) |created the Lobby controller class| 
 |      1   |27/04/2023|Suleman   | #108             |created the Lobby service class|
 |      1   |27/04/2023|Suleman   | #109             |created the Lobby GET and POST DTOs|
 |      1   |27/04/2023|Suleman   | #112             |created the Member class|
