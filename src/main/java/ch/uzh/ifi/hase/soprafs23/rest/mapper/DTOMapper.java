@@ -77,7 +77,7 @@ public interface DTOMapper {
   @Mapping(source = "eventDate", target = "eventDate")
   @Mapping(source = "eventSport", target = "eventSport")
   @Mapping(source = "eventRegion", target = "eventRegion")
-  @Mapping(source = "eventParticipants", target = "eventParticipants")
+  //@Mapping(source = "eventParticipants", target = "eventParticipants")
   @Mapping(source = "eventMaxParticipants", target = "eventMaxParticipants")
   Event convertEventPostDTOtoEntity(EventPostDTO eventPostDTO);
 

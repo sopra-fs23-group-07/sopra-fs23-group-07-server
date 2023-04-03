@@ -32,6 +32,8 @@ public class LobbyService {
 
     private final UserRepository userRepository;
 
+    //private final EventService eventService;
+
     @Autowired
     public LobbyService(@Qualifier("userRepository") UserRepository userRepository) {
         this.userRepository = userRepository;

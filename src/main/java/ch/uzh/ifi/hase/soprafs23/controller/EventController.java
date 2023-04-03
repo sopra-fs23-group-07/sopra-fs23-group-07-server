@@ -53,6 +53,8 @@ public class EventController {
         Event eventInput = DTOMapper.INSTANCE.convertEventPostDTOtoEntity(eventPostDTO);
         // create event
         Event createdEvent = eventService.createEvent(eventInput);
+
+        eventService.addParticipant(eventInput.getEventId(), eventPostDTO.getEventCreator());
         // convert internal representation of event back to API
         return DTOMapper.INSTANCE.convertEntityToEventGetDTO(createdEvent);
     }

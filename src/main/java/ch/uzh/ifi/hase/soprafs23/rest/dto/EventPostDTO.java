@@ -6,22 +6,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class EventPostDTO {
-    private Long eventId;
     private String eventName;
     private String eventLocation;
-    private LocalDate eventDate;
+    private String eventDate;
     private String eventSport;
     private String eventRegion;
     private Integer eventMaxParticipants;
-    private List<User> eventParticipants;
-
-    public Long getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
-    }
+    private Long eventCreator;
 
     public String getEventName() {
         return eventName;
@@ -39,11 +30,11 @@ public class EventPostDTO {
         this.eventLocation = eventLocation;
     }
 
-    public LocalDate getEventDate() {
+    public String getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(LocalDate eventDate) {
+    public void setEventDate(String eventDate) {
         this.eventDate = eventDate;
     }
 
@@ -60,12 +51,12 @@ public class EventPostDTO {
         this.eventRegion = eventRegion;
     }
 
-    public List<User> getEventParticipants(){
-        return eventParticipants;
+    public Long getEventCreator(){
+        return eventCreator;
     }
 
-    public void setEventParticipants(List<User> eventParticipants){
-        this.eventParticipants = eventParticipants;
+    public void setEventCreator(Long eventParticipants){
+        this.eventCreator = eventParticipants;
     }
 
     public Integer getEventMaxParticipants() {

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class Event implements Serializable {
     private Integer eventMaxParticipants;
 
     @Column(nullable = true, unique = false, updatable = false)
-    private LocalDate eventDate;
+    private LocalDateTime eventDate;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participant> eventParticipants = new ArrayList<>();
@@ -92,11 +93,11 @@ public class Event implements Serializable {
         this.eventMaxParticipants = eventMaxParticipants;
     }
 
-    public LocalDate getEventDate() {
+    public LocalDateTime getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(LocalDate eventDate) {
+    public void setEventDate(LocalDateTime eventDate) {
         this.eventDate = eventDate;
     }
 

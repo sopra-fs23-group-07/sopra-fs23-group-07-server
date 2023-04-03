@@ -8,7 +8,7 @@ public class EventGetDTO {
     private Long eventId;
     private String eventName;
     private String eventLocation;
-    private LocalDate eventDate;
+    private String eventDate;
     private String eventSport;
     private String eventRegion;
     private Integer eventMaxParticipants;
@@ -38,11 +38,11 @@ public class EventGetDTO {
         this.eventLocation = eventLocation;
     }
 
-    public LocalDate getEventDate() {
+    public String getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(LocalDate eventDate) {
+    public void setEventDate(String eventDate) {
         this.eventDate = eventDate;
     }
 
