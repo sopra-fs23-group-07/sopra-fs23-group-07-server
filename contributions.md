@@ -13,3 +13,7 @@ Week Date, Name, GitHub Issue, Comment
 27/04/2023, Yannic, #42 #43 #44, created header with two different types of navigation bars. One for the logged in and one for the logged out user which links to the different pages.
 27/04/2023, Yannic, #22, created choose region/ createLobby page
 27/04/2023, Yannic, #23, created Find Lobby and Show all events button on the page home
+27/04/2023, Patrick, #76, created class Event with DTO's and Mapping, class Participant with ParticipantRepository
+27/04/2023, Patrick, #77, created class EventController
+27/04/2023, Patrick, #78, created class EventService
+27/04/2023, Patrick, #79, created class EventRepository
