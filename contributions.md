@@ -1,15 +1,15 @@
 | **Week** | **Date** | **Name** | **Github Issue** | **Comment** |
 |----------|----------|----------|------------------|-------------|
 |      1   |27/04/2023|Suleman   | [#107 ](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/107) |created the Lobby controller class| 
-|      1   |27/04/2023|Suleman   | (https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/108)             |created the Lobby service class|
-|      1   |27/04/2023|Suleman   | #109             |created the Lobby GET and POST DTOs|
-|      1   |27/04/2023|Suleman   | #112             |created the Member class|
-|      1   |27/04/2023|Suleman   | #106             |created the Lobby class and skeleton of all functions and all getters and setters|
-|      1   |27/04/2023|Suleman   | #75              |created the EventDetails class|
-|      1   |27/04/2023|Suleman   | #147             |created the Lobby Repository class|
-|      1   |27/04/2023|Suleman   | #148             |added methods to LobbyRepository|
-|      1   |27/04/2023|Suleman   | #141             |added methods to DTOMapper for lobby|
-|      1   |27/04/2023|Suleman   | #151             |added methods to DTOMapperImpl.java for lobby|
+|      1   |27/04/2023|Suleman   | [#108](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/108)   |created the Lobby service class|
+|      1   |27/04/2023|Suleman   | [#109](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/109) |created the Lobby GET and POST DTOs|
+|      1   |27/04/2023|Suleman   | [#112](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/112)             |created the Member class|
+|      1   |27/04/2023|Suleman   | [#106](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/106) |created the Lobby class and skeleton of all functions and all getters and setters|
+|      1   |27/04/2023|Suleman   | [#75](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/75) |created the EventDetails class|
+|      1   |27/04/2023|Suleman   | [#147](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/147) |created the Lobby Repository class|
+|      1   |27/04/2023|Suleman   | [#148](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/148)  |added methods to LobbyRepository|
+|      1   |27/04/2023|Suleman   | [#141](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/141)  |added methods to DTOMapper for lobby|
+|      1   |27/04/2023|Suleman   | [#151](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/151) |added methods to DTOMapperImpl.java for lobby|
 |      1   |27/04/2023|Omar      |#27, #29, #11, #14|integrated Mapbox api in home screen and events page, created table for events page, created table for lobby that allows user to pick up a sport (dropbdown, multiple selection) and allows user to lock his choice|
 |      1   |27/04/2023|Yannic    | #42 #43 #44      |created header with two different types of navigation bars. One for the logged in and one for the logged out user which links to the different pages.|
 |      1   |27/04/2023|Yannic    | #22              |created choose region/ createLobby page|
