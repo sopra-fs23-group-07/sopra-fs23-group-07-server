@@ -32,7 +32,7 @@ public class UserRepositoryIntegrationTest {
     entityManager.flush();
 
     // when
-    User found = userRepository.findByUsername(user.getUsername());
+    User found = userRepository.findUserByUsername(user.getUsername());
 
     // then
     assertNotNull(found.getUserId());

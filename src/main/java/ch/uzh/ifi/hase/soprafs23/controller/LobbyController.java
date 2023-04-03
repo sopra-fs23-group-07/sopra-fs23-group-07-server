@@ -1,10 +1,10 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
+import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.UserGetDTO;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPostDTO;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPutDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
+import ch.uzh.ifi.hase.soprafs23.service.LobbyService;
 import ch.uzh.ifi.hase.soprafs23.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +24,13 @@ import java.util.List;
 @RequestMapping("/lobbies")
 public class LobbyController {
 
+  private final LobbyService lobbyService;
   private final UserService userService;
 
-  LobbyController(UserService userService) {
-    this.userService = userService;
+  LobbyController(LobbyService lobbyService, UserService userService) {
+
+      this.lobbyService = lobbyService;
+      this.userService = userService;
   }
 
   @GetMapping("")
@@ -46,58 +49,20 @@ public class LobbyController {
   }
 
   //registration
-  @PostMapping("/register")
+  @PostMapping("/lobbies")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
-  public UserGetDTO createUser(@RequestBody UserPostDTO userPostDTO) {
+  public LobbyGetDTO createLobby(@RequestBody LobbyPostDTO lobbyPostDTO) {
     // convert API user to internal representation
-    User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
+    Lobby lobbyInput = DTOMapper.INSTANCE.convertLobbyPostDTOtoEntity(lobbyPostDTO);
 
-    // create user
-    User createdUser = userService.createUser(userInput);
+    User hostUser = userService.getUser(lobbyInput.getHostMemberId());
+
+    Lobby createdLobby = lobbyService.createLobby(lobbyInput, hostUser);
+
     // convert internal representation of user back to API
-    return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
+    return DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(createdLobby);
   }
 
-  @PostMapping("/login")
-  @ResponseStatus(HttpStatus.OK)
-  @ResponseBody
-  public UserGetDTO loginUser(@RequestBody UserPostDTO userPostDTO){
-      User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
 
-      User userToBeLoggedIn = userService.loginUser(userInput);
-
-      return DTOMapper.INSTANCE.convertEntityToUserGetDTO(userToBeLoggedIn);
-  }
-
-    //for accessing specific user
-    @GetMapping ("/{userId}")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public UserGetDTO getUser(@PathVariable Long userId) {
-        // fetch user
-        User foundUser = userService.getUser(userId);
-        //converting internal representation to api representation
-        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(foundUser);}
-
-    // logout user
-    @PostMapping("/logout/{userId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ResponseBody
-    public void logoutUser(@PathVariable Long userId){
-        userService.logoutUser(userId);
-
-    }
-
-    @PutMapping("/{userId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ResponseBody
-    public void updateUser(@RequestBody UserPutDTO userPutDTO, @PathVariable Long userId){
-      if(!userPutDTO.getUserId().equals(userId)){
-          throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user with the provided ID (" + userId + ") could not be found");
-      }
-      //userPutDTO.setUserId(userId);
-      User userInput = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(userPutDTO);
-      userService.updateUser(userInput);
-    }
 }

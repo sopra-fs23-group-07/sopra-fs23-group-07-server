@@ -12,12 +12,12 @@ public class LobbyPostDTO {
   private Integer lobbyMaxMembers;
   private Integer lobbyTimeLimit;
 
-  private Member hostMember;
+  private Long hostMemberId;
 
 
-  public Member getHostMember() {return hostMember; }
+  public Long getHostMemberId() {return hostMemberId; }
 
-  public void setHostMember(Member hostMember) {this.hostMember = hostMember; }
+  public void setHostMemberId(Long hostMemberId) {this.hostMemberId = hostMemberId; }
 
   public String getLobbyName() {
     return lobbyName;

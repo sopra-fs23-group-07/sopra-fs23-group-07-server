@@ -9,8 +9,8 @@ import java.util.Optional;
 @Repository("lobbyRepository")
 public interface LobbyRepository extends JpaRepository<Lobby, Long> {
 
-  Lobby findByLobbyId(Long lobbyId);
+  Lobby findLobbyByLobbyId(Long lobbyId);
 
-  Lobby findByLobbyName(String lobbyName);
+  Lobby findLobbyByLobbyName(String lobbyName);
 
 }

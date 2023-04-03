@@ -69,12 +69,12 @@ public class EventService {
         return eventToFind.get();
     }
     public User getUser(Long userId) {
-        Optional<User> userToFind = userRepository.findById(userId);
-        if (userToFind.isEmpty()) {
+        User userToFind = userRepository.findUserById(userId);
+        if (userToFind == null) {
             String baseErrorMessage = "The %s provide %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "userId", "was"));
         }
-        return userToFind.get();
+        return userToFind;
     }
     public Participant getParticipant(Event event, User user) {
         Optional<Participant> participantToFind = participantRepository.findByEventAndUser(event, user);
