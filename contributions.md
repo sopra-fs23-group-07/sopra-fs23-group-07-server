@@ -10,7 +10,7 @@
 |      1   |27/04/2023|Suleman   | [#148](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/148)  |added methods to LobbyRepository|
 |      1   |27/04/2023|Suleman   | [#141](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/141)  |added methods to DTOMapper for lobby|
 |      1   |27/04/2023|Suleman   | [#151](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/151) |added methods to DTOMapperImpl.java for lobby|
-|      1   |27/04/2023|Omar      |#27, #29, #11, #14|integrated Mapbox api in home screen and events page, created table for events page, created table for lobby that allows user to pick up a sport (dropbdown, multiple selection) and allows user to lock his choice|
+|      1   |27/04/2023|Omar      |[#27](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/27), [#29](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/29),[#11](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/11), [#14](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/14)|integrated Mapbox api in home screen and events page, created table for events page, created table for lobby that allows user to pick up a sport (dropbdown, multiple selection) and allows user to lock his choice|
 |      1   |27/04/2023|Yannic    | #42 #43 #44      |created header with two different types of navigation bars. One for the logged in and one for the logged out user which links to the different pages.|
 |      1   |27/04/2023|Yannic    | #22              |created choose region/ createLobby page|
 |      1   |27/04/2023|Yannic    | #23              |created Find Lobby and Show all events button on the page home|
