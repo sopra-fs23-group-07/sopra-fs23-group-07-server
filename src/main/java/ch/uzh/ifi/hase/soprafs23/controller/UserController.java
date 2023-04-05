@@ -21,7 +21,6 @@ import java.util.List;
  * UserService and finally return the result.
  */
 @RestController
-@RequestMapping("/users")
 public class UserController {
 
   private final UserService userService;
@@ -30,7 +29,7 @@ public class UserController {
     this.userService = userService;
   }
 
-  @GetMapping("")
+  @GetMapping("/users")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public List<UserGetDTO> getAllUsers() {
@@ -46,7 +45,7 @@ public class UserController {
   }
 
   //registration
-  @PostMapping("/register")
+  @PostMapping("/users")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public UserGetDTO createUser(@RequestBody UserPostDTO userPostDTO) {

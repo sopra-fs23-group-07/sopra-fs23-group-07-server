@@ -50,16 +50,16 @@ public class Lobby implements Serializable {
   @Column(nullable = false)
   private Integer lobbyTimeLimit;
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   private String lobbyDecidedLocation;
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   private String lobbyDecidedSport;
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   private Date lobbyDecidedDate;
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   private ArrayList<Location> lobbyLocations;
 
   @Column(nullable = false, unique = true)
