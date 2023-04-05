@@ -25,3 +25,4 @@
 |      2   |03/05/2023|Suleman   | [#153](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/153) |implement LobbyController POST request|
 |      2   |03/05/2023|Suleman   | [#154](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/154) |implement LobbyService GET request|
 |      2   |03/05/2023|Suleman   | [#154](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/154) |implement LobbyService POST request|
+|      2   |03/05/2023|Suleman   | [#156](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/156) |fixed issue with back end|
