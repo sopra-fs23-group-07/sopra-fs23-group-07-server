@@ -26,3 +26,5 @@
 |      2   |03/05/2023|Suleman   | [#154](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/154) |implement LobbyService GET request|
 |      2   |03/05/2023|Suleman   | [#154](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/154) |implement LobbyService POST request|
 |      2   |03/05/2023|Suleman   | [#156](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/156) |fixed issue with back end|
+|      2   |03/05/2023|Suleman   | [#157](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/157) |fixed issue with requests in back end|
+|      2   |03/05/2023|Suleman   | [#158](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/158) |fixed issue in UserController regarding path names in back end|
