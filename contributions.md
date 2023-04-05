@@ -21,3 +21,7 @@
 |      1   |02/04/2023|Raffael   | #2               |defined routing and guards|
 |      1   |02/04/2023|Raffael   | #3               |updated User model|
 |      1   |02/04/2023|Raffael   | #21              | created Lobbies page|
+|      2   |03/05/2023|Suleman   | [#152](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/152) |implement LobbyController GET request|
+|      2   |03/05/2023|Suleman   | [#153](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/153) |implement LobbyController POST request|
+|      2   |03/05/2023|Suleman   | [#154](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/154) |implement LobbyService GET request|
+|      2   |03/05/2023|Suleman   | [#154](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/154) |implement LobbyService POST request|
