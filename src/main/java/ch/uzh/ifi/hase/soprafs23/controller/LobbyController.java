@@ -33,19 +33,19 @@ public class LobbyController {
       this.userService = userService;
   }
 
-  @GetMapping("")
+  @GetMapping("/lobbies")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public List<UserGetDTO> getAllUsers() {
+  public List<LobbyGetDTO> getAllLobbies() {
     // fetch all users in the internal representation
-    List<User> users = userService.getUsers();
-    List<UserGetDTO> userGetDTOs = new ArrayList<>();
+    List<Lobby> lobbies = lobbyService.getLobbies();
+    List<LobbyGetDTO> lobbyGetDTOs = new ArrayList<>();
 
     // convert each user to the API representation
-    for (User user : users) {
-      userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
+    for (Lobby lobby : lobbies) {
+      lobbyGetDTOs.add(DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby));
     }
-    return userGetDTOs;
+    return lobbyGetDTOs;
   }
 
   //registration
