@@ -58,7 +58,7 @@ public class UserController {
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
   }
 
-  @PostMapping("/login")
+  @PostMapping("/users/login")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public UserGetDTO loginUser(@RequestBody UserPostDTO userPostDTO){
@@ -70,7 +70,7 @@ public class UserController {
   }
 
     //for accessing specific user
-    @GetMapping ("/{userId}")
+    @GetMapping ("/users/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public UserGetDTO getUser(@PathVariable long userId) {
@@ -80,7 +80,7 @@ public class UserController {
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(foundUser);}
 
     // logout user
-    @PostMapping("/logout/{userId}")
+    @PostMapping("/users/logout/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void logoutUser(@PathVariable long userId){
@@ -88,7 +88,7 @@ public class UserController {
 
     }
 
-    @PutMapping("/{userId}")
+    @PutMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void updateUser(@RequestBody UserPutDTO userPutDTO, @PathVariable long userId){
