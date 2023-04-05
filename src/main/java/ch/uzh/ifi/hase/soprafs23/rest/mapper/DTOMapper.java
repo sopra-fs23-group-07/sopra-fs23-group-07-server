@@ -55,7 +55,7 @@ public interface DTOMapper {
   @Mapping(source = "lobbyRegion", target = "lobbyRegion")
   @Mapping(source = "lobbyMaxMembers", target= "lobbyMaxMembers")
   @Mapping(source = "lobbyTimeLimit", target= "lobbyTimeLimit")
-  //@Mapping(source= "hostMember", target = "hostMember")
+  @Mapping(source= "hostMemberId", target = "hostMemberId")
   @Mapping(source= "lobbyId", target = "lobbyId")
   Lobby convertLobbyPostDTOtoEntity(LobbyPostDTO lobbyPostDTO);
 

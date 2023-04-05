@@ -74,7 +74,7 @@ public class UserController {
     @GetMapping ("/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public UserGetDTO getUser(@PathVariable Long userId) {
+    public UserGetDTO getUser(@PathVariable long userId) {
         // fetch user
         User foundUser = userService.getUser(userId);
         //converting internal representation to api representation
@@ -84,7 +84,7 @@ public class UserController {
     @PostMapping("/logout/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void logoutUser(@PathVariable Long userId){
+    public void logoutUser(@PathVariable long userId){
         userService.logoutUser(userId);
 
     }
@@ -92,8 +92,8 @@ public class UserController {
     @PutMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
-    public void updateUser(@RequestBody UserPutDTO userPutDTO, @PathVariable Long userId){
-      if(!userPutDTO.getUserId().equals(userId)){
+    public void updateUser(@RequestBody UserPutDTO userPutDTO, @PathVariable long userId){
+      if(userPutDTO.getUserId() != userId){
           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user with the provided ID (" + userId + ") could not be found");
       }
       //userPutDTO.setUserId(userId);

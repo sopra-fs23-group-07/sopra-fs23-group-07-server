@@ -60,7 +60,7 @@ public class EventService {
     }
 
 
-    public Event getEvent(Long eventId) {
+    public Event getEvent(long eventId) {
         Optional<Event> eventToFind = eventRepository.findById(eventId);
         if (eventToFind.isEmpty()) {
             String baseErrorMessage = "The %s provide %s not found";
@@ -68,8 +68,8 @@ public class EventService {
         }
         return eventToFind.get();
     }
-    public User getUser(Long userId) {
-        User userToFind = userRepository.findUserById(userId);
+    public User getUser(long userId) {
+        User userToFind = userRepository.findByUserId(userId);
         if (userToFind == null) {
             String baseErrorMessage = "The %s provide %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "userId", "was"));
@@ -85,7 +85,7 @@ public class EventService {
         return participantToFind.get();
     }
 
-    public void addParticipant(Long eventId, Long userId) {
+    public void addParticipant(long eventId, long userId) {
         Event event = getEvent(eventId);
         User databaseUser = getUser(userId);
         Participant participant = new Participant();
@@ -99,7 +99,7 @@ public class EventService {
         eventRepository.save(event);
     }
 
-    public void removeParticipant(Long eventId, Long userId) {
+    public void removeParticipant(long eventId, long userId) {
         Event event = getEvent(eventId);
         User databaseUser = getUser(userId);
         Participant participant = getParticipant(event, databaseUser);
@@ -109,7 +109,7 @@ public class EventService {
         eventRepository.save(event);
         userRepository.save(databaseUser);
     }
-    public void deleteEvent(Long eventId) {
+    public void deleteEvent(long eventId) {
         Event event = getEvent(eventId);
         eventRepository.delete(event);
     }

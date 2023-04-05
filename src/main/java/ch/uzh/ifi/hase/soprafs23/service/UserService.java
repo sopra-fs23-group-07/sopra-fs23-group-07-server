@@ -65,7 +65,7 @@ public class UserService {
      * @see User
      */
     private void checkIfUserExists(User userToBeCreated) {
-        User userByUsername = userRepository.findUserByUsername(userToBeCreated.getUsername());
+        User userByUsername = userRepository.findByUsername(userToBeCreated.getUsername());
 
         String baseErrorMessage = "The %s provided %s not unique. Therefore, the user could not be created!";
         if (userByUsername != null) {
@@ -74,7 +74,7 @@ public class UserService {
     }
 
     public User loginUser(User userToBeLoggedIn) {
-        User userInDb = userRepository.findUserByUsername(userToBeLoggedIn.getUsername());
+        User userInDb = userRepository.findByUsername(userToBeLoggedIn.getUsername());
         if (userInDb == null) {
             String baseErrorMessage = "The %s provide %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "username", "was"));
@@ -92,15 +92,15 @@ public class UserService {
 
     }
 
-    public void logoutUser(Long userId) {
+    public void logoutUser(long userId) {
 
         User userToBeLoggedOut = getUser(userId);
         userToBeLoggedOut.setStatus(UserStatus.OFFLINE);
 
     }
 
-    public User getUser(Long userId) {
-        User userToFind = userRepository.findUserById(userId);
+    public User getUser(long userId) {
+        User userToFind = userRepository.findByUserId(userId);
         if (userToFind == null) {
             String baseErrorMessage = "The %s provide %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "userId", "was"));

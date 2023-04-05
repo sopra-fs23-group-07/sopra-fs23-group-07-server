@@ -63,7 +63,7 @@ public class EventController {
     @GetMapping ("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public EventGetDTO getEvent(@PathVariable Long eventId) {
+    public EventGetDTO getEvent(@PathVariable long eventId) {
         // fetch event
         Event foundEvent= eventService.getEvent(eventId);
         //converting internal representation to api representation
@@ -73,7 +73,7 @@ public class EventController {
     @PutMapping("/{eventId}/join")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
-    public void joinEvent(@RequestBody UserEventDTO userEventDTO, @PathVariable Long eventId){
+    public void joinEvent(@RequestBody UserEventDTO userEventDTO, @PathVariable long eventId){
 
         eventService.addParticipant(eventId, userEventDTO.getUserId());
     }
@@ -81,14 +81,14 @@ public class EventController {
     @PutMapping("/{eventId}/leave")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void leaveEvent(@RequestBody UserEventDTO userEventDTO, @PathVariable Long eventId){
+    public void leaveEvent(@RequestBody UserEventDTO userEventDTO, @PathVariable long eventId){
 
         eventService.removeParticipant(eventId, userEventDTO.getUserId());
     }
     @DeleteMapping("/{eventId}/delete")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void deleteEvent(@PathVariable Long eventId){
+    public void deleteEvent(@PathVariable long eventId){
 
         eventService.deleteEvent(eventId);
     }

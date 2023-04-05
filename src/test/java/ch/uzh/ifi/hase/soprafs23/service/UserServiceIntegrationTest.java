@@ -37,7 +37,7 @@ public class UserServiceIntegrationTest {
   @Test
   public void createUser_validInputs_success() {
     // given
-    assertNull(userRepository.findUserByUsername("testUsername"));
+    assertNull(userRepository.findByUsername("testUsername"));
 
     User testUser = new User();
     testUser.setEmail("testName");
@@ -56,7 +56,7 @@ public class UserServiceIntegrationTest {
 
   @Test
   public void createUser_duplicateUsername_throwsException() {
-    assertNull(userRepository.findUserByUsername("testUsername"));
+    assertNull(userRepository.findByUsername("testUsername"));
 
     User testUser = new User();
     testUser.setEmail("testName");

@@ -4,13 +4,11 @@ import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository("lobbyRepository")
 public interface LobbyRepository extends JpaRepository<Lobby, Long> {
 
-  Lobby findLobbyByLobbyId(Long lobbyId);
+  Lobby findByLobbyId(long lobbyId);
 
-  Lobby findLobbyByLobbyName(String lobbyName);
+  Lobby findByLobbyName(String lobbyName);
 
 }
