@@ -28,3 +28,6 @@
 |      2   |03/05/2023|Suleman   | [#156](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/156) |fixed issue with back end|
 |      2   |03/05/2023|Suleman   | [#157](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/157) |fixed issue with requests in back end|
 |      2   |03/05/2023|Suleman   | [#158](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/158) |fixed issue in UserController regarding path names in back end|
+
+|      2   |03/05/2023|Yannic    | #15              |added countdown timer to lobby overview and to all lobbies (lobby page)|
+|      2   |03/05/2023|Yannic    | #18              |worked on lobby screen until bug "BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default." Afterward tried to fix bug for 3h hours but breaking git and IDE instead.|
