@@ -18,9 +18,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * User Service
+ * Lobby Service
  * This class is the "worker" and responsible for all functionality related to
- * the user
+ * the lobby
  * (e.g., it creates, modifies, deletes, finds). The result will be passed back
  * to the caller.
  */
@@ -66,7 +66,7 @@ public class LobbyService {
     public Lobby getLobby(Long lobbyId) {
         Optional<Lobby> lobbyToFind = lobbyRepository.findById(lobbyId);
         if (lobbyToFind.isEmpty()) {
-            String baseErrorMessage = "The %s provide %s not found";
+            String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "eventId", "was"));
         }
         return lobbyToFind.get();
@@ -74,10 +74,18 @@ public class LobbyService {
     public User getUser(Long userId) {
         User userToFind = userRepository.findByUserId(userId);
         if (userToFind == null) {
-            String baseErrorMessage = "The %s provide %s not found";
+            String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "userId", "was"));
         }
         return userToFind;
+    }
+    public Member getMember(Lobby lobby, User user) {
+        Optional<Member> memberToFind = memberRepository.findByLobbyAndUser(lobby, user);
+        if(memberToFind.isEmpty()) {
+            String baseErrorMessage = "The %s provided %s not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "memberId", "was"));
+        }
+        return memberToFind.get();
     }
 
     public void addMember(Long lobbyId, Long userId) {
@@ -93,9 +101,21 @@ public class LobbyService {
         userRepository.save(databaseUser);
         lobbyRepository.save(lobby);
     }
+    public void removeMember(Long lobbyId, Long userId) {
+        Lobby lobby = getLobby(lobbyId);
+        User databaseUser = getUser(userId);
+        Member member = getMember(lobby, databaseUser);
+
+        lobby.removeLobbyMember(member);
+        databaseUser.removeLobby(lobby);
+        lobbyRepository.save(lobby);
+        userRepository.save(databaseUser);
+    }
+    public void deleteLobby(Long lobbyId) {
+        Lobby lobby = getLobby(lobbyId);
+        lobbyRepository.delete(lobby);
+    }
     public List<Member> getMembers() {
         return this.memberRepository.findAll();
     }
-
-
 }

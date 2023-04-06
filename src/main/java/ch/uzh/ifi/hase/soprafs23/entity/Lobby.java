@@ -98,7 +98,9 @@ public class Lobby implements Serializable {
       lobbyMembers.add(member);
   }
 
-  public void removeLobbyMember(Member member) {}
+  public void removeLobbyMember(Member memberToRemove) {
+      lobbyMembers.removeIf(member1 -> member1.equals(memberToRemove));
+  }
 
   public Long getLobbyId() {
     return lobbyId;

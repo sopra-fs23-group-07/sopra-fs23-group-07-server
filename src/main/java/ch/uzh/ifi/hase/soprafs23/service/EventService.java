@@ -63,7 +63,7 @@ public class EventService {
     public Event getEvent(long eventId) {
         Optional<Event> eventToFind = eventRepository.findById(eventId);
         if (eventToFind.isEmpty()) {
-            String baseErrorMessage = "The %s provide %s not found";
+            String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "eventId", "was"));
         }
         return eventToFind.get();
@@ -71,7 +71,7 @@ public class EventService {
     public User getUser(long userId) {
         User userToFind = userRepository.findByUserId(userId);
         if (userToFind == null) {
-            String baseErrorMessage = "The %s provide %s not found";
+            String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "userId", "was"));
         }
         return userToFind;
@@ -79,7 +79,7 @@ public class EventService {
     public Participant getParticipant(Event event, User user) {
         Optional<Participant> participantToFind = participantRepository.findByEventAndUser(event, user);
         if (participantToFind.isEmpty()) {
-            String baseErrorMessage = "The %s provide %s not found";
+            String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "participantId", "was"));
         }
         return participantToFind.get();

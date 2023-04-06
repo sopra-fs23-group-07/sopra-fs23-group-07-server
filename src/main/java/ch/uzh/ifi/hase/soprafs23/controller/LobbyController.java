@@ -68,6 +68,21 @@ public class LobbyController {
   public void joinLobby(@RequestBody UserLobbyDTO userLobbyDTO, @PathVariable Long lobbyId) {
     lobbyService.addMember(lobbyId, userLobbyDTO.getUserId());
   }
+  @PutMapping("{lobbyId}/leave")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public void leaveLobby(@RequestBody UserLobbyDTO userLobbyDTO, @PathVariable Long lobbyId) {
+      lobbyService.removeMember(lobbyId, userLobbyDTO.getUserId());
+  }
+  @DeleteMapping("{lobbyId}/delete")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public void deleteEvent(@PathVariable Long lobbyId) {
+        lobbyService.deleteLobby(lobbyId);
+  }
+
+
+
   @GetMapping("/members")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
