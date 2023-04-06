@@ -52,6 +52,8 @@ public class User implements Serializable {
   private LocalDate birthdate;
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Participant> participants = new ArrayList<>();
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Lobby> lobbies = new ArrayList<>();
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Event> events = new ArrayList<>();
@@ -129,7 +131,12 @@ public class User implements Serializable {
     }
     public void removeEvent(Event eventToRemove) {
         events.removeIf(event -> event.equals(eventToRemove));
-
+    }
+    public void addLobby(Lobby lobby) {
+        this.lobbies.add(lobby);
+    }
+    public void removeLobby(Lobby lobbyToRemove) {
+        lobbies.removeIf(lobby -> lobby.equals(lobbyToRemove));
     }
 
 }

@@ -88,7 +88,7 @@ public class LobbyService {
         member.setLobbyId(lobby.getLobbyId());
 
         lobby.addLobbyMember(member);
-        //databaseUser.addLobby(lobby);
+        databaseUser.addLobby(lobby);
         memberRepository.save(member);
         userRepository.save(databaseUser);
         lobbyRepository.save(lobby);

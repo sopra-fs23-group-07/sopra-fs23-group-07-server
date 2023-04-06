@@ -7,6 +7,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Internal Lobby Representation
@@ -34,8 +35,11 @@ public class Lobby implements Serializable {
   @Column(nullable = false, unique = true)
   private Long hostMemberId;
 
-  @Column(nullable = true)
-  private ArrayList<Member> lobbyMembers;
+  @OneToMany(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Member> lobbyMembers = new ArrayList<>();
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "userId", insertable = false, updatable = false)
+  private User user;
 
   @Column(nullable = false)
   private Integer lobbyMaxMembers;
@@ -104,7 +108,7 @@ public class Lobby implements Serializable {
     this.lobbyId = lobbyId;
   }
 
-  public ArrayList<Member> getLobbyMembers() {return this.lobbyMembers; }
+  public List<Member> getLobbyMembers() {return this.lobbyMembers; }
 
   public void setLobbyMaxMembers(Integer lobbyMaxMembers) {this.lobbyMaxMembers = lobbyMaxMembers; }
 
