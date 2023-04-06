@@ -1,25 +1,21 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
 import ch.uzh.ifi.hase.soprafs23.constant.OverlapColor;
-import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.io.Serial;
 import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Internal User Representation
+ * Internal Lobby Representation
  * This class composes the internal representation of the user and defines how
  * the user is stored in the database.
  * Every variable will be mapped into a database field with the @Column
  * annotation
  * - nullable = false -> this cannot be left empty
- * - unique = true -> this value must be unqiue across the database -> composes
+ * - unique = true -> this value must be unique across the database -> composes
  * the primary key
  */
 @Entity
@@ -94,7 +90,9 @@ public class Lobby implements Serializable {
 
   public OverlapColor checkDateOverlap(Date date) {return OverlapColor.RED;}
 
-  public void addLobbyMember(Member member) {}
+  public void addLobbyMember(Member member) {
+      lobbyMembers.add(member);
+  }
 
   public void removeLobbyMember(Member member) {}
 
@@ -153,6 +151,5 @@ public class Lobby implements Serializable {
   public void setToken(String token) {
     this.token = token;
   }
-
 
 }

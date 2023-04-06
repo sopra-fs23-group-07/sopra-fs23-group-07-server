@@ -55,7 +55,7 @@ public class EventService {
         newEvent = eventRepository.save(newEvent);
         eventRepository.flush();
 
-        log.debug("Created Information for User: {}", newEvent);
+        log.debug("Created Information for Event: {}", newEvent);
         return newEvent;
     }
 

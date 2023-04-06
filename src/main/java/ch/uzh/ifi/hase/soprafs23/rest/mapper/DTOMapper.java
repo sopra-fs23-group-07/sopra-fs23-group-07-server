@@ -1,13 +1,9 @@
 package ch.uzh.ifi.hase.soprafs23.rest.mapper;
 
-import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
-import ch.uzh.ifi.hase.soprafs23.entity.Participant;
-import ch.uzh.ifi.hase.soprafs23.entity.User;
+import ch.uzh.ifi.hase.soprafs23.entity.*;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
-import ch.uzh.ifi.hase.soprafs23.entity.Event;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,7 +52,7 @@ public interface DTOMapper {
   @Mapping(source = "lobbyMaxMembers", target= "lobbyMaxMembers")
   @Mapping(source = "lobbyTimeLimit", target= "lobbyTimeLimit")
   @Mapping(source= "hostMemberId", target = "hostMemberId")
-  @Mapping(source= "lobbyId", target = "lobbyId")
+  //@Mapping(source= "lobbyId", target = "lobbyId")
   Lobby convertLobbyPostDTOtoEntity(LobbyPostDTO lobbyPostDTO);
 
   @Mapping(source = "lobbyId", target = "lobbyId")
@@ -100,17 +96,31 @@ public interface DTOMapper {
   @Mapping(source = "eventMaxParticipants", target = "eventMaxParticipants")
   Event convertEventPutDTOtoEntity(EventPutDTO eventPutDTO);
 
-    @Named("convertEntityToParticipantDTO")
-    ParticipantDTO convertEntityToParticipantDTO(Participant participant);
+  @Named("convertEntityToParticipantDTO")
+  ParticipantDTO convertEntityToParticipantDTO(Participant participant);
 
-    default List<ParticipantDTO> convertEntityListToParticipantDTOList(List<Participant> entityList) {
-        if (entityList == null) {
-            return null;
-        }
-        return entityList.stream().map(this::convertEntityToParticipantDTO).collect(Collectors.toList());
-    }
-    @AfterMapping
-    default void addParticipantsToEventGetDTO(Event event, @MappingTarget EventGetDTO eventGetDTO) {
-        eventGetDTO.setParticipantDTOs(convertEntityListToParticipantDTOList(event.getEventParticipants()));
-    }
+  default List<ParticipantDTO> convertEntityListToParticipantDTOList(List<Participant> entityList) {
+      if (entityList == null) {
+          return null;
+      }
+      return entityList.stream().map(this::convertEntityToParticipantDTO).collect(Collectors.toList());
+  }
+  @AfterMapping
+  default void addParticipantsToEventGetDTO(Event event, @MappingTarget EventGetDTO eventGetDTO) {
+      eventGetDTO.setParticipantDTOs(convertEntityListToParticipantDTOList(event.getEventParticipants()));
+  }
+
+  @Named("convertEntityToMemberDTO")
+  MemberDTO convertEntityToMemberDTO(Member member);
+
+  default List<MemberDTO> convertEntityListToMemberDTOList(List<Member> entityList) {
+      if (entityList == null) {
+          return null;
+      }
+      return entityList.stream().map(this::convertEntityToMemberDTO).collect(Collectors.toList());
+  }
+  @AfterMapping
+  default void addMembersToLobbyGetDTO(Lobby lobby, @MappingTarget LobbyGetDTO lobbyGetDTO) {
+      lobbyGetDTO.setMemberDTOs(convertEntityListToMemberDTOList(lobby.getLobbyMembers()));
+  }
 }

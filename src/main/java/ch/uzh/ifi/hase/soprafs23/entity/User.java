@@ -131,4 +131,5 @@ public class User implements Serializable {
         events.removeIf(event -> event.equals(eventToRemove));
 
     }
+
 }

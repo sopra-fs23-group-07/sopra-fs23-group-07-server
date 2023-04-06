@@ -1,15 +1,11 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
-import ch.uzh.ifi.hase.soprafs23.constant.OverlapColor;
-import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
-import ch.uzh.ifi.hase.soprafs23.entity.EventDetails;
 import ch.uzh.ifi.hase.soprafs23.entity.Location;
 import ch.uzh.ifi.hase.soprafs23.entity.Member;
-import ch.uzh.ifi.hase.soprafs23.entity.User;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 public class LobbyGetDTO {
 
@@ -31,9 +27,10 @@ public class LobbyGetDTO {
 
   private String lobbyDecidedSport;
 
-  private Date lobbyDecidedDate;
+  private LocalDateTime lobbyDecidedDate;
 
   private ArrayList<Location> lobbyLocations;
+  private List<MemberDTO> memberDTOS;
 
 
   public ArrayList<Location> getLobbyLocations() {return lobbyLocations; }
@@ -80,9 +77,9 @@ public class LobbyGetDTO {
 
   public void setLobbyDecidedSport(String lobbyDecidedSport) {this.lobbyDecidedSport = lobbyDecidedSport;}
 
-  public Date getLobbyDecidedDate() {return lobbyDecidedDate;}
+  public LocalDateTime getLobbyDecidedDate() {return lobbyDecidedDate;}
 
-  public void setLobbyDecidedDate(Date lobbyDecidedDate) {this.lobbyDecidedDate = lobbyDecidedDate;}
+  public void setLobbyDecidedDate(LocalDateTime lobbyDecidedDate) {this.lobbyDecidedDate = lobbyDecidedDate;}
 
   public String getLobbyDecidedLocation() {return lobbyDecidedLocation;}
 
@@ -96,4 +93,11 @@ public class LobbyGetDTO {
         this.token = token;
     }
 
+  public List<MemberDTO> getMemberDTOs() {
+      return memberDTOS;
+  }
+
+  public void setMemberDTOs(List<MemberDTO> memberDTOS) {
+      this.memberDTOS = memberDTOS;
+  }
 }

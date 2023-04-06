@@ -1,10 +1,8 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
-import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
-import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
-import ch.uzh.ifi.hase.soprafs23.entity.Member;
-import ch.uzh.ifi.hase.soprafs23.entity.User;
+import ch.uzh.ifi.hase.soprafs23.entity.*;
 import ch.uzh.ifi.hase.soprafs23.repository.LobbyRepository;
+import ch.uzh.ifi.hase.soprafs23.repository.MemberRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,13 +32,17 @@ public class LobbyService {
 
     private final LobbyRepository lobbyRepository;
     private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     //private final EventService eventService;
 
     @Autowired
-    public LobbyService(@Qualifier("lobbyRepository") LobbyRepository lobbyRepository, @Qualifier("userRepository") UserRepository userRepository) {
+    public LobbyService(@Qualifier("lobbyRepository") LobbyRepository lobbyRepository,
+                        @Qualifier("userRepository") UserRepository userRepository,
+                        @Qualifier("memberRepository") MemberRepository memberRepository) {
         this.lobbyRepository = lobbyRepository;
         this.userRepository = userRepository;
+        this.memberRepository = memberRepository;
     }
 
 
@@ -49,11 +50,11 @@ public class LobbyService {
         return this.lobbyRepository.findAll();
     }
 
-    public Lobby createLobby(Lobby newLobby, User hostUser) {
+    public Lobby createLobby(Lobby newLobby) {
         newLobby.setToken(UUID.randomUUID().toString());
 
-        Member hostMember = new Member(hostUser);
-        newLobby.addLobbyMember(hostMember);
+        //Member hostMember = new Member(hostUser);
+        //newLobby.addLobbyMember(hostMember);
         // saves the given entity but data is only persisted in the database once
         // flush() is called
         newLobby = lobbyRepository.save(newLobby);
@@ -61,6 +62,36 @@ public class LobbyService {
 
         log.debug("Created Information for Lobby: {}", newLobby);
         return newLobby;
+    }
+    public Lobby getLobby(Long lobbyId) {
+        Optional<Lobby> lobbyToFind = lobbyRepository.findById(lobbyId);
+        if (lobbyToFind.isEmpty()) {
+            String baseErrorMessage = "The %s provide %s not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "eventId", "was"));
+        }
+        return lobbyToFind.get();
+    }
+    public User getUser(Long userId) {
+        User userToFind = userRepository.findByUserId(userId);
+        if (userToFind == null) {
+            String baseErrorMessage = "The %s provide %s not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "userId", "was"));
+        }
+        return userToFind;
+    }
+
+    public void addMember(Long lobbyId, Long userId) {
+        Lobby lobby = getLobby(lobbyId);
+        User databaseUser = getUser(userId);
+        Member member = new Member();
+        member.setUser(databaseUser);
+        member.setLobbyId(lobby.getLobbyId());
+
+        lobby.addLobbyMember(member);
+        //databaseUser.addLobby(lobby);
+        memberRepository.save(member);
+        userRepository.save(databaseUser);
+        lobbyRepository.save(lobby);
     }
 
 

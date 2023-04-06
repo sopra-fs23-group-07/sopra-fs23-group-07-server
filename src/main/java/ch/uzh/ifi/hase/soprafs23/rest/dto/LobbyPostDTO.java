@@ -8,10 +8,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 public class LobbyPostDTO {
   private String lobbyName;
   private String lobbyRegion;
-  private Long lobbyId;
   private Integer lobbyMaxMembers;
   private Integer lobbyTimeLimit;
-
   private Long hostMemberId;
 
 
@@ -34,14 +32,6 @@ public class LobbyPostDTO {
   public void setLobbyRegion(String lobbyRegion) {
     this.lobbyRegion = lobbyRegion;
   }
-
-  public Long getLobbyId() {
-        return lobbyId;
-    }
-
-  public void setLobbyId(Long lobbyId) {
-        this.lobbyId = lobbyId;
-    }
 
   public Integer getLobbyMaxMembers() {return lobbyMaxMembers; }
 
