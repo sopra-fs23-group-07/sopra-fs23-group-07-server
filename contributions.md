@@ -12,15 +12,15 @@
 |      1   |27/04/2023|Suleman   | [#151](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/151) |added methods to DTOMapperImpl.java for lobby|
 |      1   |27/04/2023|Omar      |[#27](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/27), [#29](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/29),[#11](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/11), [#14](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/14), [#16](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/16), [#7](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/7), [#6](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/6), [#4](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/4)|integrated Mapbox api in home screen and events page, created table for events page, created table for lobby that allows user to pick up a sport (dropbdown, multiple selection) and allows user to lock his choice. In lobby created table on the left side of the lobby screen with the members and their choices |
 |      1   |27/04/2023|Yannic    | #42 #43 #44      |created header with two different types of navigation bars. One for the logged in and one for the logged out user which links to the different pages.|
-|      1   |27/04/2023|Yannic    | #22              |created choose region/ createLobby page|
-|      1   |27/04/2023|Yannic    | #23              |created Find Lobby and Show all events button on the page home|
-|      1   |27/04/2023|Patrick   | #23              |created class Event with DTO's and Mapping, class Participant with ParticipantRepository|
-|      1   |27/04/2023|Patrick   | #77              |created class EventController|
-|      1   |27/04/2023|Patrick   | #78              |created class EventService|
-|      1   |27/04/2023|Patrick   | #79              |created class EventRepository|
-|      1   |02/04/2023|Raffael   | #2               |defined routing and guards|
-|      1   |02/04/2023|Raffael   | #3               |updated User model|
-|      1   |02/04/2023|Raffael   | #21              | created Lobbies page|
+|      1   |27/04/2023|Yannic    | [#22](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/22)              |created choose region/ createLobby page|
+|      1   |27/04/2023|Yannic    | [#23](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/23)              |created Find Lobby and Show all events button on the page home|
+|      1   |27/04/2023|Patrick   | [#23](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/23)              |created class Event with DTO's and Mapping, class Participant with ParticipantRepository|
+|      1   |27/04/2023|Patrick   | [#77](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/77)              |created class EventController|
+|      1   |27/04/2023|Patrick   | [#78](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/78)              |created class EventService|
+|      1   |27/04/2023|Patrick   | [#79](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/79)              |created class EventRepository|
+|      1   |02/04/2023|Raffael   | [#2](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/2)             |defined routing and guards|
+|      1   |02/04/2023|Raffael   | [#3](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/3)              |updated User model|
+|      1   |02/04/2023|Raffael   | [#21](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/21)            | created Lobbies page|
 |      2   |03/05/2023|Suleman   | [#152](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/152) |implement LobbyController GET request|
 |      2   |03/05/2023|Suleman   | [#153](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/153) |implement LobbyController POST request|
 |      2   |03/05/2023|Suleman   | [#154](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/154) |implement LobbyService GET request|
