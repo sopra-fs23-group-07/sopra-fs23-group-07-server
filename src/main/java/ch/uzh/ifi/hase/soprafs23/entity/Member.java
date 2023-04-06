@@ -33,13 +33,13 @@ public class Member implements Serializable {
     @Column(nullable = true)
     private String email;
 
-    @Column(nullable = true, unique = true)
+    @Column(nullable = true)
     private String username;
 
     @Column(nullable = true)
     private UserStatus status;
 
-    @Column(nullable = true, unique = false, updatable = false)
+    @Column(updatable = false)
     private LocalDate creationDate;
     @Column
     private LocalDate birthdate;
@@ -122,12 +122,12 @@ public class Member implements Serializable {
         return lobbyId;
     }
 
-    public Long getParticipantId() {
+    public Long getMemberId() {
         return memberId;
     }
 
-    public void setParticipantId(Long participantId) {
-        this.memberId = participantId;
+    public void setMemberIdId(Long memberId) {
+        this.memberId = memberId;
     }
 
     public List<String> getSelectedSports() {

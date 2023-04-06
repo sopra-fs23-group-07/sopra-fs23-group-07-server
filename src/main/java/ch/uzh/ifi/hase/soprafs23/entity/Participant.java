@@ -32,13 +32,13 @@ public class Participant implements Serializable {
     @Column(nullable = true)
     private String email;
 
-    @Column(nullable = true, unique = true)
+    @Column(nullable = true)
     private String username;
 
     @Column(nullable = true)
     private UserStatus status;
 
-    @Column(nullable = true, unique = false, updatable = false)
+    @Column(nullable = true)
     private LocalDate creationDate;
 
     @Column

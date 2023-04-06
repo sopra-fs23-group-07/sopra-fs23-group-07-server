@@ -93,6 +93,9 @@ public class LobbyService {
         userRepository.save(databaseUser);
         lobbyRepository.save(lobby);
     }
+    public List<Member> getMembers() {
+        return this.memberRepository.findAll();
+    }
 
 
 }

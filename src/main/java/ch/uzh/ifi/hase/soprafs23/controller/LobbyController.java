@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
 import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
+import ch.uzh.ifi.hase.soprafs23.entity.Member;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.LobbyGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.LobbyPostDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserLobbyDTO;
@@ -25,13 +26,11 @@ import java.util.List;
 public class LobbyController {
 
   private final LobbyService lobbyService;
-  private final UserService userService;
 
-  LobbyController(LobbyService lobbyService, UserService userService) {
+    LobbyController(LobbyService lobbyService, UserService userService) {
 
       this.lobbyService = lobbyService;
-      this.userService = userService;
-  }
+    }
 
   @GetMapping("")
   @ResponseStatus(HttpStatus.OK)
@@ -68,6 +67,12 @@ public class LobbyController {
   @ResponseBody
   public void joinLobby(@RequestBody UserLobbyDTO userLobbyDTO, @PathVariable Long lobbyId) {
     lobbyService.addMember(lobbyId, userLobbyDTO.getUserId());
+  }
+  @GetMapping("/members")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public List<Member> getMembers() {
+      return lobbyService.getMembers();
   }
 
 }

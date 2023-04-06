@@ -32,7 +32,7 @@ public class Lobby implements Serializable {
   @Column(nullable = false, unique = true)
   private String lobbyName;
 
-  @Column(nullable = false, unique = true)
+  @Column(nullable = false)
   private Long hostMemberId;
 
   @OneToMany(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true)
