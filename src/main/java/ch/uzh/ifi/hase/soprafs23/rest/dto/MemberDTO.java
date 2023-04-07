@@ -119,7 +119,7 @@ public class MemberDTO {
         this.suggestedLocation = suggestedLocation;
     }
 
-    public boolean isHasLockedSelections() {
+    public boolean getHasLockedSelections() {
         return hasLockedSelections;
     }
 

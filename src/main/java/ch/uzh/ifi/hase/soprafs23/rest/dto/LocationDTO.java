@@ -1,31 +1,24 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
-import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
-
-import java.time.LocalDate;
-
+import java.util.List;
 
 public class LocationDTO {
-    private Long locationID;
+    private Long memberId;
+    private List<String> selectedLocations;
 
-    private double longitude;
-
-    private double latitude;
-
-    public double getLongitude() {
-        return longitude;
+    public Long getMemberId() {
+        return memberId;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public List<String> getSelectedLocations() {
+        return selectedLocations;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setSelectedLocations(List<String> selectedLocations) {
+        this.selectedLocations = selectedLocations;
     }
-
 }
