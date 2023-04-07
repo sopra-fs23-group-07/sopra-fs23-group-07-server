@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.entity.*;
 import ch.uzh.ifi.hase.soprafs23.repository.LobbyRepository;
+import ch.uzh.ifi.hase.soprafs23.repository.LocationRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.MemberRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import org.slf4j.Logger;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,16 +36,19 @@ public class LobbyService {
     private final LobbyRepository lobbyRepository;
     private final UserRepository userRepository;
     private final MemberRepository memberRepository;
+    private final LocationRepository locationRepository;
 
     //private final EventService eventService;
 
     @Autowired
     public LobbyService(@Qualifier("lobbyRepository") LobbyRepository lobbyRepository,
                         @Qualifier("userRepository") UserRepository userRepository,
-                        @Qualifier("memberRepository") MemberRepository memberRepository) {
+                        @Qualifier("memberRepository") MemberRepository memberRepository,
+                        @Qualifier("locationRepository") LocationRepository locationrepository) {
         this.lobbyRepository = lobbyRepository;
         this.userRepository = userRepository;
         this.memberRepository = memberRepository;
+        this.locationRepository = locationrepository;
     }
 
 
@@ -67,7 +73,7 @@ public class LobbyService {
         Optional<Lobby> lobbyToFind = lobbyRepository.findById(lobbyId);
         if (lobbyToFind.isEmpty()) {
             String baseErrorMessage = "The %s provided %s not found";
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "eventId", "was"));
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "lobbyId", "was"));
         }
         return lobbyToFind.get();
     }
@@ -88,7 +94,7 @@ public class LobbyService {
         return memberToFind.get();
     }
 
-    public void addMember(Long lobbyId, Long userId) {
+    public Member addMember(Long lobbyId, Long userId) {
         Lobby lobby = getLobby(lobbyId);
         User databaseUser = getUser(userId);
         Member member = new Member();
@@ -100,6 +106,7 @@ public class LobbyService {
         memberRepository.save(member);
         userRepository.save(databaseUser);
         lobbyRepository.save(lobby);
+        return member;
     }
     public void removeMember(Long lobbyId, Long userId) {
         Lobby lobby = getLobby(lobbyId);
@@ -115,6 +122,62 @@ public class LobbyService {
         Lobby lobby = getLobby(lobbyId);
         lobbyRepository.delete(lobby);
     }
+    public void setSports(Long lobbyId, Long memberId, List<String> selectedSports) {
+        Lobby lobby = getLobby(lobbyId);
+        Optional<Member> member = memberRepository.findById(memberId);
+        if (member.isEmpty()) {
+            String baseErrorMessage = "The %s provided %s not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "memberId", "was"));
+        }
+        member.get().setSelectedSports(selectedSports);
+    }
+    public void setLocations(Long lobbyId, Long memberId, List<String> selectedLocations) {
+        Lobby lobby = getLobby(lobbyId);
+        Optional<Member> member = memberRepository.findById(memberId);
+        if (member.isEmpty()) {
+            String baseErrorMessage = "The %s provided %s not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "memberId", "was"));
+        }
+        List<Location> locations = new ArrayList<>();
+        for (String string : selectedLocations) {
+            String[] coordinates = string.split(",");
+            String longitudeString = coordinates[0];
+            String latitudeString = coordinates[1];
+
+            double longitude = Double.parseDouble(longitudeString);
+            double latitude = Double.parseDouble(latitudeString);
+
+            Location location = new Location();
+            location.setLongitude(longitude);
+            location.setLatitude(latitude);
+            locations.add(location);
+            locationRepository.save(location);
+        }
+        member.get().setSelectedLocations(locations);
+    }
+    public void setDates(Long lobbyId, Long memberId, List<String> selectedDates) {
+        Optional<Member> member = memberRepository.findById(memberId);
+        if (member.isEmpty()) {
+            String baseErrorMessage = "The %s provided %s not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "memberId", "was"));
+        }
+        List<LocalDateTime> dates = new ArrayList<>();
+        for (String string : selectedDates) {
+            dates.add(LocalDateTime.parse(string));
+        }
+        member.get().setSelectedDates(dates);
+    }
+    public void lockSelections(Long lobbyId, Long memberId) {
+        Optional<Member> member = memberRepository.findById(memberId);
+        if (member.isEmpty()) {
+            String baseErrorMessage = "The %s provided %s not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "memberId", "was"));
+        }
+        member.get().setHasLockedSelections();
+    }
+
+
+
     public List<Member> getMembers() {
         return this.memberRepository.findAll();
     }
