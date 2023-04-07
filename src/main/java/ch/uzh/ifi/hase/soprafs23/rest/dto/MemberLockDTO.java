@@ -1,8 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
-import java.util.List;
-
-public class LockDTO {
+public class MemberLockDTO {
     private Long memberId;
     public Long getMemberId() {
         return memberId;

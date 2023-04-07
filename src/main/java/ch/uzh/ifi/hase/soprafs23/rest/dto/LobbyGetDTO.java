@@ -1,9 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
-import ch.uzh.ifi.hase.soprafs23.entity.Location;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class LobbyGetDTO {
@@ -26,13 +23,13 @@ public class LobbyGetDTO {
 
   private LocalDateTime lobbyDecidedDate;
 
-  private ArrayList<Location> lobbyLocations;
+  private List<LobbyLocationDTO> lobbyLocationDTOs;
   private List<MemberDTO> memberDTOS;
 
 
-  public ArrayList<Location> getLobbyLocations() {return lobbyLocations; }
+  public List<LobbyLocationDTO> getLobbyLocationDTOs() {return lobbyLocationDTOs; }
 
-  public void setLobbyLocations(ArrayList<Location> lobbyLocations) {this.lobbyLocations = lobbyLocations; }
+  public void setLobbyLocationDTOs(List<LobbyLocationDTO> lobbyLocations) {this.lobbyLocationDTOs = lobbyLocations; }
 
   public Long getLobbyId() {
         return lobbyId;

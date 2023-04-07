@@ -65,7 +65,7 @@ public interface DTOMapper {
   @Mapping(source = "lobbyDecidedLocation", target = "lobbyDecidedLocation")
   @Mapping(source = "lobbyDecidedSport", target = "lobbyDecidedSport")
   @Mapping(source = "lobbyDecidedDate", target = "lobbyDecidedDate")
-  @Mapping(source = "lobbyLocations", target = "lobbyLocations")
+  @Mapping(source = "lobbyLocations", target = "lobbyLocationDTOs")
   LobbyGetDTO convertEntityToLobbyGetDTO(Lobby lobby);
 
   @Mapping(source = "eventName", target = "eventName")
@@ -122,5 +122,18 @@ public interface DTOMapper {
   @AfterMapping
   default void addMembersToLobbyGetDTO(Lobby lobby, @MappingTarget LobbyGetDTO lobbyGetDTO) {
       lobbyGetDTO.setMemberDTOs(convertEntityListToMemberDTOList(lobby.getLobbyMembers()));
+  }
+  @Named("convertEntityToLobbyLocationDTO")
+  LobbyLocationDTO convertEntityToLobbyLocationDTO(Location location);
+
+  default List<LobbyLocationDTO> convertEntityListToLobbyLocationDTOList(List<Location> entityList) {
+      if (entityList == null) {
+          return null;
+      }
+      return entityList.stream().map(this::convertEntityToLobbyLocationDTO).collect(Collectors.toList());
+  }
+  @AfterMapping
+  default void addLobbyLocationsToLobbyGetDTO(Lobby lobby, @MappingTarget LobbyGetDTO lobbyGetDTO) {
+      lobbyGetDTO.setLobbyLocationDTOs(convertEntityListToLobbyLocationDTOList(lobby.getLobbyLocations()));
   }
 }

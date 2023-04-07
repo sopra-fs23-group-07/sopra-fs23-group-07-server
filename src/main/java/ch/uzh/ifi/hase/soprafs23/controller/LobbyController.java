@@ -89,31 +89,41 @@ public class LobbyController {
   @PutMapping("{lobbyId}/sport")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public void setSports(@RequestBody SportDTO sportDTO, @PathVariable Long lobbyId) {
+  public void setSports(@RequestBody MemberSportDTO sportDTO, @PathVariable Long lobbyId) {
     lobbyService.setSports(lobbyId, sportDTO.getMemberId(), sportDTO.getSelectedSports());
   }
   @PutMapping("{lobbyId}/location")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public void setLocations(@RequestBody LocationDTO locationDTO, @PathVariable Long lobbyId) {
+  public void setLocations(@RequestBody MemberLocationDTO locationDTO, @PathVariable Long lobbyId) {
     lobbyService.setLocations(lobbyId, locationDTO.getMemberId(), locationDTO.getSelectedLocations());
   }
   @PutMapping("{lobbyId}/date")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public void setDates(@RequestBody DateDTO dateDTO, @PathVariable Long lobbyId) {
+  public void setDates(@RequestBody MemberDateDTO dateDTO, @PathVariable Long lobbyId) {
       lobbyService.setDates(lobbyId, dateDTO.getMemberId(), dateDTO.getSelectedDates());
   }
   @PutMapping("{lobbyId}/lock")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public void lockSelections(@RequestBody LockDTO lockDTO, @PathVariable Long lobbyId) {
+  public void lockSelections(@RequestBody MemberLockDTO lockDTO, @PathVariable Long lobbyId) {
       lobbyService.lockSelections(lobbyId, lockDTO.getMemberId());
   }
+  @PostMapping("{lobbyId}/locations")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public void addLobbyLocation(@RequestBody LobbyLocationDTO lobbyLocationPutDTO, @PathVariable Long lobbyId) {
+      lobbyService.addLobbyLocation(lobbyId, lobbyLocationPutDTO.getMemberId(), lobbyLocationPutDTO.getLocation());
+  }
+    @GetMapping("/test")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<Lobby> getAllLobbiesTest() {
+        return lobbyService.getLobbies();
+    }
 
-
-
-  @GetMapping("/members")
+  @GetMapping("/membersTest")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public List<Member> getMembers() {

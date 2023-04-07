@@ -93,10 +93,22 @@ public class LobbyService {
         }
         return memberToFind.get();
     }
+    public Member getMemberById(Long memberId) {
+        Optional<Member> member = memberRepository.findById(memberId);
+        if (member.isEmpty()) {
+            String baseErrorMessage = "The %s provided %s not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "memberId", "was"));
+        }
+        return member.get();
+    }
 
     public Member addMember(Long lobbyId, Long userId) {
         Lobby lobby = getLobby(lobbyId);
         User databaseUser = getUser(userId);
+        if (memberRepository.findByLobbyAndUser(lobby, databaseUser).isPresent()) {
+            String baseErrorMessage = "The %s provided %s already member of this lobby";
+            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "userId", "is"));
+        }
         Member member = new Member();
         member.setUser(databaseUser);
         member.setLobbyId(lobby.getLobbyId());
@@ -115,6 +127,8 @@ public class LobbyService {
 
         lobby.removeLobbyMember(member);
         databaseUser.removeLobby(lobby);
+        //databaseUser.removeMember(member);
+        memberRepository.delete(member);
         lobbyRepository.save(lobby);
         userRepository.save(databaseUser);
     }
@@ -124,20 +138,12 @@ public class LobbyService {
     }
     public void setSports(Long lobbyId, Long memberId, List<String> selectedSports) {
         Lobby lobby = getLobby(lobbyId);
-        Optional<Member> member = memberRepository.findById(memberId);
-        if (member.isEmpty()) {
-            String baseErrorMessage = "The %s provided %s not found";
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "memberId", "was"));
-        }
-        member.get().setSelectedSports(selectedSports);
+        Member member = getMemberById(memberId);
+        member.setSelectedSports(selectedSports);
     }
     public void setLocations(Long lobbyId, Long memberId, List<String> selectedLocations) {
         Lobby lobby = getLobby(lobbyId);
-        Optional<Member> member = memberRepository.findById(memberId);
-        if (member.isEmpty()) {
-            String baseErrorMessage = "The %s provided %s not found";
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "memberId", "was"));
-        }
+        Member member = getMemberById(memberId);
         List<Location> locations = new ArrayList<>();
         for (String string : selectedLocations) {
             String[] coordinates = string.split(",");
@@ -150,30 +156,45 @@ public class LobbyService {
             Location location = new Location();
             location.setLongitude(longitude);
             location.setLatitude(latitude);
+            location.setLocation(string);
+
             locations.add(location);
             locationRepository.save(location);
         }
-        member.get().setSelectedLocations(locations);
+        member.setSelectedLocations(locations);
     }
     public void setDates(Long lobbyId, Long memberId, List<String> selectedDates) {
-        Optional<Member> member = memberRepository.findById(memberId);
-        if (member.isEmpty()) {
-            String baseErrorMessage = "The %s provided %s not found";
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "memberId", "was"));
-        }
+        Member member = getMemberById(memberId);
         List<LocalDateTime> dates = new ArrayList<>();
         for (String string : selectedDates) {
             dates.add(LocalDateTime.parse(string));
         }
-        member.get().setSelectedDates(dates);
+        member.setSelectedDates(dates);
     }
     public void lockSelections(Long lobbyId, Long memberId) {
-        Optional<Member> member = memberRepository.findById(memberId);
-        if (member.isEmpty()) {
-            String baseErrorMessage = "The %s provided %s not found";
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "memberId", "was"));
-        }
-        member.get().setHasLockedSelections();
+        Member member = getMemberById(memberId);
+        member.setHasLockedSelections();
+    }
+    public void addLobbyLocation (Long lobbyId, Long memberId, String string) {
+        Lobby lobby = getLobby(lobbyId);
+        Member member = getMemberById(memberId);
+
+        String[] coordinates = string.split(",");
+        String longitudeString = coordinates[0];
+        String latitudeString = coordinates[1];
+
+        double longitude = Double.parseDouble(longitudeString);
+        double latitude = Double.parseDouble(latitudeString);
+
+        Location location = new Location();
+        location.setLongitude(longitude);
+        location.setLatitude(latitude);
+        location.setLocation(string);
+        location.setLobby(lobby);
+
+        locationRepository.save(location);
+        lobby.addLobbyLocation(location);
+        lobbyRepository.save(lobby);
     }
 
 

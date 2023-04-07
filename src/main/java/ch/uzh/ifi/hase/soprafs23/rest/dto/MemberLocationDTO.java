@@ -2,7 +2,7 @@ package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
 import java.util.List;
 
-public class LocationDTO {
+public class MemberLocationDTO {
     private Long memberId;
     private List<String> selectedLocations;
 

@@ -59,8 +59,8 @@ public class Lobby implements Serializable {
   @Column(nullable = true)
   private Date lobbyDecidedDate;
 
-  @Column(nullable = true)
-  private ArrayList<Location> lobbyLocations;
+  @OneToMany(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Location> lobbyLocations = new ArrayList<>();
 
   @Column(nullable = false, unique = true)
   private String token;
@@ -70,9 +70,11 @@ public class Lobby implements Serializable {
 
   public void setHostMemberId(Long hostMemberId) {this.hostMemberId = hostMemberId; }
 
-  public ArrayList<Location> getLobbyLocations() {return lobbyLocations; }
+  public List<Location> getLobbyLocations() {return lobbyLocations; }
 
-  public void addLobbyLocation(Location location) {}
+  public void addLobbyLocation(Location location) {
+      lobbyLocations.add(location);
+  }
 
   public void removeLobbyLocation(Location location) {}
 
