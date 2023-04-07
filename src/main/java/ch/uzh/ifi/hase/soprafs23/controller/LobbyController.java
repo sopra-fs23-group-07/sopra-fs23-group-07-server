@@ -90,4 +90,13 @@ public class LobbyController {
       return lobbyService.getMembers();
   }
 
+  @GetMapping("/{lobbyId}")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public LobbyGetDTO getLobby(@PathVariable Long lobbyId) {
+      Lobby lobby = lobbyService.getLobby(lobbyId);
+
+      return DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
+  }
+
 }
