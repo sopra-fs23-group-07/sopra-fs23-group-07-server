@@ -26,13 +26,15 @@ public class LobbyGetDTO {
 
   private LocalDateTime lobbyDecidedDate;
 
-  private ArrayList<Location> lobbyLocations;
+  private ArrayList<LocationDTO> lobbyLocations;
   private List<MemberDTO> memberDTOS;
 
 
-  public ArrayList<Location> getLobbyLocations() {return lobbyLocations; }
+  public ArrayList<LocationDTO> getLobbyLocations() {return lobbyLocations; }
 
-  public void setLobbyLocations(ArrayList<Location> lobbyLocations) {this.lobbyLocations = lobbyLocations; }
+  public void setLobbyLocations(ArrayList<LocationDTO> lobbyLocations) {this.lobbyLocations = lobbyLocations; }
+
+  public void addLobbyLocation(LocationDTO locationDTO) {this.lobbyLocations.add(locationDTO);}
 
   public Long getLobbyId() {
         return lobbyId;
@@ -93,4 +95,6 @@ public class LobbyGetDTO {
   public void setMemberDTOs(List<MemberDTO> memberDTOS) {
       this.memberDTOS = memberDTOS;
   }
+
+  public void addMemberDTO(MemberDTO memberDTO) {this.memberDTOS.add(memberDTO);}
 }

@@ -66,8 +66,8 @@ public class LobbyService {
     public Lobby getLobby(Long lobbyId) {
         Optional<Lobby> lobbyToFind = lobbyRepository.findById(lobbyId);
         if (lobbyToFind.isEmpty()) {
-            String baseErrorMessage = "The %s provided %s not found";
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "eventId", "was"));
+            String baseErrorMessage = "The lobby was not found!";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage));
         }
         return lobbyToFind.get();
     }

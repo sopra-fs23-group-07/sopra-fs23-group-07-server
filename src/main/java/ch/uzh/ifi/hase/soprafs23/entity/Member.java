@@ -162,11 +162,12 @@ public class Member implements Serializable {
         this.suggestedLocation = suggestedLocation;
     }
 
-    public boolean isHasLockedSelections() {
+    public boolean hasLockedSelections() {
         return hasLockedSelections;
     }
 
     public void setHasLockedSelections(boolean hasLockedSelections) {
         this.hasLockedSelections = hasLockedSelections;
     }
+
 }

@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs23.constant.OverlapColor;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,7 +58,7 @@ public class Lobby implements Serializable {
   private String lobbyDecidedSport;
 
   @Column(nullable = true)
-  private Date lobbyDecidedDate;
+  private LocalDateTime lobbyDecidedDate;
 
   @Column(nullable = true)
   private ArrayList<Location> lobbyLocations;
@@ -140,9 +141,9 @@ public class Lobby implements Serializable {
 
   public void setLobbyDecidedSport(String lobbyDecidedSport) {this.lobbyDecidedSport = lobbyDecidedSport;}
 
-  public Date getLobbyDecidedDate() {return lobbyDecidedDate;}
+  public LocalDateTime getLobbyDecidedDate() {return lobbyDecidedDate;}
 
-  public void setLobbyDecidedDate(Date lobbyDecidedDate) {this.lobbyDecidedDate = lobbyDecidedDate;}
+  public void setLobbyDecidedDate(LocalDateTime lobbyDecidedDate) {this.lobbyDecidedDate = lobbyDecidedDate;}
 
   public String getLobbyDecidedLocation() {return lobbyDecidedLocation;}
 

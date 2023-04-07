@@ -77,7 +77,7 @@ public class LobbyController {
   @DeleteMapping("{lobbyId}/delete")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public void deleteEvent(@PathVariable Long lobbyId) {
+  public void deleteLobby(@PathVariable Long lobbyId) {
         lobbyService.deleteLobby(lobbyId);
   }
 
@@ -88,6 +88,15 @@ public class LobbyController {
   @ResponseBody
   public List<Member> getMembers() {
       return lobbyService.getMembers();
+  }
+
+  @GetMapping("/{lobbyId}")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public LobbyGetDTO getLobby(@PathVariable Long lobbyId) {
+        Lobby lobby = lobbyService.getLobby(lobbyId);
+
+        return DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
   }
 
 }

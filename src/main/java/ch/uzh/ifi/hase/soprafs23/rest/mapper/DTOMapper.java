@@ -110,7 +110,19 @@ public interface DTOMapper {
       eventGetDTO.setParticipantDTOs(convertEntityListToParticipantDTOList(event.getEventParticipants()));
   }
 
-  @Named("convertEntityToMemberDTO")
+  @Mapping(source = "memberId", target = "memberId")
+  @Mapping(source = "lobbyId", target = "lobbyId")
+  @Mapping(source = "userId", target = "userId")
+  @Mapping(source = "email", target = "email")
+  @Mapping(source = "username", target = "username")
+  @Mapping(source = "status", target = "status")
+  @Mapping(source = "creationDate", target = "creationDate")
+  @Mapping(source = "birthdate", target = "birthdate")
+  @Mapping(source = "selectedSports", target = "selectedSports")
+  @Mapping(source = "selectedLocations", target = "selectedLocations")
+  @Mapping(source = "selectedDates", target = "selectedDates")
+  @Mapping(source = "suggestedLocation", target = "suggestedLocation")
+  //@Mapping(source = "hasLockedSelections", target = "hasLockedSelections")
   MemberDTO convertEntityToMemberDTO(Member member);
 
   default List<MemberDTO> convertEntityListToMemberDTOList(List<Member> entityList) {
@@ -123,4 +135,10 @@ public interface DTOMapper {
   default void addMembersToLobbyGetDTO(Lobby lobby, @MappingTarget LobbyGetDTO lobbyGetDTO) {
       lobbyGetDTO.setMemberDTOs(convertEntityListToMemberDTOList(lobby.getLobbyMembers()));
   }
+
+
+  //@Mapping(source = "locationId", target = "locationId")
+  @Mapping(source = "longitude", target= "longitude")
+  @Mapping(source = "latitude", target = "latitude")
+  LocationDTO convertsEntityToLocationDTO(Location location);
 }
