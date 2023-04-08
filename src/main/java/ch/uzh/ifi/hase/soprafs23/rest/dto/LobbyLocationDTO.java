@@ -5,7 +5,7 @@ public class LobbyLocationDTO {
     private String location;
     private double longitude;
     private double latitude;
-    private int votes;
+    private int memberVotes;
 
     public Long getMemberId() {
         return memberId;
@@ -39,11 +39,11 @@ public class LobbyLocationDTO {
         this.latitude = latitude;
     }
 
-    public int getVotes() {
-        return votes;
+    public int getMemberVotes() {
+        return memberVotes;
     }
 
-    public void setVotes(int votes) {
-        this.votes = votes;
+    public void setMemberVotes(int memberVotes) {
+        this.memberVotes = memberVotes;
     }
 }

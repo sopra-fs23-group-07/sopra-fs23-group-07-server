@@ -125,9 +125,13 @@ public interface DTOMapper {
   }
 
   @Named("convertEntityToLobbyLocationDTO")
-  //@Mapping(source = "longitude", target = "longitude")
-  //@Mapping(source = "latitude", target = "latitude")
+  @Mapping(target = "memberVotes", ignore = true)
   LobbyLocationDTO convertEntityToLobbyLocationDTO(Location location);
+  @BeforeMapping
+  default void setVotesFromMemberVotes(Location location, @MappingTarget LobbyLocationDTO dto) {
+      // Call getMemberVotes() method here and set the votes field in the DTO
+      dto.setMemberVotes(location.getMemberVotes());
+  }
 
   default List<LobbyLocationDTO> convertEntityListToLobbyLocationDTOList(List<Location> entityList) {
       if (entityList == null) {

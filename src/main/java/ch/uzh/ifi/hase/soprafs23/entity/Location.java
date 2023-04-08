@@ -22,7 +22,8 @@ public class Location implements Serializable {
     private double longitude;
     @Column(nullable = false)
     private double latitude;
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ElementCollection
+    @CollectionTable(name = "member_votes", joinColumns = @JoinColumn(name = "location_id"))
     private List<Member> memberVotes = new ArrayList<>();
     @Column(nullable = false)
     private Long lobbyId;
@@ -82,9 +83,9 @@ public class Location implements Serializable {
         return memberVotes.size();
     }
 
-    public void addVote(Member member) {
+    public void addMemberVotes(Member member) {
         if (memberVotes.contains(member)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Member with "+member.getMemberId()+" has already voted");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Member with memberId "+member.getMemberId()+" has already voted");
         }
         memberVotes.add(member);
     }

@@ -204,8 +204,10 @@ public class LobbyService {
             String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "locationId", "was"));
         }
-        location.get().addVote(member);
+        location.get().addMemberVotes(member);
         locationRepository.save(location.get());
+        memberRepository.save(member);
+        lobbyRepository.save(lobby);
     }
 
 
