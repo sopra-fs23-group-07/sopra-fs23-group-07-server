@@ -22,13 +22,17 @@ public class Member implements Serializable {
     private Long userId;
     @Column(nullable = false)
     private Long lobbyId;
+    @Column(nullable = false)
+    private Long locationId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lobbyId", insertable = false, updatable = false)
     private Lobby lobby;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", insertable = false, updatable = false)
     private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "locationId", insertable = false, updatable = false)
+    private Location location;
 
     @Column(nullable = true)
     private String email;
@@ -168,5 +172,13 @@ public class Member implements Serializable {
 
     public void setHasLockedSelections() {
         this.hasLockedSelections = true;
+    }
+
+    public Long getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
     }
 }

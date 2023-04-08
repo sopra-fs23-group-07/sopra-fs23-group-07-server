@@ -4,7 +4,7 @@ import java.util.List;
 
 public class MemberLocationDTO {
     private Long memberId;
-    private List<String> selectedLocations;
+    private Long locationId;
 
     public Long getMemberId() {
         return memberId;
@@ -14,11 +14,11 @@ public class MemberLocationDTO {
         this.memberId = memberId;
     }
 
-    public List<String> getSelectedLocations() {
-        return selectedLocations;
+    public Long getLocationId() {
+        return locationId;
     }
 
-    public void setSelectedLocations(List<String> selectedLocations) {
-        this.selectedLocations = selectedLocations;
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
     }
 }

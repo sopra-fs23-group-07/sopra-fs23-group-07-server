@@ -65,7 +65,7 @@ public interface DTOMapper {
   @Mapping(source = "lobbyDecidedLocation", target = "lobbyDecidedLocation")
   @Mapping(source = "lobbyDecidedSport", target = "lobbyDecidedSport")
   @Mapping(source = "lobbyDecidedDate", target = "lobbyDecidedDate")
-  @Mapping(source = "lobbyLocations", target = "lobbyLocationDTOs")
+  //@Mapping(source = "lobbyLocations", target = "lobbyLocationDTOs")
   LobbyGetDTO convertEntityToLobbyGetDTO(Lobby lobby);
 
   @Mapping(source = "eventName", target = "eventName")
@@ -123,7 +123,10 @@ public interface DTOMapper {
   default void addMembersToLobbyGetDTO(Lobby lobby, @MappingTarget LobbyGetDTO lobbyGetDTO) {
       lobbyGetDTO.setMemberDTOs(convertEntityListToMemberDTOList(lobby.getLobbyMembers()));
   }
+
   @Named("convertEntityToLobbyLocationDTO")
+  //@Mapping(source = "longitude", target = "longitude")
+  //@Mapping(source = "latitude", target = "latitude")
   LobbyLocationDTO convertEntityToLobbyLocationDTO(Location location);
 
   default List<LobbyLocationDTO> convertEntityListToLobbyLocationDTOList(List<Location> entityList) {
