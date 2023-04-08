@@ -2,9 +2,7 @@ package ch.uzh.ifi.hase.soprafs23.controller;
 
 import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
 import ch.uzh.ifi.hase.soprafs23.entity.Member;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.LobbyGetDTO;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.LobbyPostDTO;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.UserLobbyDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.LobbyService;
 import ch.uzh.ifi.hase.soprafs23.service.UserService;
@@ -46,57 +44,90 @@ public class LobbyController {
     }
     return lobbyGetDTOs;
   }
+  @GetMapping("/{lobbyId}")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public LobbyGetDTO getLobby(@PathVariable Long lobbyId) {
+    Lobby lobby = lobbyService.getLobby(lobbyId);
+    return DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
+  }
 
   //registration
   @PostMapping("")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
-  public LobbyGetDTO createLobby(@RequestBody LobbyPostDTO lobbyPostDTO) {
+  public MemberDTO createLobby(@RequestBody LobbyPostDTO lobbyPostDTO) {
     // convert API user to internal representation
     Lobby lobbyInput = DTOMapper.INSTANCE.convertLobbyPostDTOtoEntity(lobbyPostDTO);
 
     Lobby createdLobby = lobbyService.createLobby(lobbyInput);
 
-    lobbyService.addMember(lobbyInput.getLobbyId(), lobbyPostDTO.getHostMemberId());
+    Member lobbyCreator = lobbyService.addMember(lobbyInput.getLobbyId(), lobbyPostDTO.getHostMemberId());
 
     // convert internal representation of user back to API
-    return DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(createdLobby);
+    return DTOMapper.INSTANCE.convertEntityToMemberDTO(lobbyCreator);
   }
   @PutMapping("{lobbyId}/join")
-  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public void joinLobby(@RequestBody UserLobbyDTO userLobbyDTO, @PathVariable Long lobbyId) {
-    lobbyService.addMember(lobbyId, userLobbyDTO.getUserId());
+  public MemberDTO joinLobby(@RequestBody UserLobbyDTO userLobbyDTO, @PathVariable Long lobbyId) {
+    Member createdMember = lobbyService.addMember(lobbyId, userLobbyDTO.getUserId());
+    return DTOMapper.INSTANCE.convertEntityToMemberDTO(createdMember);
   }
   @PutMapping("{lobbyId}/leave")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public void leaveLobby(@RequestBody UserLobbyDTO userLobbyDTO, @PathVariable Long lobbyId) {
-      lobbyService.removeMember(lobbyId, userLobbyDTO.getUserId());
+    lobbyService.removeMember(lobbyId, userLobbyDTO.getUserId());
   }
   @DeleteMapping("{lobbyId}/delete")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public void deleteLobby(@PathVariable Long lobbyId) {
-        lobbyService.deleteLobby(lobbyId);
+  public void deleteEvent(@PathVariable Long lobbyId) {
+    lobbyService.deleteLobby(lobbyId);
   }
+  @PutMapping("{lobbyId}/sport")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public void setSports(@RequestBody MemberSportDTO sportDTO, @PathVariable Long lobbyId) {
+    lobbyService.setSports(lobbyId, sportDTO.getMemberId(), sportDTO.getSelectedSports());
+  }
+  @PutMapping("{lobbyId}/location")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public void setLocations(@RequestBody MemberLocationDTO locationDTO, @PathVariable Long lobbyId) {
+    lobbyService.setLocations(lobbyId, locationDTO.getMemberId(), locationDTO.getSelectedLocations());
+  }
+  @PutMapping("{lobbyId}/date")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public void setDates(@RequestBody MemberDateDTO dateDTO, @PathVariable Long lobbyId) {
+      lobbyService.setDates(lobbyId, dateDTO.getMemberId(), dateDTO.getSelectedDates());
+  }
+  @PutMapping("{lobbyId}/lock")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public void lockSelections(@RequestBody MemberLockDTO lockDTO, @PathVariable Long lobbyId) {
+      lobbyService.lockSelections(lobbyId, lockDTO.getMemberId());
+  }
+  @PostMapping("{lobbyId}/locations")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public void addLobbyLocation(@RequestBody LobbyLocationDTO lobbyLocationPutDTO, @PathVariable Long lobbyId) {
+      lobbyService.addLobbyLocation(lobbyId, lobbyLocationPutDTO.getMemberId(), lobbyLocationPutDTO.getLocation());
+  }
+    @GetMapping("/test")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<Lobby> getAllLobbiesTest() {
+        return lobbyService.getLobbies();
+    }
 
-
-
-  @GetMapping("/members")
+  @GetMapping("/membersTest")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public List<Member> getMembers() {
       return lobbyService.getMembers();
-  }
-
-  @GetMapping("/{lobbyId}")
-  @ResponseStatus(HttpStatus.OK)
-  @ResponseBody
-  public LobbyGetDTO getLobby(@PathVariable Long lobbyId) {
-      Lobby lobby = lobbyService.getLobby(lobbyId);
-
-      return DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
   }
 
 }

@@ -54,7 +54,6 @@ public class User implements Serializable {
   private List<Participant> participants = new ArrayList<>();
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Lobby> lobbies = new ArrayList<>();
-
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Event> events = new ArrayList<>();
 
