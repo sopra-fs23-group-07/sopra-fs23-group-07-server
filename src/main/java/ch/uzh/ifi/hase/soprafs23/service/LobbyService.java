@@ -144,6 +144,7 @@ public class LobbyService {
 
         return member;
     }
+    //to remove
     public void setLocations(Long lobbyId, Long memberId, List<String> selectedLocations) {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
@@ -200,17 +201,34 @@ public class LobbyService {
         lobbyRepository.save(lobby);
     }
     public void addLobbyLocationVote(Long lobbyId, Long memberId, Long locationId) {
-        Lobby lobby = getLobby(lobbyId);
-        Member member = getMemberById(memberId);
         Optional<Location> location = locationRepository.findById(locationId);
         if (location.isEmpty()) {
             String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "locationId", "was"));
         }
-        location.get().addMemberVotes(member);
+        Member member = getMemberById(memberId);
+        Lobby lobby = getLobby(lobbyId);
+        location.get().addMemberVotes(memberId);
+        lobby.addLocationVotes(memberId);
+
         locationRepository.save(location.get());
-        memberRepository.save(member);
         lobbyRepository.save(lobby);
+        memberRepository.save(member);
+    }
+    public void removeLobbyLocationVote(Long lobbyId, Long memberId, Long locationId) {
+        Optional<Location> location = locationRepository.findById(locationId);
+        if (location.isEmpty()) {
+            String baseErrorMessage = "The %s provided %s not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "locationId", "was"));
+        }
+        Member member = getMemberById(memberId);
+        Lobby lobby = getLobby(lobbyId);
+        location.get().removeMemberVotes(memberId);
+        lobby.removeLocationVotes(memberId);
+
+        locationRepository.save(location.get());
+        lobbyRepository.save(lobby);
+        memberRepository.save(member);
     }
 
 

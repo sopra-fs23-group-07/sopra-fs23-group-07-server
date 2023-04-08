@@ -1,14 +1,14 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
 import ch.uzh.ifi.hase.soprafs23.constant.OverlapColor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.Set;
 
 /**
  * Internal Lobby Representation
@@ -66,6 +66,9 @@ public class Lobby implements Serializable {
 
   @Column(nullable = false, unique = true)
   private String token;
+  @ElementCollection
+  @CollectionTable(name = "member_location_votes", joinColumns = @JoinColumn(name = "lobby_id"))
+  private Set<Long> locationVotes = new HashSet<>();
 
 
   public Long getHostMemberId() {return hostMemberId; }
@@ -271,4 +274,16 @@ public class Lobby implements Serializable {
     this.token = token;
   }
 
+    public void addLocationVotes(Long memberId) {
+        if (!locationVotes.add(memberId)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Member with memberId "+memberId+" has already voted");
+        }
+        locationVotes.add(memberId);
+    }
+    public void removeLocationVotes(Long memberId) {
+        if (locationVotes.add(memberId)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Member with memberId "+memberId+" has not yet voted");
+        }
+        locationVotes.remove(memberId);
+    }
 }

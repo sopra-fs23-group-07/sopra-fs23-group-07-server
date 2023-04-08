@@ -129,6 +129,13 @@ public class LobbyController {
                                    @PathVariable Long locationId) {
       lobbyService.addLobbyLocationVote(lobbyId, memberlocationDTO.getMemberId(), locationId);
   }
+  @PutMapping("{lobbyId}/locations/{locationId}/unvote")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public void removeLobbyLocationVote(@RequestBody MemberLocationDTO memberlocationDTO, @PathVariable Long lobbyId,
+                                   @PathVariable Long locationId) {
+      lobbyService.removeLobbyLocationVote(lobbyId, memberlocationDTO.getMemberId(), locationId);
+  }
 
   //TESTS
     @GetMapping("/test")

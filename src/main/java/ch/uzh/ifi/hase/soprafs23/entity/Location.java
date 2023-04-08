@@ -7,7 +7,9 @@ import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "LOCATION")
@@ -23,8 +25,8 @@ public class Location implements Serializable {
     @Column(nullable = false)
     private double latitude;
     @ElementCollection
-    @CollectionTable(name = "member_votes", joinColumns = @JoinColumn(name = "location_id"))
-    private List<Member> memberVotes = new ArrayList<>();
+    @CollectionTable(name = "location_votes", joinColumns = @JoinColumn(name = "location_id"))
+    private Set<Long> memberVotes = new HashSet<>();
     @Column(nullable = false)
     private Long lobbyId;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -83,10 +85,18 @@ public class Location implements Serializable {
         return memberVotes.size();
     }
 
-    public void addMemberVotes(Member member) {
-        if (memberVotes.contains(member)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Member with memberId "+member.getMemberId()+" has already voted");
+    public void addMemberVotes(Long memberId) {
+        if (!memberVotes.add(memberId)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Member with memberId "+memberId+" has already voted" +
+                    " for this location");
         }
-        memberVotes.add(member);
+        memberVotes.add(memberId);
+    }
+    public void removeMemberVotes(Long memberId) {
+        if (memberVotes.add(memberId)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Member with memberId "+memberId+" has not yet voted" +
+                    " for this location");
+        }
+        memberVotes.remove(memberId);
     }
 }
