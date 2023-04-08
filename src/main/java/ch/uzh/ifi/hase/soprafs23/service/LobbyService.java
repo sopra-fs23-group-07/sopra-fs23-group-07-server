@@ -136,10 +136,13 @@ public class LobbyService {
         Lobby lobby = getLobby(lobbyId);
         lobbyRepository.delete(lobby);
     }
-    public void setSports(Long lobbyId, Long memberId, List<String> selectedSports) {
+    public Member setSports(Long lobbyId, Long memberId, String selectedSport) {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
-        member.setSelectedSports(selectedSports);
+        //member.setSelectedSports(selectedSports);
+        member.addSelectedSport(selectedSport);
+
+        return member;
     }
     public void setLocations(Long lobbyId, Long memberId, List<String> selectedLocations) {
         Lobby lobby = getLobby(lobbyId);

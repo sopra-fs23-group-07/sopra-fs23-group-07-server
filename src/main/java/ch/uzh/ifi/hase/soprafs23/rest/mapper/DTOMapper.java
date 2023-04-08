@@ -57,7 +57,7 @@ public interface DTOMapper {
 
   @Mapping(source = "lobbyId", target = "lobbyId")
   @Mapping(source = "lobbyName", target = "lobbyName")
-  //@Mapping(source = "lobbyMembers", target = "lobbyMembers")
+  @Mapping(source = "lobbyMembers", target = "memberDTOs")
   @Mapping(source = "lobbyMaxMembers" , target = "lobbyMaxMembers")
   @Mapping(source = "lobbyRegion", target = "lobbyRegion")
   @Mapping(source = "lobbyTimeLimit", target = "lobbyTimeLimit")

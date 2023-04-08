@@ -90,8 +90,10 @@ public class LobbyController {
   @PutMapping("{lobbyId}/sport")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public void setSports(@RequestBody MemberSportDTO sportDTO, @PathVariable Long lobbyId) {
-    lobbyService.setSports(lobbyId, sportDTO.getMemberId(), sportDTO.getSelectedSports());
+  public MemberDTO setSports(@RequestBody MemberSportDTO sportDTO, @PathVariable Long lobbyId) {
+    Member member = lobbyService.setSports(lobbyId, sportDTO.getMemberId(), sportDTO.getSelectedSports());
+
+    return DTOMapper.INSTANCE.convertEntityToMemberDTO(member);
   }
   //to remove
     /**

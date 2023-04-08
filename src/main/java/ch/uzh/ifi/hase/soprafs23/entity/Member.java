@@ -7,6 +7,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -49,7 +50,7 @@ public class Member implements Serializable {
     private LocalDate birthdate;
     @ElementCollection
     @CollectionTable(name = "member_sport", joinColumns = @JoinColumn(name = "member_id"))
-    private List<String> selectedSports;
+    private List<String> selectedSports = new ArrayList<>();
     @ElementCollection
     @CollectionTable(name = "member_location", joinColumns = @JoinColumn(name = "member_id"))
     private List<Location> selectedLocations;
@@ -141,6 +142,8 @@ public class Member implements Serializable {
     public void setSelectedSports(List<String> selectedSports) {
         this.selectedSports = selectedSports;
     }
+
+    public void addSelectedSport(String sport) {this.selectedSports.add(sport);}
 
     public List<Location> getSelectedLocations() {
         return selectedLocations;
