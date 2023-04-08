@@ -3,12 +3,12 @@ package ch.uzh.ifi.hase.soprafs23.entity;
 import ch.uzh.ifi.hase.soprafs23.constant.OverlapColor;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.Set;
 
 /**
  * Internal Lobby Representation
@@ -80,17 +80,126 @@ public class Lobby implements Serializable {
 
   public void removeLobbyLocation(Location location) {}
 
-  public boolean isLobbyFull() {return false;}
+  public boolean isLobbyFull() {
+      if(lobbyMembers.size() >= lobbyMaxMembers) {
+          return true;
+      }
+      else {
+          return false;
+      }
+  }
 
-  public boolean isLobbyEmpty() {return false;}
+  public boolean isLobbyEmpty() {
+      return lobbyMembers.isEmpty();
+  }
 
-  public boolean hasAllMembersLockedSelections() {return false;}
+  public boolean hasAllMembersLockedSelections() {
+      boolean endLobby = true;
 
-  public boolean hasTimerRunOut() {return true;}
+      for(Member member : lobbyMembers) {
+          if(!member.getHasLockedSelections()) {
+              endLobby = false;
+          }
+      }
+      return endLobby;
+  }
 
-  public void decideAllSelections() {}
+  public boolean hasTimerRunOut() {
+      return false;
+  }
 
-  public EventDetails createEventDetails() {return new EventDetails();}
+  public Event decideAllSelections() {
+      String selectedSport = decideSport();
+      Location selectedLocation = decideLocation();
+      LocalDateTime selectedDate = decideDate();
+
+      Event event = createEvent(selectedSport, selectedLocation, selectedDate);
+
+      return event;
+  }
+
+  private String decideSport() {
+      Hashtable<String, Integer> sportsCount = new Hashtable<>();
+      String selectedSport = "";
+
+      for(Member member : lobbyMembers) {
+          for (String sport : member.getSelectedSports()) {
+              if (sportsCount.get(sport) == null) {
+                  sportsCount.put(sport, 1);
+              }
+              else {
+                  sportsCount.put(sport, sportsCount.get(sport) + 1);
+              }
+              selectedSport = sport;
+          }
+      }
+
+      Set<String> setOfSports = sportsCount.keySet();
+
+      for(String sport : setOfSports) {
+          if(sportsCount.get(sport) > sportsCount.get(selectedSport)) {
+              selectedSport = sport;
+          }
+      }
+
+      return selectedSport;
+  }
+
+  private Location decideLocation() {
+      Hashtable<Location, Integer> locationCount = new Hashtable<>();
+      Location selectedLocation = new Location();
+
+      for(Member member : lobbyMembers) {
+          for (Location location : member.getSelectedLocations()) {
+              if (locationCount.get(location) == null) {
+                  locationCount.put(location, 1);
+              }
+              else {
+                  locationCount.put(location, locationCount.get(location) + 1);
+              }
+              selectedLocation = location;
+          }
+      }
+
+      Set<Location> setOfLocations = locationCount.keySet();
+
+      for(Location location : setOfLocations) {
+          if(locationCount.get(location) > locationCount.get(selectedLocation)) {
+              selectedLocation = location;
+          }
+      }
+
+      return selectedLocation;
+  }
+
+  private LocalDateTime decideDate() {
+      Hashtable<LocalDateTime, Integer> dateCount = new Hashtable<>();
+      LocalDateTime selectedDate = LocalDateTime.now();
+
+      for(Member member : lobbyMembers) {
+          for (LocalDateTime date : member.getSelectedDates()) {
+              if (dateCount.get(date) == null) {
+                  dateCount.put(date, 1);
+              }
+              else {
+                  dateCount.put(date, dateCount.get(date) + 1);
+              }
+              selectedDate = date;
+          }
+      }
+
+      Set<LocalDateTime> setOfLocations = dateCount.keySet();
+
+      for(LocalDateTime location : setOfLocations) {
+          if(dateCount.get(location) > dateCount.get(selectedDate)) {
+              selectedDate = location;
+          }
+      }
+
+      return selectedDate;
+  }
+
+  public Event createEvent(String sport, Location location, LocalDateTime date) {return new Event();}
 
   public OverlapColor checkSportOverlap(String sport) {return OverlapColor.RED;}
 
