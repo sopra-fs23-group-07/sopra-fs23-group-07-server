@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
 import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
+import ch.uzh.ifi.hase.soprafs23.entity.Location;
 import ch.uzh.ifi.hase.soprafs23.entity.Member;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
@@ -92,12 +93,14 @@ public class LobbyController {
   public void setSports(@RequestBody MemberSportDTO sportDTO, @PathVariable Long lobbyId) {
     lobbyService.setSports(lobbyId, sportDTO.getMemberId(), sportDTO.getSelectedSports());
   }
+  //to remove
+    /**
   @PutMapping("{lobbyId}/location")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public void setLocations(@RequestBody MemberLocationDTO locationDTO, @PathVariable Long lobbyId) {
     lobbyService.setLocations(lobbyId, locationDTO.getMemberId(), locationDTO.getSelectedLocations());
-  }
+  }**/
   @PutMapping("{lobbyId}/date")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
@@ -111,11 +114,21 @@ public class LobbyController {
       lobbyService.lockSelections(lobbyId, lockDTO.getMemberId());
   }
   @PostMapping("{lobbyId}/locations")
+  @ResponseStatus(HttpStatus.CREATED)
+  @ResponseBody
+  public LobbyGetDTO addLobbyLocation(@RequestBody LobbyLocationDTO lobbyLocationDTO, @PathVariable Long lobbyId) {
+      lobbyService.addLobbyLocation(lobbyId, lobbyLocationDTO.getMemberId(), lobbyLocationDTO.getLocation());
+      return DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobbyService.getLobby(lobbyId));
+  }
+  @PutMapping("{lobbyId}/locations/{locationId}/vote")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public void addLobbyLocation(@RequestBody LobbyLocationDTO lobbyLocationPutDTO, @PathVariable Long lobbyId) {
-      lobbyService.addLobbyLocation(lobbyId, lobbyLocationPutDTO.getMemberId(), lobbyLocationPutDTO.getLocation());
+  public void addLobbyLocationVote(@RequestBody MemberLocationDTO memberlocationDTO, @PathVariable Long lobbyId,
+                                   @PathVariable Long locationId) {
+      lobbyService.addLobbyLocationVote(lobbyId, memberlocationDTO.getMemberId(), locationId);
   }
+
+  //TESTS
     @GetMapping("/test")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -129,5 +142,12 @@ public class LobbyController {
   public List<Member> getMembers() {
       return lobbyService.getMembers();
   }
+
+    @GetMapping("/locationsTest")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<Location> getLocations() {
+        return lobbyService.getLocations();
+    }
 
 }

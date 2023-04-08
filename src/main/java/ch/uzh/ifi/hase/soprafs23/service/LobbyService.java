@@ -44,11 +44,11 @@ public class LobbyService {
     public LobbyService(@Qualifier("lobbyRepository") LobbyRepository lobbyRepository,
                         @Qualifier("userRepository") UserRepository userRepository,
                         @Qualifier("memberRepository") MemberRepository memberRepository,
-                        @Qualifier("locationRepository") LocationRepository locationrepository) {
+                        @Qualifier("locationRepository") LocationRepository locationRepository) {
         this.lobbyRepository = lobbyRepository;
         this.userRepository = userRepository;
         this.memberRepository = memberRepository;
-        this.locationRepository = locationrepository;
+        this.locationRepository = locationRepository;
     }
 
 
@@ -190,16 +190,30 @@ public class LobbyService {
         location.setLongitude(longitude);
         location.setLatitude(latitude);
         location.setLocation(string);
-        location.setLobby(lobby);
+        location.setLobbyId(lobby.getLobbyId());
 
         locationRepository.save(location);
         lobby.addLobbyLocation(location);
         lobbyRepository.save(lobby);
+    }
+    public void addLobbyLocationVote(Long lobbyId, Long memberId, Long locationId) {
+        Lobby lobby = getLobby(lobbyId);
+        Member member = getMemberById(memberId);
+        Optional<Location> location = locationRepository.findById(locationId);
+        if (location.isEmpty()) {
+            String baseErrorMessage = "The %s provided %s not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "locationId", "was"));
+        }
+        location.get().addVote(member);
+        locationRepository.save(location.get());
     }
 
 
 
     public List<Member> getMembers() {
         return this.memberRepository.findAll();
+    }
+    public List<Location> getLocations() {
+        return this.locationRepository.findAll();
     }
 }

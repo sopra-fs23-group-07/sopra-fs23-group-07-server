@@ -26,7 +26,8 @@ public class Lobby implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lobby_seq")
+  @SequenceGenerator(name = "lobby_seq", sequenceName = "lobby_sequence", initialValue = 1)
   private Long lobbyId;
 
   @Column(nullable = false, unique = true)

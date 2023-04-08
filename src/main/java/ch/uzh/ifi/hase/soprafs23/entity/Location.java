@@ -1,8 +1,13 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "LOCATION")
@@ -17,6 +22,10 @@ public class Location implements Serializable {
     private double longitude;
     @Column(nullable = false)
     private double latitude;
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Member> memberVotes = new ArrayList<>();
+    @Column(nullable = false)
+    private Long lobbyId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lobbyId", insertable = false, updatable = false)
     private Lobby lobby;
@@ -53,11 +62,30 @@ public class Location implements Serializable {
         this.location = location;
     }
 
-    public Lobby getLobby() {
-        return lobby;
+    public Long getLocationId() {
+        return locationId;
     }
 
-    public void setLobby(Lobby lobby) {
-        this.lobby = lobby;
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
+    }
+
+    public Long getLobbyId() {
+        return lobbyId;
+    }
+
+    public void setLobbyId(Long lobbyId) {
+        this.lobbyId = lobbyId;
+    }
+
+    public int getMemberVotes() {
+        return memberVotes.size();
+    }
+
+    public void addVote(Member member) {
+        if (memberVotes.contains(member)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Member with "+member.getMemberId()+" has already voted");
+        }
+        memberVotes.add(member);
     }
 }
