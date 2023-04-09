@@ -39,6 +39,10 @@ public class Lobby implements Serializable {
 
   @OneToMany(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Member> lobbyMembers = new ArrayList<>();
+
+  @Column(nullable = true)
+  private Integer lobbyMembersCount;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "userId", insertable = false, updatable = false)
   private User user;
@@ -71,6 +75,7 @@ public class Lobby implements Serializable {
   private Set<Long> locationVotes = new HashSet<>();
 
 
+  public Integer getLobbyMembersCount() {return lobbyMembers.size();}
   public Long getHostMemberId() {return hostMemberId; }
 
   public void setHostMemberId(Long hostMemberId) {this.hostMemberId = hostMemberId; }
@@ -150,24 +155,10 @@ public class Lobby implements Serializable {
 
   private Location decideLocation() {
       Hashtable<Location, Integer> locationCount = new Hashtable<>();
-      Location selectedLocation = new Location();
+      Location selectedLocation = lobbyLocations.get(0);
 
-      for(Member member : lobbyMembers) {
-          for (Location location : member.getSelectedLocations()) {
-              if (locationCount.get(location) == null) {
-                  locationCount.put(location, 1);
-              }
-              else {
-                  locationCount.put(location, locationCount.get(location) + 1);
-              }
-              selectedLocation = location;
-          }
-      }
-
-      Set<Location> setOfLocations = locationCount.keySet();
-
-      for(Location location : setOfLocations) {
-          if(locationCount.get(location) > locationCount.get(selectedLocation)) {
+      for(Location location : lobbyLocations) {
+          if(location.getMemberVotes() > selectedLocation.getMemberVotes()) {
               selectedLocation = location;
           }
       }

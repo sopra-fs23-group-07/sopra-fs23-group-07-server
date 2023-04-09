@@ -26,6 +26,12 @@ public class LobbyGetDTO {
   private List<LobbyLocationDTO> lobbyLocationDTOs;
   private List<MemberDTO> memberDTOS;
 
+  private Integer lobbyMembersCount;
+
+
+  public Integer getLobbyMembersCount() {return memberDTOS.size();}
+
+  public void setLobbyMembersCount(Integer lobbyMembersCount) {this.lobbyMembersCount = lobbyMembersCount;}
 
   public List<LobbyLocationDTO> getLobbyLocationDTOs() {return lobbyLocationDTOs; }
 
