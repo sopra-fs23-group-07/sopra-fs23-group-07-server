@@ -139,6 +139,8 @@ public class LobbyService {
         memberRepository.delete(member);
         lobbyRepository.save(lobby);
         userRepository.save(databaseUser);
+
+        if(lobby.getLobbyMembersCount() == 0) {lobbyRepository.delete(lobby);}
     }
     public void deleteLobby(Long lobbyId) {
         Lobby lobby = getLobby(lobbyId);
