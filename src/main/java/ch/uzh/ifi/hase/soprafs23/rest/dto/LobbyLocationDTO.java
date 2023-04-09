@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
 public class LobbyLocationDTO {
     private Long memberId;
+    private Long locationId;
     private String location;
     private double longitude;
     private double latitude;
@@ -45,5 +46,13 @@ public class LobbyLocationDTO {
 
     public void setMemberVotes(int memberVotes) {
         this.memberVotes = memberVotes;
+    }
+
+    public Long getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
     }
 }

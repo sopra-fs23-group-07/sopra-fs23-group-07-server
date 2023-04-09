@@ -58,7 +58,7 @@ public class LobbyService {
 
     public Lobby createLobby(Lobby newLobby) {
         newLobby.setToken(UUID.randomUUID().toString());
-
+        checkIfLobbyExists(newLobby);
         //Member hostMember = new Member(hostUser);
         //newLobby.addLobbyMember(hostMember);
         // saves the given entity but data is only persisted in the database once
@@ -68,6 +68,14 @@ public class LobbyService {
 
         log.debug("Created Information for Lobby: {}", newLobby);
         return newLobby;
+    }
+    private void checkIfLobbyExists(Lobby lobbyToBeCreated) {
+        Lobby lobbyByLobbyName = lobbyRepository.findByLobbyName(lobbyToBeCreated.getLobbyName());
+
+        String baseErrorMessage = "The %s provided %s not unique. Therefore, the lobby could not be created!";
+        if (lobbyByLobbyName != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "lobbyName", "is"));
+        }
     }
     public Lobby getLobby(Long lobbyId) {
         Optional<Lobby> lobbyToFind = lobbyRepository.findById(lobbyId);
@@ -182,6 +190,7 @@ public class LobbyService {
     public void addLobbyLocation (Long lobbyId, Long memberId, String string) {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
+        checkIfIsMemberOfLobby(lobby, member);
 
         String[] coordinates = string.split(",");
         String longitudeString = coordinates[0];
@@ -191,6 +200,7 @@ public class LobbyService {
         double latitude = Double.parseDouble(latitudeString);
 
         Location location = new Location();
+        location.setMemberId(memberId);
         location.setLongitude(longitude);
         location.setLatitude(latitude);
         location.setLocation(string);
@@ -208,6 +218,7 @@ public class LobbyService {
         }
         Member member = getMemberById(memberId);
         Lobby lobby = getLobby(lobbyId);
+        checkIfIsMemberOfLobby(lobby, member);
         location.get().addMemberVotes(memberId);
         lobby.addLocationVotes(memberId);
 
@@ -223,6 +234,7 @@ public class LobbyService {
         }
         Member member = getMemberById(memberId);
         Lobby lobby = getLobby(lobbyId);
+        checkIfIsMemberOfLobby(lobby, member);
         location.get().removeMemberVotes(memberId);
         lobby.removeLocationVotes(memberId);
 
@@ -230,7 +242,14 @@ public class LobbyService {
         lobbyRepository.save(lobby);
         memberRepository.save(member);
     }
-
+    private void checkIfIsMemberOfLobby(Lobby lobby, Member member) {
+        List<Member> members = lobby.getLobbyMembers();
+        if (!members.contains(member)) {
+            String baseErrorMessage = "The %s provided %s not member of Lobby with LobbyId %s";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "memberId", "is",
+                    lobby.getLobbyId()));
+        }
+    }
 
 
     public List<Member> getMembers() {

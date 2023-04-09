@@ -21,6 +21,8 @@ public class Location implements Serializable {
     @SequenceGenerator(name = "location_seq", sequenceName = "location_sequence", initialValue = 1)
     private Long locationId;
     @Column(nullable = false)
+    private Long memberId;
+    @Column(nullable = false)
     private double longitude;
     @Column(nullable = false)
     private double latitude;
@@ -98,5 +100,13 @@ public class Location implements Serializable {
                     " for this location");
         }
         memberVotes.remove(memberId);
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
     }
 }
