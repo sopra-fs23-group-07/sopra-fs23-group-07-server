@@ -4,7 +4,7 @@ import java.util.List;
 
 public class MemberSportDTO {
     private Long memberId;
-    private String selectedSports;
+    private List<String> selectedSports;
 
     public Long getMemberId() {
         return memberId;
@@ -14,11 +14,11 @@ public class MemberSportDTO {
         this.memberId = memberId;
     }
 
-    public String getSelectedSports() {
+    public List<String> getSelectedSports() {
         return selectedSports;
     }
 
-    public void setSelectedSports(String selectedSports) {
+    public void setSelectedSports(List<String> selectedSports) {
         this.selectedSports = selectedSports;
     }
 }
