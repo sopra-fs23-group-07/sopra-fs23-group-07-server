@@ -34,6 +34,10 @@ public class LobbyGetDTO {
       this.haveAllMembersLockedSelections = haveAllMembersLockedSelections;
   }
 
+  public boolean isHaveAllMembersLockedSelections() {
+      return haveAllMembersLockedSelections;
+  }
+
   public Integer getLobbyMembersCount() {return memberDTOS.size();}
 
   public void setLobbyMembersCount(Integer lobbyMembersCount) {this.lobbyMembersCount = lobbyMembersCount;}

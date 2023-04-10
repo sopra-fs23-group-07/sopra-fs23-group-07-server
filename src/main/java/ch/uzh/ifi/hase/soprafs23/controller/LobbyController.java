@@ -112,8 +112,17 @@ public class LobbyController {
   @PutMapping("{lobbyId}/lock")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public void lockSelections(@RequestBody MemberLockDTO lockDTO, @PathVariable Long lobbyId) {
-      lobbyService.lockSelections(lobbyId, lockDTO.getMemberId());
+  public MemberDTO lockSelections(@RequestBody MemberLockDTO lockDTO, @PathVariable Long lobbyId) {
+      Member member = lobbyService.lockSelections(lobbyId, lockDTO.getMemberId());
+      return DTOMapper.INSTANCE.convertEntityToMemberDTO(member);
+  }
+
+  @PutMapping("{lobbyId}/unlock")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public MemberDTO unlockSelections(@RequestBody MemberLockDTO lockDTO, @PathVariable Long lobbyId) {
+      Member member = lobbyService.unlockSelections(lobbyId, lockDTO.getMemberId());
+      return DTOMapper.INSTANCE.convertEntityToMemberDTO(member);
   }
   @PostMapping("{lobbyId}/locations")
   @ResponseStatus(HttpStatus.CREATED)

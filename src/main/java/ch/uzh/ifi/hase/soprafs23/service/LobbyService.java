@@ -188,9 +188,16 @@ public class LobbyService {
         }
         member.setSelectedDates(dates);
     }
-    public void lockSelections(Long lobbyId, Long memberId) {
+    public Member lockSelections(Long lobbyId, Long memberId) {
         Member member = getMemberById(memberId);
-        member.setHasLockedSelections();
+        member.setHasLockedSelections(true);
+        return member;
+    }
+
+    public Member unlockSelections(Long lobbyId, Long memberId) {
+        Member member = getMemberById(memberId);
+        member.setHasLockedSelections(false);
+        return member;
     }
     public void addLobbyLocation (Long lobbyId, Long memberId, String string) {
         Lobby lobby = getLobby(lobbyId);

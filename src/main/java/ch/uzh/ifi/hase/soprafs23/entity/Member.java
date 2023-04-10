@@ -173,8 +173,8 @@ public class Member implements Serializable {
         return hasLockedSelections;
     }
 
-    public void setHasLockedSelections() {
-        this.hasLockedSelections = true;
+    public void setHasLockedSelections(boolean bool) {
+        this.hasLockedSelections = bool;
     }
 
     public Long getLocationId() {

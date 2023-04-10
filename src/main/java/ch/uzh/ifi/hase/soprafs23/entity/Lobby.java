@@ -74,6 +74,9 @@ public class Lobby implements Serializable {
   @CollectionTable(name = "member_location_votes", joinColumns = @JoinColumn(name = "lobby_id"))
   private Set<Long> locationVotes = new HashSet<>();
 
+  @Column
+  private boolean haveAllMembersLockedSelections;
+
 
   public Integer getLobbyMembersCount() {return lobbyMembers.size();}
   public Long getHostMemberId() {return hostMemberId; }
@@ -101,7 +104,7 @@ public class Lobby implements Serializable {
       return lobbyMembers.isEmpty();
   }
 
-  public boolean hasAllMembersLockedSelections() {
+  public boolean isHaveAllMembersLockedSelections() {
       boolean endLobby = true;
 
       for(Member member : lobbyMembers) {
@@ -110,6 +113,10 @@ public class Lobby implements Serializable {
           }
       }
       return endLobby;
+  }
+
+  public void setHaveAllMembersLockedSelections(boolean haveAllMembersLockedSelections) {
+      this.haveAllMembersLockedSelections = haveAllMembersLockedSelections;
   }
 
   public boolean hasTimerRunOut() {

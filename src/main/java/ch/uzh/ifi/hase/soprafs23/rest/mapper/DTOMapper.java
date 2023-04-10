@@ -70,6 +70,7 @@ public interface DTOMapper {
   @Mapping(source = "lobbyRegion", target = "lobbyRegion")
   @Mapping(source = "lobbyTimeLimit", target = "lobbyTimeLimit")
   @Mapping(source = "token", target = "token")
+  @Mapping(source = "haveAllMembersLockedSelections", target = "haveAllMembersLockedSelections")
   @Mapping(source = "lobbyDecidedLocation", target = "lobbyDecidedLocation")
   @Mapping(source = "lobbyDecidedSport", target = "lobbyDecidedSport")
   @Mapping(source = "lobbyDecidedDate", target = "lobbyDecidedDate")
