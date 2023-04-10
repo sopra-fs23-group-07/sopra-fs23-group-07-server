@@ -4,6 +4,8 @@ import ch.uzh.ifi.hase.soprafs23.entity.*;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,12 +49,17 @@ public interface DTOMapper {
   @Mapping(source = "birthdate", target = "birthdate")
   User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
 
+  @BeforeMapping
+  default void validateLobbyMaxMembers(LobbyPostDTO lobbyPostDTO) {
+      if (lobbyPostDTO.getLobbyMaxMembers() < 2) {
+          throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "LobbyMaxMembers must be at least 2.");
+      }
+  }
   @Mapping(source = "lobbyName", target = "lobbyName")
   @Mapping(source = "lobbyRegion", target = "lobbyRegion")
   @Mapping(source = "lobbyMaxMembers", target= "lobbyMaxMembers")
   @Mapping(source = "lobbyTimeLimit", target= "lobbyTimeLimit")
   @Mapping(source= "hostMemberId", target = "hostMemberId")
-  //@Mapping(source= "lobbyId", target = "lobbyId")
   Lobby convertLobbyPostDTOtoEntity(LobbyPostDTO lobbyPostDTO);
 
   @Mapping(source = "lobbyId", target = "lobbyId")

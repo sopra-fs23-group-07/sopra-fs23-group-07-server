@@ -57,8 +57,8 @@ public class LobbyService {
     }
 
     public Lobby createLobby(Lobby newLobby) {
-        newLobby.setToken(UUID.randomUUID().toString());
         checkIfLobbyExists(newLobby);
+        newLobby.setToken(UUID.randomUUID().toString());
         //Member hostMember = new Member(hostUser);
         //newLobby.addLobbyMember(hostMember);
         // saves the given entity but data is only persisted in the database once
@@ -113,6 +113,9 @@ public class LobbyService {
     public Member addMember(Long lobbyId, Long userId) {
         Lobby lobby = getLobby(lobbyId);
         User databaseUser = getUser(userId);
+        if (lobby.isLobbyFull()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Lobby is full");
+        }
         if (memberRepository.findByLobbyAndUser(lobby, databaseUser).isPresent()) {
             String baseErrorMessage = "The %s provided %s already member of this lobby";
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "userId", "is"));
