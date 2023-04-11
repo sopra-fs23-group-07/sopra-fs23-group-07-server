@@ -190,11 +190,11 @@ public class Lobby implements Serializable {
           }
       }
 
-      Set<LocalDateTime> setOfLocations = dateCount.keySet();
+      Set<LocalDateTime> setOfDates = dateCount.keySet();
 
-      for(LocalDateTime location : setOfLocations) {
-          if(dateCount.get(location) > dateCount.get(selectedDate)) {
-              selectedDate = location;
+      for(LocalDateTime date : setOfDates) {
+          if(dateCount.get(date) > dateCount.get(selectedDate)) {
+              selectedDate = date;
           }
       }
 
