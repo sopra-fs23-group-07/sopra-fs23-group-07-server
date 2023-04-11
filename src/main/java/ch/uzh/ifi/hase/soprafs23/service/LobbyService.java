@@ -60,7 +60,7 @@ public class LobbyService {
         lobby.setLobbyDecidedSport(lobby.decideSport());
         lobby.setLobbyDecidedLocation(lobby.decideLocation());
         // TODO: implement lobby.decideDate()
-        //lobby.setLobbyDecidedDate(lobby.decideDate());
+        lobby.setLobbyDecidedDate(lobby.decideDate());
     }
 
     public Lobby createLobby(Lobby newLobby) {
