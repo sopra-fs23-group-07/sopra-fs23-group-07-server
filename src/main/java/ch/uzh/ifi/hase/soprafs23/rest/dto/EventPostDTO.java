@@ -8,7 +8,7 @@ import java.util.List;
 
 public class EventPostDTO {
     private String eventName;
-    private Location eventLocation;
+    private String eventLocation;
     private String eventDate;
     private String eventSport;
     private String eventRegion;
@@ -23,11 +23,11 @@ public class EventPostDTO {
         this.eventName = eventName;
     }
 
-    public Location getEventLocation() {
+    public String getEventLocation() {
         return eventLocation;
     }
 
-    public void setEventLocation(Location eventLocation) {
+    public void setEventLocation(String eventLocation) {
         this.eventLocation = eventLocation;
     }
 

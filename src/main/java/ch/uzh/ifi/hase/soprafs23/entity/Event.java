@@ -32,7 +32,8 @@ public class Event implements Serializable {
     @Column(nullable = true)
     private String eventName;
 
-    @Column(nullable = true, unique = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id", referencedColumnName = "locationId")
     private Location eventLocation;
 
     @Column(nullable = true, unique = false)

@@ -79,9 +79,6 @@ public class Lobby implements Serializable {
 
   @Column(nullable = false, unique = true)
   private String token;
-  @ElementCollection
-  @CollectionTable(name = "member_location_votes", joinColumns = @JoinColumn(name = "lobby_id"))
-  private Set<Long> locationVotes = new HashSet<>();
 
   @Column
   private boolean haveAllMembersLockedSelections;
@@ -322,17 +319,4 @@ public class Lobby implements Serializable {
   public void setToken(String token) {
     this.token = token;
   }
-
-    public void addLocationVotes(Long memberId) {
-        if (!locationVotes.add(memberId)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Member with memberId "+memberId+" has already voted");
-        }
-        locationVotes.add(memberId);
-    }
-    public void removeLocationVotes(Long memberId) {
-        if (locationVotes.add(memberId)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Member with memberId "+memberId+" has not yet voted");
-        }
-        locationVotes.remove(memberId);
-    }
 }

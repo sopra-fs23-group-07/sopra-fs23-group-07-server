@@ -265,7 +265,7 @@ public class LobbyService {
         Lobby lobby = getLobby(lobbyId);
         checkIfIsMemberOfLobby(lobby, member);
         location.get().addMemberVotes(memberId);
-        lobby.addLocationVotes(memberId);
+        //member.setSelectedLocations(location.get());
 
         locationRepository.save(location.get());
         lobbyRepository.save(lobby);
@@ -281,7 +281,6 @@ public class LobbyService {
         Lobby lobby = getLobby(lobbyId);
         checkIfIsMemberOfLobby(lobby, member);
         location.get().removeMemberVotes(memberId);
-        lobby.removeLocationVotes(memberId);
 
         locationRepository.save(location.get());
         lobbyRepository.save(lobby);

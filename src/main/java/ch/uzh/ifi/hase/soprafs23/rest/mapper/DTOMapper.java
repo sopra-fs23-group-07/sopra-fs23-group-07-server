@@ -79,22 +79,48 @@ public interface DTOMapper {
   LobbyGetDTO convertEntityToLobbyGetDTO(Lobby lobby);
 
   @Mapping(source = "eventName", target = "eventName")
-  @Mapping(source = "eventLocation", target = "eventLocation")
   @Mapping(source = "eventDate", target = "eventDate")
   @Mapping(source = "eventSport", target = "eventSport")
   @Mapping(source = "eventRegion", target = "eventRegion")
-  //@Mapping(source = "eventParticipants", target = "eventParticipants")
   @Mapping(source = "eventMaxParticipants", target = "eventMaxParticipants")
   Event convertEventPostDTOtoEntity(EventPostDTO eventPostDTO);
+  default Location mapStringToLocation(String string) {
+      String[] coordinates = string.split(",");
+      double longitude = Double.parseDouble(coordinates[0]);
+      double latitude = Double.parseDouble(coordinates[1]);
+      Location location = new Location();
+      location.setLongitude(longitude);
+      location.setLatitude(latitude);
+      location.setLocation(string);
+      return location;
+  }
+  @Mapping(source = "eventLocation", target = "eventLocation", qualifiedByName = "stringToLocation")
+  void updateEventFromDto(EventPostDTO dto, @MappingTarget Event event);
+   @Named("stringToLocation")
+   default Location stringToLocation(String location) {
+      return mapStringToLocation(location);
+   }
 
   @Mapping(source = "eventId", target = "eventId")
   @Mapping(source = "eventName", target = "eventName")
-  @Mapping(source = "eventLocation", target = "eventLocation")
+  //@Mapping(source = "eventLocation", target = "eventLocation")
   @Mapping(source = "eventDate", target = "eventDate")
   @Mapping(source = "eventSport", target = "eventSport")
   @Mapping(source = "eventRegion", target = "eventRegion")
   @Mapping(source = "eventMaxParticipants", target = "eventMaxParticipants")
   EventGetDTO convertEntityToEventGetDTO(Event event);
+  default String mapLocationToString(Location location) {
+      double longitude = location.getLongitude();
+      double latitude = location.getLatitude();
+      return longitude + "," + latitude;
+  }
+
+  @Mapping(source = "eventLocation", target = "eventLocation", qualifiedByName = "locationToString")
+  void updateDtoFromEvent(Event event, @MappingTarget EventGetDTO eventGetDTO);
+  @Named("locationToString")
+  default String locationToString(Location string) {
+      return mapLocationToString(string);
+  }
 
   @Mapping(source = "eventId", target = "eventId")
   @Mapping(source = "eventName", target = "eventName")

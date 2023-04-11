@@ -20,7 +20,7 @@ public class Location implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "location_seq")
     @SequenceGenerator(name = "location_seq", sequenceName = "location_sequence", initialValue = 1)
     private Long locationId;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Long memberId;
     @Column(nullable = false)
     private double longitude;
@@ -29,7 +29,7 @@ public class Location implements Serializable {
     @ElementCollection
     @CollectionTable(name = "location_votes", joinColumns = @JoinColumn(name = "location_id"))
     private Set<Long> memberVotes = new HashSet<>();
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Long lobbyId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lobbyId", insertable = false, updatable = false)
