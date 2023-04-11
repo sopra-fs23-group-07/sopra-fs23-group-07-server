@@ -1,5 +1,7 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
+import ch.uzh.ifi.hase.soprafs23.entity.Location;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class LobbyGetDTO {
 
   private String token;
 
-  private String lobbyDecidedLocation;
+  private Location lobbyDecidedLocation;
 
   private String lobbyDecidedSport;
 
@@ -86,9 +88,9 @@ public class LobbyGetDTO {
 
   public void setLobbyDecidedDate(LocalDateTime lobbyDecidedDate) {this.lobbyDecidedDate = lobbyDecidedDate;}
 
-  public String getLobbyDecidedLocation() {return lobbyDecidedLocation;}
+  public Location getLobbyDecidedLocation() {return lobbyDecidedLocation;}
 
-  public void setLobbyDecidedLocation(String lobbyDecidedLocation) {this.lobbyDecidedLocation = lobbyDecidedLocation;}
+  public void setLobbyDecidedLocation(Location lobbyDecidedLocation) {this.lobbyDecidedLocation = lobbyDecidedLocation;}
 
   public String getToken() {
         return token;

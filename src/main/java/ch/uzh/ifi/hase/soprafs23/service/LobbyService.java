@@ -56,6 +56,13 @@ public class LobbyService {
         return this.lobbyRepository.findAll();
     }
 
+    public void updateLobby(Lobby lobby) {
+        lobby.setLobbyDecidedSport(lobby.decideSport());
+        lobby.setLobbyDecidedLocation(lobby.decideLocation());
+        // TODO: implement lobby.decideDate()
+        //lobby.setLobbyDecidedDate(lobby.decideDate());
+    }
+
     public Lobby createLobby(Lobby newLobby) {
         checkIfLobbyExists(newLobby);
         newLobby.setToken(UUID.randomUUID().toString());

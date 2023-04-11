@@ -57,7 +57,7 @@ public class Lobby implements Serializable {
   private Integer lobbyTimeLimit;
 
   @Column(nullable = true)
-  private String lobbyDecidedLocation;
+  private Location lobbyDecidedLocation;
 
   @Column(nullable = true)
   private String lobbyDecidedSport;
@@ -133,7 +133,7 @@ public class Lobby implements Serializable {
       return event;
   }
 
-  private String decideSport() {
+  public String decideSport() {
       Hashtable<String, Integer> sportsCount = new Hashtable<>();
       String selectedSport = "";
 
@@ -160,8 +160,9 @@ public class Lobby implements Serializable {
       return selectedSport;
   }
 
-  private Location decideLocation() {
+  public Location decideLocation() {
       Hashtable<Location, Integer> locationCount = new Hashtable<>();
+      if(lobbyLocations.isEmpty()) { return null; }
       Location selectedLocation = lobbyLocations.get(0);
 
       for(Location location : lobbyLocations) {
@@ -173,7 +174,7 @@ public class Lobby implements Serializable {
       return selectedLocation;
   }
 
-  private LocalDateTime decideDate() {
+  public LocalDateTime decideDate() {
       Hashtable<LocalDateTime, Integer> dateCount = new Hashtable<>();
       LocalDateTime selectedDate = LocalDateTime.now();
 
@@ -258,9 +259,9 @@ public class Lobby implements Serializable {
 
   public void setLobbyDecidedDate(LocalDateTime lobbyDecidedDate) {this.lobbyDecidedDate = lobbyDecidedDate;}
 
-  public String getLobbyDecidedLocation() {return lobbyDecidedLocation;}
+  public Location getLobbyDecidedLocation() {return lobbyDecidedLocation;}
 
-  public void setLobbyDecidedLocation(String lobbyDecidedLocation) {this.lobbyDecidedLocation = lobbyDecidedLocation;}
+  public void setLobbyDecidedLocation(Location lobbyDecidedLocation) {this.lobbyDecidedLocation = lobbyDecidedLocation;}
 
   public Integer getNumberOfVotesForLocation(Location location) {return 0;}
 
