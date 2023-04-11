@@ -25,6 +25,8 @@ public class LobbyGetDTO {
 
   private LocalDateTime lobbyDecidedDate;
 
+  private Long createdEventId;
+
   private List<LobbyLocationDTO> lobbyLocationDTOs;
   private List<MemberDTO> memberDTOS;
 
@@ -32,13 +34,16 @@ public class LobbyGetDTO {
 
   private boolean haveAllMembersLockedSelections;
 
-  public void setHaveAllMembersLockedSelections(boolean haveAllMembersLockedSelections) {
-      this.haveAllMembersLockedSelections = haveAllMembersLockedSelections;
-  }
 
-  public boolean isHaveAllMembersLockedSelections() {
-      return haveAllMembersLockedSelections;
-  }
+
+
+  public Long getCreatedEventId() {return createdEventId;}
+
+  public void setCreatedEventId(Long createdEventId) {this.createdEventId = createdEventId;}
+
+  public void setHaveAllMembersLockedSelections(boolean haveAllMembersLockedSelections) {this.haveAllMembersLockedSelections = haveAllMembersLockedSelections;}
+
+  public boolean isHaveAllMembersLockedSelections() {return haveAllMembersLockedSelections;}
 
   public Integer getLobbyMembersCount() {return memberDTOS.size();}
 

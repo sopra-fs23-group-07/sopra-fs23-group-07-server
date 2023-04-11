@@ -33,7 +33,7 @@ public class Event implements Serializable {
     private String eventName;
 
     @Column(nullable = true, unique = false)
-    private String eventLocation;
+    private Location eventLocation;
 
     @Column(nullable = true, unique = false)
     private String eventSport;
@@ -53,7 +53,6 @@ public class Event implements Serializable {
     @JoinColumn(name = "userId", insertable = false, updatable = false)
     private User user;
 
-
     public Long getEventId() {
         return eventId;
     }
@@ -70,11 +69,11 @@ public class Event implements Serializable {
         this.eventName = eventName;
     }
 
-    public String getEventLocation() {
+    public Location getEventLocation() {
         return eventLocation;
     }
 
-    public void setEventLocation(String eventLocation) {
+    public void setEventLocation(Location eventLocation) {
         this.eventLocation = eventLocation;
     }
 

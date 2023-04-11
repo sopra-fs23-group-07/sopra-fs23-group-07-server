@@ -74,6 +74,7 @@ public interface DTOMapper {
   @Mapping(source = "lobbyDecidedLocation", target = "lobbyDecidedLocation")
   @Mapping(source = "lobbyDecidedSport", target = "lobbyDecidedSport")
   @Mapping(source = "lobbyDecidedDate", target = "lobbyDecidedDate")
+  @Mapping(source = "createdEventId", target = "createdEventId")
   //@Mapping(source = "lobbyLocations", target = "lobbyLocationDTOs")
   LobbyGetDTO convertEntityToLobbyGetDTO(Lobby lobby);
 

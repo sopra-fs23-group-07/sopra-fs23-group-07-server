@@ -1,6 +1,12 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
 import ch.uzh.ifi.hase.soprafs23.constant.OverlapColor;
+import ch.uzh.ifi.hase.soprafs23.repository.EventRepository;
+import ch.uzh.ifi.hase.soprafs23.repository.ParticipantRepository;
+import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs23.service.EventService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -65,6 +71,9 @@ public class Lobby implements Serializable {
   @Column(nullable = true)
   private LocalDateTime lobbyDecidedDate;
 
+  @Column
+  private Long createdEventId;
+
   @OneToMany(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Location> lobbyLocations = new ArrayList<>();
 
@@ -77,6 +86,9 @@ public class Lobby implements Serializable {
   @Column
   private boolean haveAllMembersLockedSelections;
 
+  public Long getCreatedEventId() {return createdEventId;}
+
+  public void setCreatedEventId(Long createdEventId) {this.createdEventId = createdEventId;}
 
   public Integer getLobbyMembersCount() {return lobbyMembers.size();}
   public Long getHostMemberId() {return hostMemberId; }
@@ -128,7 +140,7 @@ public class Lobby implements Serializable {
       Location selectedLocation = decideLocation();
       LocalDateTime selectedDate = decideDate();
 
-      Event event = createEvent(selectedSport, selectedLocation, selectedDate);
+      Event event = createEvent();
 
       return event;
   }
@@ -201,7 +213,45 @@ public class Lobby implements Serializable {
       return selectedDate;
   }
 
-  public Event createEvent(String sport, Location location, LocalDateTime date) {return new Event();}
+  public Event createEvent() {
+      Event event = new Event();
+
+      event.setEventLocation( lobbyDecidedLocation );
+      event.setEventName( lobbyName );
+      event.setEventSport( lobbyDecidedSport );
+      event.setEventRegion( lobbyRegion );
+      if ( lobbyDecidedDate != null ) {
+          event.setEventDate( lobbyDecidedDate );
+      }
+      event.setEventMaxParticipants( lobbyMaxMembers );
+
+      List<Participant> participants = getParticipantList(event.getEventId());
+
+      event.setEventParticipants(participants);
+
+      return event;
+  }
+
+  private List<Participant> getParticipantList(Long eventId) {
+      List<Participant> participantList = new ArrayList<>();
+
+      for(Member member : lobbyMembers) {
+          Participant participant = new Participant();
+
+          participant.setUserId(member.getUserId());
+          participant.setEventId(eventId);
+          participant.setEmail(member.getEmail());
+          participant.setUsername(member.getUsername());
+          participant.setStatus(member.getStatus());
+          participant.setCreationDate(member.getCreationDate());
+          participant.setBirthdate(member.getBirthdate());
+
+          participantList.add(participant);
+
+      }
+
+      return participantList;
+  }
 
   public OverlapColor checkSportOverlap(String sport) {return OverlapColor.RED;}
 

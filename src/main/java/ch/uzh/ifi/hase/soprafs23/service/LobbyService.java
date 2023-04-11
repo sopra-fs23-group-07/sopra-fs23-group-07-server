@@ -1,10 +1,9 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.entity.*;
-import ch.uzh.ifi.hase.soprafs23.repository.LobbyRepository;
-import ch.uzh.ifi.hase.soprafs23.repository.LocationRepository;
-import ch.uzh.ifi.hase.soprafs23.repository.MemberRepository;
-import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs23.repository.*;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.LobbyGetDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,17 +37,21 @@ public class LobbyService {
     private final MemberRepository memberRepository;
     private final LocationRepository locationRepository;
 
+    private final EventRepository eventRepository;
+
     //private final EventService eventService;
 
     @Autowired
     public LobbyService(@Qualifier("lobbyRepository") LobbyRepository lobbyRepository,
                         @Qualifier("userRepository") UserRepository userRepository,
                         @Qualifier("memberRepository") MemberRepository memberRepository,
-                        @Qualifier("locationRepository") LocationRepository locationRepository) {
+                        @Qualifier("locationRepository") LocationRepository locationRepository,
+                        @Qualifier("eventRepository") EventRepository eventRepository) {
         this.lobbyRepository = lobbyRepository;
         this.userRepository = userRepository;
         this.memberRepository = memberRepository;
         this.locationRepository = locationRepository;
+        this.eventRepository = eventRepository;
     }
 
 
@@ -56,11 +59,34 @@ public class LobbyService {
         return this.lobbyRepository.findAll();
     }
 
-    public void updateLobby(Lobby lobby) {
+    public LobbyGetDTO updateLobby(Lobby lobby) {
         lobby.setLobbyDecidedSport(lobby.decideSport());
         lobby.setLobbyDecidedLocation(lobby.decideLocation());
-        // TODO: implement lobby.decideDate()
         lobby.setLobbyDecidedDate(lobby.decideDate());
+
+        LobbyGetDTO lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
+
+        if(lobby.isHaveAllMembersLockedSelections() || lobby.hasTimerRunOut()) {
+            Event event = lobby.createEvent();
+            event = eventRepository.save(event);
+            eventRepository.flush();
+
+            lobby.setCreatedEventId(event.getEventId());
+
+            lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
+            //lobbyGetDTO.setCreatedEventId(event.getEventId());
+
+            log.debug("Created Information for Event: {}", event);
+
+            for(Member member : lobby.getLobbyMembers()) {
+                memberRepository.delete(member);
+            }
+
+            lobbyRepository.delete(lobby);
+        }
+
+
+        return lobbyGetDTO;
     }
 
     public Lobby createLobby(Lobby newLobby) {

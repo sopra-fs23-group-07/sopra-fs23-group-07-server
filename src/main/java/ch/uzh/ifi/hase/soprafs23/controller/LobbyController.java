@@ -50,8 +50,8 @@ public class LobbyController {
   @ResponseBody
   public LobbyGetDTO getLobby(@PathVariable Long lobbyId) {
     Lobby lobby = lobbyService.getLobby(lobbyId);
-    lobbyService.updateLobby(lobby);
-    return DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
+    LobbyGetDTO lobbyGetDTO = lobbyService.updateLobby(lobby);
+    return lobbyGetDTO;
   }
 
   //registration

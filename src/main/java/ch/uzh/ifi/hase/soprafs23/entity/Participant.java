@@ -19,7 +19,7 @@ public class Participant implements Serializable {
     private Long participantId;
     @Column(nullable = false)
     private Long userId;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Long eventId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "eventId", insertable = false, updatable = false)
