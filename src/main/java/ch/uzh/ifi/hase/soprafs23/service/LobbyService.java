@@ -206,7 +206,7 @@ public class LobbyService {
             Location location = new Location();
             location.setLongitude(longitude);
             location.setLatitude(latitude);
-            location.setLocation(string);
+            location.setAddress(string);
 
             locations.add(location);
             locationRepository.save(location);
@@ -232,24 +232,12 @@ public class LobbyService {
         member.setHasLockedSelections(false);
         return member;
     }
-    public void addLobbyLocation (Long lobbyId, Long memberId, String string) {
+    public void addLobbyLocation (Long lobbyId, Location location) {
         Lobby lobby = getLobby(lobbyId);
-        Member member = getMemberById(memberId);
+        Member member = getMemberById(location.getMemberId());
         checkIfIsMemberOfLobby(lobby, member);
 
-        String[] coordinates = string.split(",");
-        String longitudeString = coordinates[0];
-        String latitudeString = coordinates[1];
-
-        double longitude = Double.parseDouble(longitudeString);
-        double latitude = Double.parseDouble(latitudeString);
-
-        Location location = new Location();
-        location.setMemberId(memberId);
-        location.setLongitude(longitude);
-        location.setLatitude(latitude);
-        location.setLocation(string);
-        location.setLobbyId(lobby.getLobbyId());
+        location.setLobbyId(lobbyId);
 
         locationRepository.save(location);
         lobby.addLobbyLocation(location);

@@ -3,7 +3,6 @@ package ch.uzh.ifi.hase.soprafs23.entity;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +31,7 @@ public class Event implements Serializable {
     @Column(nullable = true)
     private String eventName;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id", referencedColumnName = "locationId")
+    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Location eventLocation;
 
     @Column(nullable = true, unique = false)

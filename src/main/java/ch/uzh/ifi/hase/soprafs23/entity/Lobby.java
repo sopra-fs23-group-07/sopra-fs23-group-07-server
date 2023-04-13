@@ -1,14 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
 import ch.uzh.ifi.hase.soprafs23.constant.OverlapColor;
-import ch.uzh.ifi.hase.soprafs23.repository.EventRepository;
-import ch.uzh.ifi.hase.soprafs23.repository.ParticipantRepository;
-import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
-import ch.uzh.ifi.hase.soprafs23.service.EventService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.*;
 import java.io.Serial;

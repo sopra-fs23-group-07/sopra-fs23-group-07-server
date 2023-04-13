@@ -3,7 +3,7 @@ package ch.uzh.ifi.hase.soprafs23.rest.dto;
 public class LobbyLocationDTO {
     private Long memberId;
     private Long locationId;
-    private String location;
+    private String address;
     private double longitude;
     private double latitude;
     private int memberVotes;
@@ -16,12 +16,12 @@ public class LobbyLocationDTO {
         this.memberId = memberId;
     }
 
-    public String getLocation() {
-        return location;
+    public String getAddress() {
+        return address;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public double getLongitude() {
@@ -55,4 +55,5 @@ public class LobbyLocationDTO {
     public void setLocationId(Long locationId) {
         this.locationId = locationId;
     }
+
 }

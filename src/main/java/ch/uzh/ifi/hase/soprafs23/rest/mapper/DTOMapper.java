@@ -78,59 +78,33 @@ public interface DTOMapper {
   //@Mapping(source = "lobbyLocations", target = "lobbyLocationDTOs")
   LobbyGetDTO convertEntityToLobbyGetDTO(Lobby lobby);
 
-  @Mapping(source = "eventName", target = "eventName")
-  @Mapping(source = "eventDate", target = "eventDate")
-  @Mapping(source = "eventSport", target = "eventSport")
-  @Mapping(source = "eventRegion", target = "eventRegion")
-  @Mapping(source = "eventMaxParticipants", target = "eventMaxParticipants")
-  Event convertEventPostDTOtoEntity(EventPostDTO eventPostDTO);
-  default Location mapStringToLocation(String string) {
-      String[] coordinates = string.split(",");
-      double longitude = Double.parseDouble(coordinates[0]);
-      double latitude = Double.parseDouble(coordinates[1]);
-      Location location = new Location();
-      location.setLongitude(longitude);
-      location.setLatitude(latitude);
-      location.setLocation(string);
-      return location;
-  }
-  @Mapping(source = "eventLocation", target = "eventLocation", qualifiedByName = "stringToLocation")
-  void updateEventFromDto(EventPostDTO dto, @MappingTarget Event event);
-   @Named("stringToLocation")
-   default Location stringToLocation(String location) {
-      return mapStringToLocation(location);
-   }
+    @Mapping(source = "eventName", target = "eventName")
+    @Mapping(source = "eventDate", target = "eventDate")
+    @Mapping(source = "eventSport", target = "eventSport")
+    @Mapping(source = "eventRegion", target = "eventRegion")
+    @Mapping(source = "eventMaxParticipants", target = "eventMaxParticipants")
+    @Mapping(source = "eventLocationDTO", target = "eventLocation", qualifiedByName = "toLocation")
+    Event convertEventPostDTOtoEntity(EventPostDTO eventPostDTO);
+
+    @Named("toLocation")
+    @Mapping(source = "address", target = "address")
+    @Mapping(source = "longitude", target = "longitude")
+    @Mapping(source = "latitude", target = "latitude")
+    Location mapLocationDTOtoLocation(LocationDTO locationDTO);
 
   @Mapping(source = "eventId", target = "eventId")
   @Mapping(source = "eventName", target = "eventName")
-  //@Mapping(source = "eventLocation", target = "eventLocation")
   @Mapping(source = "eventDate", target = "eventDate")
   @Mapping(source = "eventSport", target = "eventSport")
   @Mapping(source = "eventRegion", target = "eventRegion")
   @Mapping(source = "eventMaxParticipants", target = "eventMaxParticipants")
+  @Mapping(source = "eventLocation", target = "eventLocationDTO", qualifiedByName = "toLocationDTO")
   EventGetDTO convertEntityToEventGetDTO(Event event);
-  default String mapLocationToString(Location location) {
-      double longitude = location.getLongitude();
-      double latitude = location.getLatitude();
-      return longitude + "," + latitude;
-  }
-
-  @Mapping(source = "eventLocation", target = "eventLocation", qualifiedByName = "locationToString")
-  void updateDtoFromEvent(Event event, @MappingTarget EventGetDTO eventGetDTO);
-  @Named("locationToString")
-  default String locationToString(Location string) {
-      return mapLocationToString(string);
-  }
-
-  @Mapping(source = "eventId", target = "eventId")
-  @Mapping(source = "eventName", target = "eventName")
-  @Mapping(source = "eventLocation", target = "eventLocation")
-  @Mapping(source = "eventDate", target = "eventDate")
-  @Mapping(source = "eventSport", target = "eventSport")
-  @Mapping(source = "eventRegion", target = "eventRegion")
-  @Mapping(source = "eventParticipants", target = "eventParticipants")
-  @Mapping(source = "eventMaxParticipants", target = "eventMaxParticipants")
-  Event convertEventPutDTOtoEntity(EventPutDTO eventPutDTO);
+    @Named("toLocationDTO")
+    @Mapping(source = "address", target = "address")
+    @Mapping(source = "longitude", target = "longitude")
+    @Mapping(source = "latitude", target = "latitude")
+    LocationDTO mapLocationToLocationDTO(Location location);
 
   @Named("convertEntityToParticipantDTO")
   ParticipantDTO convertEntityToParticipantDTO(Participant participant);
@@ -179,4 +153,9 @@ public interface DTOMapper {
   default void addLobbyLocationsToLobbyGetDTO(Lobby lobby, @MappingTarget LobbyGetDTO lobbyGetDTO) {
       lobbyGetDTO.setLobbyLocationDTOs(convertEntityListToLobbyLocationDTOList(lobby.getLobbyLocations()));
   }
+  @Mapping(source = "memberId", target = "memberId")
+  @Mapping(source = "longitude", target = "longitude")
+  @Mapping(source = "latitude", target = "latitude")
+  @Mapping(source = "address", target = "address")
+  Location convertLobbyLocationDTOtoEntity(LobbyLocationDTO lobbyLocationDTO);
 }

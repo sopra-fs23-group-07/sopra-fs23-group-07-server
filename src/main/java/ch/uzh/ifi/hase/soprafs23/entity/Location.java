@@ -6,9 +6,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -35,7 +33,12 @@ public class Location implements Serializable {
     @JoinColumn(name = "lobbyId", insertable = false, updatable = false)
     private Lobby lobby;
     @Column(nullable = false)
-    private String location;
+    private String address;
+    @Column(nullable = true)
+    private Long eventId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "eventId", insertable = false, updatable = false)
+    private Event event;
 
     // Getters and setters for the longitude and latitude fields
     public double getLongitude() {
@@ -59,12 +62,12 @@ public class Location implements Serializable {
         return longitude +","+ latitude;
     }
 
-    public String getLocation() {
-        return location;
+    public String getAddress() {
+        return address;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Long getLocationId() {
@@ -108,5 +111,13 @@ public class Location implements Serializable {
 
     public void setMemberId(Long memberId) {
         this.memberId = memberId;
+    }
+
+    public Long getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
     }
 }

@@ -129,7 +129,8 @@ public class LobbyController {
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public LobbyGetDTO addLobbyLocation(@RequestBody LobbyLocationDTO lobbyLocationDTO, @PathVariable Long lobbyId) {
-      lobbyService.addLobbyLocation(lobbyId, lobbyLocationDTO.getMemberId(), lobbyLocationDTO.getLocation());
+      Location location = DTOMapper.INSTANCE.convertLobbyLocationDTOtoEntity(lobbyLocationDTO);
+      lobbyService.addLobbyLocation(lobbyId, location);
       return DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobbyService.getLobby(lobbyId));
   }
   @PutMapping("{lobbyId}/locations/{locationId}/vote")

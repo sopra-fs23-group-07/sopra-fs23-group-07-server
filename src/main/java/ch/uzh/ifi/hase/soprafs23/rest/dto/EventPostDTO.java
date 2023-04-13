@@ -1,14 +1,8 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
-import ch.uzh.ifi.hase.soprafs23.entity.Location;
-import ch.uzh.ifi.hase.soprafs23.entity.User;
-
-import java.time.LocalDate;
-import java.util.List;
-
 public class EventPostDTO {
     private String eventName;
-    private String eventLocation;
+    private LocationDTO eventLocationDTO;
     private String eventDate;
     private String eventSport;
     private String eventRegion;
@@ -23,12 +17,12 @@ public class EventPostDTO {
         this.eventName = eventName;
     }
 
-    public String getEventLocation() {
-        return eventLocation;
+    public LocationDTO getEventLocationDTO() {
+        return eventLocationDTO;
     }
 
-    public void setEventLocation(String eventLocation) {
-        this.eventLocation = eventLocation;
+    public void setEventLocationDTO(LocationDTO eventLocationDTO) {
+        this.eventLocationDTO = eventLocationDTO;
     }
 
     public String getEventDate() {
