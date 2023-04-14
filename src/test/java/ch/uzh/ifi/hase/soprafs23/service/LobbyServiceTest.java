@@ -7,6 +7,7 @@ import ch.uzh.ifi.hase.soprafs23.entity.Member;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.LobbyRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.MemberRepository;
+import ch.uzh.ifi.hase.soprafs23.repository.TimerRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.LobbyGetDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +35,8 @@ class LobbyServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
+    @Mock
+    private TimerRepository timerRepository;
 
     @InjectMocks
     private LobbyService lobbyService;
