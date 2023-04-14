@@ -81,6 +81,7 @@ public class LobbyService {
             for(Member member : lobby.getLobbyMembers()) {
                 memberRepository.delete(member);
             }
+            timerRepository.delete(lobby.getTimer());
             lobbyRepository.delete(lobby);
         }
         return lobbyGetDTO;

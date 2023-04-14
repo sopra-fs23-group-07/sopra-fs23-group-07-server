@@ -128,7 +128,7 @@ public class Lobby implements Serializable {
   }
 
   public boolean hasTimerRunOut() {
-      return false;
+      return getTimeRemaining() < 0;
   }
 
   public Event decideAllSelections() {
@@ -326,11 +326,14 @@ public class Lobby implements Serializable {
         }
 
         LocalDateTime currentTime = LocalDateTime.now();
-        LocalDateTime timerEndTime = this.timer.getStartTime().plusMinutes(15);
+        LocalDateTime timerEndTime = this.timer.getStartTime().plusMinutes(lobbyTimeLimit);
 
         return Duration.between(currentTime, timerEndTime).toMillis();
     }
     public void setTimer(Timer timer) {
       this.timer = timer;
+    }
+    public Timer getTimer() {
+      return timer;
     }
 }
