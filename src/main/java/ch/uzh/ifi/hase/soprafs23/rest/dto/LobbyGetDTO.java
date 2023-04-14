@@ -33,6 +33,7 @@ public class LobbyGetDTO {
   private Integer lobbyMembersCount;
 
   private boolean haveAllMembersLockedSelections;
+  private Long timeRemaining;
 
 
 
@@ -112,4 +113,12 @@ public class LobbyGetDTO {
   public void setMemberDTOs(List<MemberDTO> memberDTOS) {
       this.memberDTOS = memberDTOS;
   }
+
+    public Long getTimeRemaining() {
+        return timeRemaining;
+    }
+
+    public void setTimeRemaining(Long timeRemaining) {
+        this.timeRemaining = timeRemaining;
+    }
 }

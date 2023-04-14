@@ -1,10 +1,14 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
 import ch.uzh.ifi.hase.soprafs23.constant.OverlapColor;
+import ch.uzh.ifi.hase.soprafs23.repository.TimerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -74,6 +78,9 @@ public class Lobby implements Serializable {
 
   @Column
   private boolean haveAllMembersLockedSelections;
+
+  @OneToOne(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Timer timer;
 
   public Long getCreatedEventId() {return createdEventId;}
 
@@ -311,4 +318,19 @@ public class Lobby implements Serializable {
   public void setToken(String token) {
     this.token = token;
   }
+
+    // Method to get the time remaining
+    public long getTimeRemaining() {
+        if (this.timer == null) {
+            throw new RuntimeException("Timer is not started");
+        }
+
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime timerEndTime = this.timer.getStartTime().plusMinutes(15);
+
+        return Duration.between(currentTime, timerEndTime).toMillis();
+    }
+    public void setTimer(Timer timer) {
+      this.timer = timer;
+    }
 }

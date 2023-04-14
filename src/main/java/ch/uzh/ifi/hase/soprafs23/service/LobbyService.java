@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.entity.*;
+import ch.uzh.ifi.hase.soprafs23.entity.Timer;
 import ch.uzh.ifi.hase.soprafs23.repository.*;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.LobbyGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
@@ -14,10 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Lobby Service
@@ -36,8 +34,8 @@ public class LobbyService {
     private final UserRepository userRepository;
     private final MemberRepository memberRepository;
     private final LocationRepository locationRepository;
-
     private final EventRepository eventRepository;
+    private final TimerRepository timerRepository;
 
     //private final EventService eventService;
 
@@ -46,12 +44,14 @@ public class LobbyService {
                         @Qualifier("userRepository") UserRepository userRepository,
                         @Qualifier("memberRepository") MemberRepository memberRepository,
                         @Qualifier("locationRepository") LocationRepository locationRepository,
-                        @Qualifier("eventRepository") EventRepository eventRepository) {
+                        @Qualifier("eventRepository") EventRepository eventRepository,
+                        @Qualifier("timerRepository") TimerRepository timerRepository) {
         this.lobbyRepository = lobbyRepository;
         this.userRepository = userRepository;
         this.memberRepository = memberRepository;
         this.locationRepository = locationRepository;
         this.eventRepository = eventRepository;
+        this.timerRepository = timerRepository;
     }
 
 
@@ -81,17 +81,24 @@ public class LobbyService {
             for(Member member : lobby.getLobbyMembers()) {
                 memberRepository.delete(member);
             }
-
             lobbyRepository.delete(lobby);
         }
-
-
         return lobbyGetDTO;
     }
 
     public Lobby createLobby(Lobby newLobby) {
         checkIfLobbyExists(newLobby);
         newLobby.setToken(UUID.randomUUID().toString());
+
+        // Set the lobby timer and save it to the database
+        Timer timer = new Timer();
+        timer.setStartTime(LocalDateTime.now());
+        timer.setLobby(newLobby);
+        this.timerRepository.save(timer);
+
+        // Set the timer on the lobby and return it
+        newLobby.setTimer(timer);
+
         //Member hostMember = new Member(hostUser);
         //newLobby.addLobbyMember(hostMember);
         // saves the given entity but data is only persisted in the database once
@@ -283,11 +290,20 @@ public class LobbyService {
         }
     }
 
-
     public List<Member> getMembers() {
         return this.memberRepository.findAll();
     }
     public List<Location> getLocations() {
         return this.locationRepository.findAll();
+    }
+
+    public void stopTimer(Timer timer) {
+        if (timer == null) {
+            throw new RuntimeException("Timer is not started");
+        }
+
+        this.timerRepository.delete(timer);
+        // Cancel the timer task using the Timer class as before
+        // ...
     }
 }

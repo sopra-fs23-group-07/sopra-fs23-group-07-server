@@ -76,7 +76,12 @@ public interface DTOMapper {
   @Mapping(source = "lobbyDecidedDate", target = "lobbyDecidedDate")
   @Mapping(source = "createdEventId", target = "createdEventId")
   //@Mapping(source = "lobbyLocations", target = "lobbyLocationDTOs")
+  @Mapping(target = "timeRemaining", ignore = true)
   LobbyGetDTO convertEntityToLobbyGetDTO(Lobby lobby);
+    @BeforeMapping
+    default void setTimeRemaining(Lobby lobby, @MappingTarget LobbyGetDTO lobbyGetDTO) {
+        lobbyGetDTO.setTimeRemaining(lobby.getTimeRemaining());
+    }
 
     @Mapping(source = "eventName", target = "eventName")
     @Mapping(source = "eventDate", target = "eventDate")
