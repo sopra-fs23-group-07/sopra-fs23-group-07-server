@@ -3,10 +3,20 @@ package ch.uzh.ifi.hase.soprafs23.rest.dto;
 public class LobbyLocationDTO {
     private Long memberId;
     private Long locationId;
+
+    private Long lobbyId;
     private String address;
     private double longitude;
     private double latitude;
     private int memberVotes;
+
+    public void setLobbyId(Long lobbyId) {
+        this.lobbyId = lobbyId;
+    }
+
+    public Long getLobbyId() {
+        return lobbyId;
+    }
 
     public Long getMemberId() {
         return memberId;

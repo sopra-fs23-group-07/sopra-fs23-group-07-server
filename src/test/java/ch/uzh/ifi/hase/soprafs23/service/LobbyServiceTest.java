@@ -1,15 +1,10 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
-import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
 import ch.uzh.ifi.hase.soprafs23.entity.Location;
 import ch.uzh.ifi.hase.soprafs23.entity.Member;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
-import ch.uzh.ifi.hase.soprafs23.repository.LobbyRepository;
-import ch.uzh.ifi.hase.soprafs23.repository.MemberRepository;
-import ch.uzh.ifi.hase.soprafs23.repository.TimerRepository;
-import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
-import ch.uzh.ifi.hase.soprafs23.rest.dto.LobbyGetDTO;
+import ch.uzh.ifi.hase.soprafs23.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -39,6 +34,9 @@ class LobbyServiceTest {
     @Mock
     private TimerRepository timerRepository;
 
+    @Mock
+    LocationRepository locationRepository;
+
     @InjectMocks
     private LobbyService lobbyService;
 
@@ -46,6 +44,8 @@ class LobbyServiceTest {
     private Lobby testLobby;
 
     private Member testMember;
+
+    private Location testLocation;
 
     @BeforeEach
     public void setup() {
@@ -62,14 +62,21 @@ class LobbyServiceTest {
         // testUser
         Mockito.when(userRepository.save(Mockito.any())).thenReturn(testUser);
 
+        testLocation = new Location();
+        testLocation.setLocationId(1L);
+        //testLocation.setLobbyId(1L);
+        testLocation.setLongitude(0.0);
+        testLocation.setLatitude(0.0);
+        testLocation.setAddress("Home");
+
+        Mockito.when(locationRepository.save(Mockito.any())).thenReturn(testLocation);
+
+
+
         List<LocalDateTime> selectedDates = new ArrayList<>();
         selectedDates.add(LocalDateTime.now());
 
         List<Location> selectedLocations = new ArrayList<>();
-
-        Location testLocation = new Location();
-        testLocation.setLatitude(0.0);
-        testLocation.setLongitude(0.0);
         selectedLocations.add(testLocation);
 
         List<String> selectedSports = new ArrayList<>();
@@ -100,6 +107,7 @@ class LobbyServiceTest {
         //testLobby.addLobbyMember(testMember);
 
         Mockito.when(lobbyRepository.save(Mockito.any())).thenReturn(testLobby);
+
     }
 
 
@@ -192,7 +200,7 @@ class LobbyServiceTest {
 
     @Test
     void getMemberById_memberExists() {
-        Mockito.when(memberRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testMember));
+        Mockito.when(memberRepository.findByMemberId(Mockito.anyLong())).thenReturn(Optional.ofNullable(testMember));
 
         Member getMember = lobbyService.getMemberById(testMember.getMemberId());
 
@@ -294,30 +302,95 @@ class LobbyServiceTest {
 
     @Test
     void setSports() {
+        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+
+        List<String> testSports = new ArrayList<>();
+        testSports.add("Football");
+
+        testMember.setSelectedSports(new ArrayList<>());
+
+        Member member = lobbyService.setSports(testLobby.getLobbyId(), testMember.getMemberId(), testSports);
+
+        assertEquals(member.getMemberId(), testMember.getMemberId());
+        assertEquals(member.getLobbyId(), testMember.getLobbyId());
+        assertEquals(member.getSelectedSports(), testMember.getSelectedSports());
+
     }
 
     @Test
     void setLocations() {
+
     }
 
     @Test
     void setDates() {
+        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+
+        List<String> testDates = new ArrayList<>();
+        LocalDateTime currentDate = LocalDateTime.now();
+        testDates.add(currentDate.toString());
+
+        testMember.setSelectedDates(new ArrayList<>());
+
+        lobbyService.setDates(testLobby.getLobbyId(), testMember.getMemberId(), testDates);
+
+        List<LocalDateTime> addedDates = new ArrayList<>();
+        addedDates.add(currentDate);
+
+        assertEquals(testMember.getSelectedDates(), addedDates);
     }
 
     @Test
     void lockSelections() {
+        Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+
+        Member member = lobbyService.lockSelections(testLobby.getLobbyId(), testMember.getMemberId());
+
+        assertEquals(testMember.getHasLockedSelections(), true);
+        assertEquals(testMember.getMemberId(), member.getMemberId());
+        assertEquals(testMember.getLobbyId(), member.getLobbyId());
     }
 
     @Test
     void unlockSelections() {
+        Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+
+        Member member = lobbyService.unlockSelections(testLobby.getLobbyId(), testMember.getMemberId());
+
+        assertEquals(testMember.getHasLockedSelections(), false);
+        assertEquals(testMember.getMemberId(), member.getMemberId());
+        assertEquals(testMember.getLobbyId(), member.getLobbyId());
     }
 
     @Test
     void addLobbyLocation() {
+        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+
+        testLobby.addLobbyMember(testMember);
+        lobbyService.addLobbyLocation(testLobby.getLobbyId(), testLocation);
+
+        List<Location> locations = new ArrayList<>();
+        locations.add(testLocation);
+
+        assertEquals(testLobby.getLobbyLocations(), locations);
     }
 
     @Test
-    void addLobbyLocationVote() {
+    void addLobbyLocationVote_locationExists() {
+        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+        Mockito.when(locationRepository.findByLocationId(Mockito.anyLong())).thenReturn(testLocation);
+
+        testLobby.addLobbyMember(testMember);
+        testLobby.addLobbyLocation(testLocation);
+
+        lobbyService.addLobbyLocationVote(testLobby.getLobbyId(), testMember.getMemberId(), testLocation.getLocationId());
+
+        Location location = testLobby.getLobbyLocations().get(0);
+        assertEquals(location.getMemberVotes(), 1);
     }
 
     @Test

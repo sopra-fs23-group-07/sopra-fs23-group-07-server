@@ -27,9 +27,9 @@ public class Location implements Serializable {
     @ElementCollection
     @CollectionTable(name = "location_votes", joinColumns = @JoinColumn(name = "location_id"))
     private Set<Long> memberVotes = new HashSet<>();
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Long lobbyId;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "lobbyId", insertable = false, updatable = false)
     private Lobby lobby;
     @Column(nullable = false)

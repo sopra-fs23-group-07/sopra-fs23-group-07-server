@@ -119,12 +119,12 @@ public class LobbyService {
         }
     }
     public Lobby getLobby(Long lobbyId) {
-        Optional<Lobby> lobbyToFind = lobbyRepository.findById(lobbyId);
-        if (lobbyToFind.isEmpty()) {
+        Lobby lobbyToFind = lobbyRepository.findByLobbyId(lobbyId);
+        if (lobbyToFind == null) {
             String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "lobbyId", "was"));
         }
-        return lobbyToFind.get();
+        return lobbyToFind;
     }
     public User getUser(Long userId) {
         User userToFind = userRepository.findByUserId(userId);
@@ -143,7 +143,7 @@ public class LobbyService {
         return memberToFind.get();
     }
     public Member getMemberById(Long memberId) {
-        Optional<Member> member = memberRepository.findById(memberId);
+        Optional<Member> member = memberRepository.findByMemberId(memberId);
         if (member.isEmpty()) {
             String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "memberId", "was"));
@@ -252,33 +252,33 @@ public class LobbyService {
         lobbyRepository.save(lobby);
     }
     public void addLobbyLocationVote(Long lobbyId, Long memberId, Long locationId) {
-        Optional<Location> location = locationRepository.findById(locationId);
-        if (location.isEmpty()) {
+        Location location = locationRepository.findByLocationId(locationId);
+        if (location == null) {
             String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "locationId", "was"));
         }
         Member member = getMemberById(memberId);
         Lobby lobby = getLobby(lobbyId);
         checkIfIsMemberOfLobby(lobby, member);
-        location.get().addMemberVotes(memberId);
+        location.addMemberVotes(memberId);
         //member.setSelectedLocations(location.get());
 
-        locationRepository.save(location.get());
+        locationRepository.save(location);
         lobbyRepository.save(lobby);
         memberRepository.save(member);
     }
     public void removeLobbyLocationVote(Long lobbyId, Long memberId, Long locationId) {
-        Optional<Location> location = locationRepository.findById(locationId);
-        if (location.isEmpty()) {
+        Location location = locationRepository.findByLocationId(locationId);
+        if (location == null) {
             String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "locationId", "was"));
         }
         Member member = getMemberById(memberId);
         Lobby lobby = getLobby(lobbyId);
         checkIfIsMemberOfLobby(lobby, member);
-        location.get().removeMemberVotes(memberId);
+        location.removeMemberVotes(memberId);
 
-        locationRepository.save(location.get());
+        locationRepository.save(location);
         lobbyRepository.save(lobby);
         memberRepository.save(member);
     }

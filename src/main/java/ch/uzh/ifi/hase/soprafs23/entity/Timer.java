@@ -1,11 +1,15 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TIMER")
-public class Timer {
+public class Timer implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "timer_seq")
     @SequenceGenerator(name = "timer_seq", sequenceName = "timer_sequence", initialValue = 1)

@@ -58,7 +58,8 @@ public class Lobby implements Serializable {
   @Column(nullable = false)
   private Integer lobbyTimeLimit;
 
-  @OneToOne(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true)
+  //@OneToOne(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column(length = 10000)
   private Location lobbyDecidedLocation;
 
   @Column(nullable = true)
