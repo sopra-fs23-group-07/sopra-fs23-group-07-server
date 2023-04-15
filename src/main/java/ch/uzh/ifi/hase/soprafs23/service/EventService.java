@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs23.entity.Event;
 import ch.uzh.ifi.hase.soprafs23.entity.Participant;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.EventRepository;
+import ch.uzh.ifi.hase.soprafs23.repository.LocationRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.ParticipantRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import org.slf4j.Logger;
@@ -35,14 +36,17 @@ public class EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final ParticipantRepository participantRepository;
+    private final LocationRepository locationRepository;
 
     @Autowired
     public EventService(@Qualifier("eventRepository") EventRepository eventRepository,
                         @Qualifier("userRepository") UserRepository userRepository,
-                        @Qualifier("participantRepository") ParticipantRepository participantRepository){
+                        @Qualifier("participantRepository") ParticipantRepository participantRepository,
+                        LocationRepository locationRepository){
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
         this.participantRepository = participantRepository;
+        this.locationRepository = locationRepository;
     }
 
     public List<Event> getEvents() {
@@ -53,6 +57,7 @@ public class EventService {
         // saves the given entity but data is only persisted in the database once
         // flush() is called
         newEvent = eventRepository.save(newEvent);
+        newEvent.getEventLocation().setEventId(newEvent.getEventId());
         eventRepository.flush();
 
         log.debug("Created Information for Event: {}", newEvent);

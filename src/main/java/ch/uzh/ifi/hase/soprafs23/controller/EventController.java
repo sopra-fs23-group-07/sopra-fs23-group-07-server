@@ -63,7 +63,7 @@ public class EventController {
     @GetMapping ("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public EventGetDTO getEvent(@PathVariable long eventId) {
+    public EventGetDTO getEvent(@PathVariable Long eventId) {
         // fetch event
         Event foundEvent= eventService.getEvent(eventId);
         //converting internal representation to api representation
