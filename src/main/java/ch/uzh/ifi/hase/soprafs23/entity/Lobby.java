@@ -213,7 +213,9 @@ public class Lobby implements Serializable {
   public Event createEvent() {
       Event event = new Event();
 
+      //lobbyDecidedLocation.setEventId(event.getEventId());
       event.setEventLocation( lobbyDecidedLocation );
+      //event.getEventLocation().setEventId(event.getEventId());
       event.setEventName( lobbyName );
       event.setEventSport( lobbyDecidedSport );
       event.setEventRegion( lobbyRegion );

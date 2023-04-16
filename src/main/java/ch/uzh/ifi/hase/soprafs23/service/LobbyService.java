@@ -72,6 +72,17 @@ public class LobbyService {
             if(lobby.getCreatedEventId() == null) {
 
                 Event event = lobby.createEvent();
+
+                //Location eventLocation = lobby.getLobbyDecidedLocation();
+                //eventLocation.setEventId(event.getEventId());
+
+                //event.getEventLocation().setEventId(event.getEventId());
+
+                //eventLocation = locationRepository.save(eventLocation);
+                //locationRepository.flush();
+
+                //event.setEventLocation(eventLocation);
+
                 event = eventRepository.save(event);
                 eventRepository.flush();
 
