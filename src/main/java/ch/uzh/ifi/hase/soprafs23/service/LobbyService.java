@@ -37,6 +37,8 @@ public class LobbyService {
     private final EventRepository eventRepository;
     private final TimerRepository timerRepository;
 
+    private final ParticipantRepository participantRepository;
+
     //private final EventService eventService;
 
     @Autowired
@@ -45,13 +47,15 @@ public class LobbyService {
                         @Qualifier("memberRepository") MemberRepository memberRepository,
                         @Qualifier("locationRepository") LocationRepository locationRepository,
                         @Qualifier("eventRepository") EventRepository eventRepository,
-                        @Qualifier("timerRepository") TimerRepository timerRepository) {
+                        @Qualifier("timerRepository") TimerRepository timerRepository,
+                        @Qualifier("participantRepository") ParticipantRepository participantRepository) {
         this.lobbyRepository = lobbyRepository;
         this.userRepository = userRepository;
         this.memberRepository = memberRepository;
         this.locationRepository = locationRepository;
         this.eventRepository = eventRepository;
         this.timerRepository = timerRepository;
+        this.participantRepository = participantRepository;
     }
 
 
@@ -72,6 +76,22 @@ public class LobbyService {
             if(lobby.getCreatedEventId() == null) {
 
                 Event event = lobby.createEvent();
+                eventRepository.save(event);
+
+                for(Member member : lobby.getLobbyMembers()) {
+
+                    User databaseUser = getUser(member.getUserId());
+                    Participant participant = new Participant();
+                    participant.setUser(databaseUser);
+                    participant.setEventId(event.getEventId());
+                    participant.setEvent(event);
+
+                    event.addEventParticipant(participant);
+                    databaseUser.addEvent(event);
+                    participantRepository.save(participant);
+                    userRepository.save(databaseUser);
+                    eventRepository.save(event);
+                }
 
                 //Location eventLocation = lobby.getLobbyDecidedLocation();
                 //eventLocation.setEventId(event.getEventId());

@@ -45,6 +45,10 @@ public class Participant implements Serializable {
     private LocalDate birthdate;
 
 
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
     public void setUser(User user) {
         this.userId = user.getUserId();
         this.username = user.getUsername();

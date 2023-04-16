@@ -118,4 +118,8 @@ public class EventService {
         Event event = getEvent(eventId);
         eventRepository.delete(event);
     }
+
+    public List<Participant> getParticipants(){
+        return this.participantRepository.findAll();
+    }
 }

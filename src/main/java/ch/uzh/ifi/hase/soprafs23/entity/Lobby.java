@@ -224,28 +224,29 @@ public class Lobby implements Serializable {
       }
       event.setEventMaxParticipants( lobbyMaxMembers );
 
-      List<Participant> participants = getParticipantList(event.getEventId());
+      //List<Participant> participants =getParticipantList(event);
 
-      event.setEventParticipants(participants);
+      //event.setEventParticipants(participants);
 
       return event;
   }
 
-  private List<Participant> getParticipantList(Long eventId) {
+  private List<Participant> getParticipantList(Event event) {
       List<Participant> participantList = new ArrayList<>();
 
       for(Member member : lobbyMembers) {
           Participant participant = new Participant();
 
           participant.setUserId(member.getUserId());
-          participant.setEventId(eventId);
-          participant.setEmail(member.getEmail());
-          participant.setUsername(member.getUsername());
-          participant.setStatus(member.getStatus());
-          participant.setCreationDate(member.getCreationDate());
-          participant.setBirthdate(member.getBirthdate());
+          participant.setEventId(event.getEventId());
+          //participant.setEmail(member.getEmail());
+          //participant.setUsername(member.getUsername());
+          //participant.setStatus(member.getStatus());
+          //participant.setCreationDate(member.getCreationDate());
+          //participant.setBirthdate(member.getBirthdate());
 
-          participantList.add(participant);
+          //participantList.add(participant);
+          event.addEventParticipant(participant);
 
       }
 
