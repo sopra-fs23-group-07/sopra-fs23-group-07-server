@@ -76,18 +76,20 @@ public class LobbyService {
                 eventRepository.flush();
 
                 lobby.setCreatedEventId(event.getEventId());
+
+                for(Member member : lobby.getLobbyMembers()) {
+                    memberRepository.delete(member);
+                }
+                timerRepository.delete(lobby.getTimer());
+                lobbyRepository.delete(lobby);
+
+                log.debug("Created Information for Event: {}", event);
             }
 
             lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
             //lobbyGetDTO.setCreatedEventId(event.getEventId());
 
-            log.debug("Created Information for Event: {}", event);
 
-            for(Member member : lobby.getLobbyMembers()) {
-                memberRepository.delete(member);
-            }
-            timerRepository.delete(lobby.getTimer());
-            lobbyRepository.delete(lobby);
         }
         return lobbyGetDTO;
     }
