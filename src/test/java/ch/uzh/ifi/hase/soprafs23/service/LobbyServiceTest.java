@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -147,7 +148,7 @@ class LobbyServiceTest {
 
         lobbyService.createLobby(testLobby);
 
-        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);;
 
         Lobby getLobby = lobbyService.getLobby(testLobby.getLobbyId());
 
@@ -216,7 +217,7 @@ class LobbyServiceTest {
 
     @Test
     void addMember_memberIsNotInLobby_lobbyIsNotFull() {
-        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
         Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
 
         Member addedMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
@@ -233,7 +234,7 @@ class LobbyServiceTest {
 
     @Test
     void addMember_memberIsNotInLobby_lobbyIsFull() {
-        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
         Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
 
         testLobby.setLobbyMaxMembers(0);
@@ -243,7 +244,7 @@ class LobbyServiceTest {
 
     @Test
     void addMember_memberIsAlreadyInLobby() {
-        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
         Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
         Mockito.when(memberRepository.findByLobbyAndUser(Mockito.any(), Mockito.any())).thenReturn(Optional.ofNullable(testMember));
 
@@ -254,7 +255,7 @@ class LobbyServiceTest {
 
     @Test
     void removeMember_lobbyIsNotEmpty() {
-        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
         Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
         Mockito.when(memberRepository.findByLobbyAndUser(Mockito.any(), Mockito.any())).thenReturn(Optional.ofNullable(testMember));
 
@@ -275,7 +276,7 @@ class LobbyServiceTest {
 
     @Test
     void removeMember_lobbyIsNowEmpty() {
-        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
         Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
         Mockito.when(memberRepository.findByLobbyAndUser(Mockito.any(), Mockito.any())).thenReturn(Optional.ofNullable(testMember));
 
@@ -293,7 +294,7 @@ class LobbyServiceTest {
 
     @Test
     void deleteLobby() {
-        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
 
         lobbyService.deleteLobby(testLobby.getLobbyId());
 
@@ -302,7 +303,7 @@ class LobbyServiceTest {
 
     @Test
     void setSports() {
-        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
         Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
 
         List<String> testSports = new ArrayList<>();
@@ -325,7 +326,7 @@ class LobbyServiceTest {
 
     @Test
     void setDates() {
-        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
         Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
 
         List<String> testDates = new ArrayList<>();
@@ -366,7 +367,7 @@ class LobbyServiceTest {
 
     @Test
     void addLobbyLocation() {
-        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
         Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
 
         testLobby.addLobbyMember(testMember);
@@ -380,7 +381,7 @@ class LobbyServiceTest {
 
     @Test
     void addLobbyLocationVote_locationExists() {
-        Mockito.when(lobbyRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(testLobby));
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
         Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
         Mockito.when(locationRepository.findByLocationId(Mockito.anyLong())).thenReturn(testLocation);
 
@@ -391,17 +392,61 @@ class LobbyServiceTest {
 
         Location location = testLobby.getLobbyLocations().get(0);
         assertEquals(location.getMemberVotes(), 1);
+
     }
 
     @Test
-    void removeLobbyLocationVote() {
+    void addLobbyLocationVote_locationDoesNotExists_ThrowsException() {
+        assertThrows(ResponseStatusException.class, () -> lobbyService.addLobbyLocationVote(testLobby.getLobbyId(), testUser.getUserId(), 1L));
+    }
+
+    @Test
+    void removeLobbyLocationVote_LocationExists() {
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
+        Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+        Mockito.when(locationRepository.findByLocationId(Mockito.anyLong())).thenReturn(testLocation);
+
+        testLobby.addLobbyMember(testMember);
+        testLobby.addLobbyLocation(testLocation);
+        testLocation.addMemberVotes(testMember.getMemberId());
+
+        lobbyService.removeLobbyLocationVote(testLobby.getLobbyId(), testMember.getMemberId(), testLocation.getLocationId());
+
+        assertEquals(testLocation.getMemberVotes(), 0);
+    }
+
+    @Test
+    void removeLobbyLocationVote_locationDoesNotExists_ThrowsException() {
+        assertThrows(ResponseStatusException.class, () -> lobbyService.removeLobbyLocationVote(testLobby.getLobbyId(), testUser.getUserId(), 1L));
     }
 
     @Test
     void getMembers() {
+        memberRepository.save(testMember);
+
+        List<Member> testMembers = new ArrayList<>();
+        testMembers.add(testMember);
+
+        Mockito.when(memberRepository.findAll()).thenReturn(testMembers);
+
+        List<Member> members = lobbyService.getMembers();
+
+
+        assertEquals(members, testMembers);
     }
 
     @Test
     void getLocations() {
+        locationRepository.save(testLocation);
+
+        List<Location> testLocations = new ArrayList<>();
+        testLocations.add(testLocation);
+
+        Mockito.when(locationRepository.findAll()).thenReturn(testLocations);
+
+        List<Location> members = lobbyService.getLocations();
+
+
+        assertEquals(members, testLocations);
     }
 }
