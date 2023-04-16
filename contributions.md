@@ -47,3 +47,4 @@
 |      3   |10/04/2023| Omar  | [#51](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/51)   | show all locations set for each user in the map in lobby |  
 |      3   |10/04/2023| Omar  | [#50](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/50)   | add vote buttons with API calls to allow user to vote for each location |
 |      3   |10/04/2023| Omar  | [#49](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/49)   | send api call to mapbox api to transform coordinates into an address and show all addresses in lobby page |  
+|      3   |10/04/2023| Omar  | [#45](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/45)   | create join button with API call to join lobby from lobbies page |  
