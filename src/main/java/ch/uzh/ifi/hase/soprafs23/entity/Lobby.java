@@ -69,7 +69,7 @@ public class Lobby implements Serializable {
   private LocalDateTime lobbyDecidedDate;
 
   @Column
-  private Long createdEventId;
+  private Long createdEventId = null;
 
   @OneToMany(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Location> lobbyLocations = new ArrayList<>();

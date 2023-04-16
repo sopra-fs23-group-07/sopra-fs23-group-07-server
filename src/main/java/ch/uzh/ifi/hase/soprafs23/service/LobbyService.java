@@ -67,21 +67,23 @@ public class LobbyService {
         LobbyGetDTO lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
 
         if(lobby.isHaveAllMembersLockedSelections() || lobby.hasTimerRunOut()) {
-            Event event = checkIfEventExists(lobby.getCreatedEventId());
+            //Event event = checkIfEventExists(lobby.getCreatedEventId());
 
-            if(event == null) {
+            if(lobby.getCreatedEventId() == null) {
 
-                event = lobby.createEvent();
+                Event event = lobby.createEvent();
                 event = eventRepository.save(event);
                 eventRepository.flush();
 
                 lobby.setCreatedEventId(event.getEventId());
+                lobby = lobbyRepository.save(lobby);
+                lobbyRepository.flush();
 
-                for(Member member : lobby.getLobbyMembers()) {
-                    memberRepository.delete(member);
-                }
-                timerRepository.delete(lobby.getTimer());
-                lobbyRepository.delete(lobby);
+//                for(Member member : lobby.getLobbyMembers()) {
+//                    memberRepository.delete(member);
+//                }
+                //timerRepository.delete(lobby.getTimer());
+                //lobbyRepository.delete(lobby);
 
                 log.debug("Created Information for Event: {}", event);
             }
@@ -97,7 +99,6 @@ public class LobbyService {
     private Event checkIfEventExists(Long eventId) {
         Optional<Event> eventById = eventRepository.findById(eventId);
 
-        String baseErrorMessage = "The %s provided %s not unique. Therefore, the lobby could not be created!";
         if (eventById.isEmpty()) {
             return null;
         }
