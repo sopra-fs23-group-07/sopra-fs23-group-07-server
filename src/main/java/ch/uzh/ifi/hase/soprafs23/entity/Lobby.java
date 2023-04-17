@@ -98,7 +98,9 @@ public class Lobby implements Serializable {
       lobbyLocations.add(location);
   }
 
-  public void removeLobbyLocation(Location location) {}
+  public void removeLobbyLocation(Location location) {
+      lobbyLocations.removeIf(location1 -> location1.equals(location));
+  }
 
   public boolean isLobbyFull() {
       if(lobbyMembers.size() >= lobbyMaxMembers) {

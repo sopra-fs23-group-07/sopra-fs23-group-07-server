@@ -138,6 +138,7 @@ public class LobbyService {
 
     public Lobby createLobby(Lobby newLobby) {
         checkIfLobbyExists(newLobby);
+        checkIfUserIsMemberOfALobby(newLobby);
         newLobby.setToken(UUID.randomUUID().toString());
 
         // Set the lobby timer and save it to the database
@@ -161,7 +162,6 @@ public class LobbyService {
     }
     private void checkIfLobbyExists(Lobby lobbyToBeCreated) {
         Lobby lobbyByLobbyName = lobbyRepository.findByLobbyName(lobbyToBeCreated.getLobbyName());
-
         String baseErrorMessage = "The %s provided %s not unique. Therefore, the lobby could not be created!";
         if (lobbyByLobbyName != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "lobbyName", "is"));
@@ -212,7 +212,7 @@ public class LobbyService {
         }
         Member member = new Member();
         member.setUser(databaseUser);
-        member.setLobbyId(lobby.getLobbyId());
+        member.setLobbyId(lobbyId);
 
         lobby.addLobbyMember(member);
         databaseUser.addLobby(lobby);
@@ -221,18 +221,19 @@ public class LobbyService {
         lobbyRepository.save(lobby);
         return member;
     }
+
     public void removeMember(Long lobbyId, Long userId) {
         Lobby lobby = getLobby(lobbyId);
         User databaseUser = getUser(userId);
         Member member = getMember(lobby, databaseUser);
 
+        lobby.removeLobbyLocation(member.getSuggestedLocation());
         lobby.removeLobbyMember(member);
         databaseUser.removeLobby(lobby);
         //databaseUser.removeMember(member);
         memberRepository.delete(member);
         lobbyRepository.save(lobby);
         userRepository.save(databaseUser);
-
         if(lobby.getLobbyMembersCount() == 0) {lobbyRepository.delete(lobby);}
     }
     public void deleteLobby(Long lobbyId) {
@@ -293,8 +294,13 @@ public class LobbyService {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(location.getMemberId());
         checkIfIsMemberOfLobby(lobby, member);
-
+        if (member.getSuggestedLocation() != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("Member with memberId %s has already" +
+                    " posted a location", member.getMemberId()));
+        }
         location.setLobbyId(lobbyId);
+        //location.setMember(member);
+        member.setSuggestedLocation(location);
 
         locationRepository.save(location);
         lobby.addLobbyLocation(location);
@@ -337,6 +343,14 @@ public class LobbyService {
             String baseErrorMessage = "The %s provided %s not member of Lobby with LobbyId %s";
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "memberId", "is",
                     lobby.getLobbyId()));
+        }
+    }
+    private void checkIfUserIsMemberOfALobby(Lobby lobby) {
+        User user = getUser(lobby.getHostMemberId());
+        if (user.isInLobby()) {
+            String baseErrorMessage = "The %s provided %s already member of a Lobby with LobbyId %s";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "userId", "is",
+                    user.getLobbyId()));
         }
     }
 

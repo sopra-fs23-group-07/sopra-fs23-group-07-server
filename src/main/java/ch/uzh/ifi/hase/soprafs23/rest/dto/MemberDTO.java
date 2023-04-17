@@ -20,7 +20,7 @@ public class MemberDTO {
     private List<String> selectedSports;
     private List<Location> selectedLocations;
     private List<LocalDateTime> selectedDates;
-    private String suggestedLocation;
+    private Location suggestedLocation;
     private boolean hasLockedSelections;
 
     public Long getMemberId() {
@@ -111,11 +111,11 @@ public class MemberDTO {
         this.selectedDates = selectedDates;
     }
 
-    public String getSuggestedLocation() {
+    public Location getSuggestedLocation() {
         return suggestedLocation;
     }
 
-    public void setSuggestedLocation(String suggestedLocation) {
+    public void setSuggestedLocation(Location suggestedLocation) {
         this.suggestedLocation = suggestedLocation;
     }
 

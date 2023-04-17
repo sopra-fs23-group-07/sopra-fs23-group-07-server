@@ -52,9 +52,9 @@ public class User implements Serializable {
   private LocalDate birthdate;
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Participant> participants = new ArrayList<>();
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "user")
   private List<Lobby> lobbies = new ArrayList<>();
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "user")
   private List<Event> events = new ArrayList<>();
 
   public Long getUserId() {
@@ -138,4 +138,10 @@ public class User implements Serializable {
         lobbies.removeIf(lobby -> lobby.equals(lobbyToRemove));
     }
 
+    public boolean isInLobby() {
+      return lobbies.size() != 0;
+    }
+    public Long getLobbyId() {
+      return lobbies.get(0).getLobbyId();
+    }
 }
