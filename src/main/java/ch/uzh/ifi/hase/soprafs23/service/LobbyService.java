@@ -58,11 +58,6 @@ public class LobbyService {
         this.participantRepository = participantRepository;
     }
 
-
-    public List<Lobby> getLobbies() {
-        return this.lobbyRepository.findAll();
-    }
-
     public LobbyGetDTO updateLobby(Lobby lobby) {
         lobby.setLobbyDecidedSport(lobby.decideSport());
         lobby.setLobbyDecidedLocation(lobby.decideLocation());
@@ -138,7 +133,7 @@ public class LobbyService {
 
     public Lobby createLobby(Lobby newLobby) {
         checkIfLobbyExists(newLobby);
-        checkIfUserIsMemberOfALobby(newLobby);
+        checkIfUserIsMemberOfALobby(userRepository.findByUserId(newLobby.getHostMemberId()));
         newLobby.setToken(UUID.randomUUID().toString());
 
         // Set the lobby timer and save it to the database
@@ -203,6 +198,7 @@ public class LobbyService {
     public Member addMember(Long lobbyId, Long userId) {
         Lobby lobby = getLobby(lobbyId);
         User databaseUser = getUser(userId);
+        checkIfUserIsMemberOfALobby(databaseUser);
         if (lobby.isLobbyFull()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Lobby is full");
         }
@@ -215,6 +211,7 @@ public class LobbyService {
         member.setLobbyId(lobbyId);
 
         lobby.addLobbyMember(member);
+        lobby.addLobbyUser(databaseUser);
         databaseUser.addLobby(lobby);
         memberRepository.save(member);
         userRepository.save(databaseUser);
@@ -229,6 +226,7 @@ public class LobbyService {
 
         lobby.removeLobbyLocation(member.getSuggestedLocation());
         lobby.removeLobbyMember(member);
+        lobby.removeLobbyUser(databaseUser);
         databaseUser.removeLobby(lobby);
         //databaseUser.removeMember(member);
         memberRepository.delete(member);
@@ -243,6 +241,7 @@ public class LobbyService {
     public Member setSports(Long lobbyId, Long memberId, List<String> selectedSports) {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
+        checkIfIsMemberOfLobby(lobby, member);
         member.setSelectedSports(selectedSports);
         //member.addSelectedSport(selectedSport);
 
@@ -272,7 +271,9 @@ public class LobbyService {
         member.setSelectedLocations(locations);
     }
     public void setDates(Long lobbyId, Long memberId, List<String> selectedDates) {
+        Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
+        checkIfIsMemberOfLobby(lobby, member);
         List<LocalDateTime> dates = new ArrayList<>();
         for (String string : selectedDates) {
             dates.add(LocalDateTime.parse(string));
@@ -280,13 +281,17 @@ public class LobbyService {
         member.setSelectedDates(dates);
     }
     public Member lockSelections(Long lobbyId, Long memberId) {
+        Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
+        checkIfIsMemberOfLobby(lobby, member);
         member.setHasLockedSelections(true);
         return member;
     }
 
     public Member unlockSelections(Long lobbyId, Long memberId) {
+        Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
+        checkIfIsMemberOfLobby(lobby, member);
         member.setHasLockedSelections(false);
         return member;
     }
@@ -345,15 +350,15 @@ public class LobbyService {
                     lobby.getLobbyId()));
         }
     }
-    private void checkIfUserIsMemberOfALobby(Lobby lobby) {
-        User user = getUser(lobby.getHostMemberId());
+    private void checkIfUserIsMemberOfALobby(User user) {
         if (user.isInLobby()) {
-            String baseErrorMessage = "The %s provided %s already member of a Lobby with LobbyId %s";
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "userId", "is",
-                    user.getLobbyId()));
+            String baseErrorMessage = "The %s provided %s already member of a Lobby.";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "userId", "is"));
         }
     }
-
+    public List<Lobby> getLobbies() {
+        return this.lobbyRepository.findAll();
+    }
     public List<Member> getMembers() {
         return this.memberRepository.findAll();
     }

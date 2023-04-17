@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Internal User Representation
@@ -52,9 +53,11 @@ public class User implements Serializable {
   private LocalDate birthdate;
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Participant> participants = new ArrayList<>();
-  @OneToMany(mappedBy = "user")
+  //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  //private List<Member> members = new ArrayList<>();
+  @ManyToMany(mappedBy = "lobbyUsers")
   private List<Lobby> lobbies = new ArrayList<>();
-  @OneToMany(mappedBy = "user")
+  @ManyToMany(mappedBy = "eventUsers")
   private List<Event> events = new ArrayList<>();
 
   public Long getUserId() {
@@ -139,9 +142,6 @@ public class User implements Serializable {
     }
 
     public boolean isInLobby() {
-      return lobbies.size() != 0;
-    }
-    public Long getLobbyId() {
-      return lobbies.get(0).getLobbyId();
+      return lobbies.size() > 0;
     }
 }

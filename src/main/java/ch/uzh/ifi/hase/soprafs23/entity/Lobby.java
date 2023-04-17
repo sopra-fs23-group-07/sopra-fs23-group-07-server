@@ -45,9 +45,9 @@ public class Lobby implements Serializable {
   @Column(nullable = true)
   private Integer lobbyMembersCount;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinColumn(name = "userId", insertable = false, updatable = false)
-  private User user;
+  private List<User> lobbyUsers = new ArrayList<>();
 
   @Column(nullable = false)
   private Integer lobbyMaxMembers;
@@ -264,9 +264,14 @@ public class Lobby implements Serializable {
   public void addLobbyMember(Member member) {
       lobbyMembers.add(member);
   }
-
   public void removeLobbyMember(Member memberToRemove) {
       lobbyMembers.removeIf(member1 -> member1.equals(memberToRemove));
+  }
+  public void addLobbyUser(User user) {
+      lobbyUsers.add(user);
+  }
+  public void removeLobbyUser(User userToRemove) {
+      lobbyUsers.removeIf(user1 -> user1.equals(userToRemove));
   }
 
   public Long getLobbyId() {

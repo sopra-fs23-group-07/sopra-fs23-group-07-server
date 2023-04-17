@@ -98,6 +98,7 @@ public class EventService {
         participant.setEventId(event.getEventId());
 
         event.addEventParticipant(participant);
+        event.addEventUser(databaseUser);
         databaseUser.addEvent(event);
         participantRepository.save(participant);
         userRepository.save(databaseUser);
@@ -110,9 +111,11 @@ public class EventService {
         Participant participant = getParticipant(event, databaseUser);
 
         event.removeEventParticipant(participant);
+        event.removeEventUser(databaseUser);
         databaseUser.removeEvent(event);
         eventRepository.save(event);
         userRepository.save(databaseUser);
+        participantRepository.delete(participant);
     }
     public void deleteEvent(long eventId) {
         Event event = getEvent(eventId);
