@@ -285,15 +285,19 @@ public class LobbyService {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
         checkIfIsMemberOfLobby(lobby, member);
+        String errorMessage = "";
         if (member.getSelectedSports().size() == 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please select at least one sport." );
+            errorMessage += "Please select at least one sport.\n";
         }
         if (member.getSelectedDates().size() == 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please select at least one date.");
+            errorMessage += "Please select at least one date.\n";
         }
         if (member.getSelectedLocations().size() == 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please vote for at least one location." +
-                    " If there are no locations to vote for, please confirm a location and vote for it.");
+            errorMessage += "Please vote for at least one location." +
+                    " If there are no locations to vote for, please confirm a location and vote for it.";
+        }
+        if (!errorMessage.equals("")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMessage);
         }
         member.setHasLockedSelections(true);
         return member;
