@@ -91,14 +91,16 @@
 
 # Week 4
 
-| **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                 | **Comment** |
-| -------- | ----------------------- | --------------- | -------------------------------------------------------------------------------- | ----------- |
-| 4        | 17/04/2023 - 24/04/2023 | ?               | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/?) | ?           |
+| **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                           | **Comment**                                    |
+| -------- | ----------------------- | --------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------- |
+| 4        | 17/04/2023 - 24/04/2023 | Yannic          | [#188](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/188)       | Cleaned up the contributions.md file           |
+| 4        | 17/04/2023 - 24/04/2023 | Yannic          | [#60](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/60)         | Changed background color and redesigned header |
+| 4        | 17/04/2023 - 24/04/2023 | ?               | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-[client/server?]/issues/?) | ?                                              |
 
 # Week 5
 
 ---
 
-| **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                 | **Comment** |
-| -------- | ----------------------- | --------------- | -------------------------------------------------------------------------------- | ----------- |
-| 5        | 24/04/2023 - 01/05/2023 | ?               | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/?) | ?           |
+| **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                           | **Comment** |
+| -------- | ----------------------- | --------------- | ------------------------------------------------------------------------------------------ | ----------- |
+| 5        | 24/04/2023 - 01/05/2023 | ?               | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-[client/server?]/issues/?) | ?           |
