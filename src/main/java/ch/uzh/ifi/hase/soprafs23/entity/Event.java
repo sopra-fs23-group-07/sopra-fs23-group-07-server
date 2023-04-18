@@ -131,6 +131,8 @@ public class Event implements Serializable {
         return eventParticipants.size() == 0;
     }
 
+    public Integer getEventParticipantsCount() {return eventParticipants.size();}
+
     public void addEventUser(User userToAdd) {
         eventUsers.add(userToAdd);
     }

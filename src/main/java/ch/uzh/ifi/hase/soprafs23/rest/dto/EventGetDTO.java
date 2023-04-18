@@ -10,6 +10,7 @@ public class EventGetDTO {
     private String eventDate;
     private String eventSport;
     private String eventRegion;
+    private Integer eventParticipantsCount;
     private Integer eventMaxParticipants;
     private List<ParticipantDTO> participantDTOs;
 
@@ -71,6 +72,14 @@ public class EventGetDTO {
     }
     public void setEventMaxParticipants(Integer eventMaxParticipants) {
         this.eventMaxParticipants = eventMaxParticipants;
+    }
+
+    public Integer getEventParticipantsCount() {
+        return eventParticipantsCount;
+    }
+
+    public void setEventParticipantsCount(Integer eventParticipantsCount) {
+        this.eventParticipantsCount = eventParticipantsCount;
     }
 }
 
