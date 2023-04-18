@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs23.rest.dto;
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class UserGetDTO {
 
@@ -12,8 +13,9 @@ public class UserGetDTO {
   private UserStatus status;
   private String token;
   private LocalDate creationDate;
-
   private LocalDate birthdate;
+  private String bio;
+  private List<EventGetDTO> eventGetDTOS;
 
   public Long getUserId() {
     return userId;
@@ -66,5 +68,21 @@ public class UserGetDTO {
 
     public void setBirthdate(LocalDate birthdate){
       this.birthdate = birthdate;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public List<EventGetDTO> getEventGetDTOs() {
+        return eventGetDTOS;
+    }
+
+    public void setEventGetDTOs(List<EventGetDTO> eventGetDTOS) {
+        this.eventGetDTOS = eventGetDTOS;
     }
 }

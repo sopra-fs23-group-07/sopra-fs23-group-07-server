@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs23.rest.mapper;
 
 import ch.uzh.ifi.hase.soprafs23.entity.*;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,22 @@ public interface DTOMapper {
   @Mapping(source = "status", target = "status")
   @Mapping(source = "creationDate", target = "creationDate")
   @Mapping(source = "birthdate", target = "birthdate")
+  @Mapping(source = "bio", target = "bio")
+  @Mapping(source = "events", target = "eventGetDTOs")
   UserGetDTO convertEntityToUserGetDTO(User user);
+    @Named("convertEntityToUserGetDTO")
+    EventGetDTO convertEntityToEventDTO(Event event);
+
+    default List<EventGetDTO> convertEntityListToEventDTOList(List<Event> entityList) {
+        if (entityList == null) {
+            return null;
+        }
+        return entityList.stream().map(this::convertEntityToEventDTO).collect(Collectors.toList());
+    }
+    @AfterMapping
+    default void addEventsToUserGetDTO(User user, @MappingTarget UserGetDTO userGetDTO) {
+        userGetDTO.setEventGetDTOs(convertEntityListToEventDTOList(user.getEvents()));
+    }
 
     //mapping internal representation of  User to UserPutDTO
   @Mapping(source = "userId", target = "userId")
@@ -47,6 +63,7 @@ public interface DTOMapper {
   @Mapping(source = "email", target = "email")
   @Mapping(source = "password", target= "password")
   @Mapping(source = "birthdate", target = "birthdate")
+  @Mapping(source = "bio", target = "bio")
   User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
 
   @BeforeMapping

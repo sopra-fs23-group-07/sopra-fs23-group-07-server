@@ -25,32 +25,26 @@ import java.util.Optional;
 public class User implements Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
-
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
   @SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", initialValue = 1)
   private Long userId;
-
   @Column(nullable = true)
   private String email;
-
   @Column(nullable = true, unique = true)
   private String username;
-
   @Column(nullable = true, unique = false)
   private String password;
-
   @Column(nullable = true, unique = true)
   private String token;
-
   @Column(nullable = true)
   private UserStatus status;
-
   @Column(nullable = true, unique = false, updatable = false)
   private LocalDate creationDate;
-
   @Column
   private LocalDate birthdate;
+  @Column
+  private String bio;
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Participant> participants = new ArrayList<>();
   //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -143,5 +137,13 @@ public class User implements Serializable {
 
     public boolean isInLobby() {
       return lobbies.size() > 0;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }
