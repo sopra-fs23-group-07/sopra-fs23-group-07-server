@@ -285,9 +285,15 @@ public class LobbyService {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
         checkIfIsMemberOfLobby(lobby, member);
-        if (member.getSelectedDates().size() == 0 || member.getSelectedSports().size() == 0
-                || member.getSelectedLocations().size() == 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member has not selected all parameters");
+        if (member.getSelectedSports().size() == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please select at least one sport." );
+        }
+        if (member.getSelectedDates().size() == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please select at least one date.");
+        }
+        if (member.getSelectedLocations().size() == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please vote for at least one location." +
+                    " If there are no locations to vote for, please confirm a location and vote for it.");
         }
         member.setHasLockedSelections(true);
         return member;
