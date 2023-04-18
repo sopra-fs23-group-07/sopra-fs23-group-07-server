@@ -93,7 +93,6 @@ public class LobbyController {
   @ResponseBody
   public MemberDTO setSports(@RequestBody MemberSportDTO sportDTO, @PathVariable Long lobbyId) {
     Member member = lobbyService.setSports(lobbyId, sportDTO.getMemberId(), sportDTO.getSelectedSports());
-
     return DTOMapper.INSTANCE.convertEntityToMemberDTO(member);
   }
   //to remove
@@ -107,8 +106,9 @@ public class LobbyController {
   @PutMapping("{lobbyId}/date")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public void setDates(@RequestBody MemberDateDTO dateDTO, @PathVariable Long lobbyId) {
-      lobbyService.setDates(lobbyId, dateDTO.getMemberId(), dateDTO.getSelectedDates());
+  public MemberDTO setDates(@RequestBody MemberDateDTO dateDTO, @PathVariable Long lobbyId) {
+      Member member = lobbyService.setDates(lobbyId, dateDTO.getMemberId(), dateDTO.getSelectedDates());
+      return DTOMapper.INSTANCE.convertEntityToMemberDTO(member);
   }
   @PutMapping("{lobbyId}/lock")
   @ResponseStatus(HttpStatus.OK)

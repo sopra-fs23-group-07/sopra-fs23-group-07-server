@@ -270,7 +270,7 @@ public class LobbyService {
         }
         member.setSelectedLocations(locations);
     }
-    public void setDates(Long lobbyId, Long memberId, List<String> selectedDates) {
+    public Member setDates(Long lobbyId, Long memberId, List<String> selectedDates) {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
         checkIfIsMemberOfLobby(lobby, member);
@@ -279,11 +279,16 @@ public class LobbyService {
             dates.add(LocalDateTime.parse(string));
         }
         member.setSelectedDates(dates);
+        return member;
     }
     public Member lockSelections(Long lobbyId, Long memberId) {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
         checkIfIsMemberOfLobby(lobby, member);
+        if (member.getSelectedDates().size() == 0 || member.getSelectedSports().size() == 0
+                || member.getSelectedLocations().size() == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member has not selected all parameters");
+        }
         member.setHasLockedSelections(true);
         return member;
     }
@@ -321,7 +326,7 @@ public class LobbyService {
         Lobby lobby = getLobby(lobbyId);
         checkIfIsMemberOfLobby(lobby, member);
         location.addMemberVotes(memberId);
-        //member.setSelectedLocations(location.get());
+        member.addSelectedLocation(location);
 
         locationRepository.save(location);
         lobbyRepository.save(lobby);

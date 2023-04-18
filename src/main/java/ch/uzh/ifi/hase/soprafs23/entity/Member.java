@@ -148,6 +148,9 @@ public class Member implements Serializable {
     public List<Location> getSelectedLocations() {
         return selectedLocations;
     }
+    public void addSelectedLocation(Location location) {
+        this.selectedLocations.add(location);
+    }
 
     public void setSelectedLocations(List<Location> selectedLocations) {
         this.selectedLocations = selectedLocations;
