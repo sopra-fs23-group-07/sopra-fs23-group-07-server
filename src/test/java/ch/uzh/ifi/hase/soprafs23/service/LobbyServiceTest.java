@@ -105,6 +105,7 @@ class LobbyServiceTest {
         testLobby.setLobbyMaxMembers(10);
         testLobby.setLobbyRegion("Zurich");
         testLobby.setLobbyTimeLimit(10);
+        testLobby.setHostMemberId(1L);
         //testLobby.addLobbyMember(testMember);
 
         Mockito.when(lobbyRepository.save(Mockito.any())).thenReturn(testLobby);
@@ -116,6 +117,7 @@ class LobbyServiceTest {
     void createLobby_validInputs() {
         // when -> any object is being save in the userRepository -> return the dummy
         // testUser
+        Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
         Lobby createdLobby = lobbyService.createLobby(testLobby);
 
         // then
@@ -132,6 +134,8 @@ class LobbyServiceTest {
     @Test
     public void createLobby_duplicateName_throwsException() {
         // given -> a first user has already been created
+        Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
+
         lobbyService.createLobby(testLobby);
 
         // when -> setup additional mocks for UserRepository
@@ -144,11 +148,9 @@ class LobbyServiceTest {
 
     @Test
     void getLobby_lobbyExists() {
-        Mockito.when(lobbyRepository.save(Mockito.any())).thenReturn(testLobby);
 
-        lobbyService.createLobby(testLobby);
 
-        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);;
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
 
         Lobby getLobby = lobbyService.getLobby(testLobby.getLobbyId());
 
@@ -311,6 +313,8 @@ class LobbyServiceTest {
 
         testMember.setSelectedSports(new ArrayList<>());
 
+        testLobby.addLobbyMember(testMember);
+
         Member member = lobbyService.setSports(testLobby.getLobbyId(), testMember.getMemberId(), testSports);
 
         assertEquals(member.getMemberId(), testMember.getMemberId());
@@ -335,6 +339,8 @@ class LobbyServiceTest {
 
         testMember.setSelectedDates(new ArrayList<>());
 
+        testLobby.addLobbyMember(testMember);
+
         lobbyService.setDates(testLobby.getLobbyId(), testMember.getMemberId(), testDates);
 
         List<LocalDateTime> addedDates = new ArrayList<>();
@@ -346,8 +352,12 @@ class LobbyServiceTest {
     @Test
     void lockSelections() {
         Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
+
+        testLobby.addLobbyMember(testMember);
 
         Member member = lobbyService.lockSelections(testLobby.getLobbyId(), testMember.getMemberId());
+
 
         assertEquals(testMember.getHasLockedSelections(), true);
         assertEquals(testMember.getMemberId(), member.getMemberId());
@@ -357,6 +367,9 @@ class LobbyServiceTest {
     @Test
     void unlockSelections() {
         Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
+
+        testLobby.addLobbyMember(testMember);
 
         Member member = lobbyService.unlockSelections(testLobby.getLobbyId(), testMember.getMemberId());
 
