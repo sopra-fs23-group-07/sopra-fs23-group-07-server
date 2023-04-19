@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs23.entity.Location;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import org.slf4j.Logger;
@@ -89,11 +90,9 @@ public class UserService {
         log.debug("Created Information for User: {}", userToBeLoggedIn);
 
         return userInDb;
-
     }
 
     public void logoutUser(long userId) {
-
         User userToBeLoggedOut = getUser(userId);
         userToBeLoggedOut.setStatus(UserStatus.OFFLINE);
 
@@ -110,7 +109,6 @@ public class UserService {
 
     public void updateUser(User inputUser) {
         User databaseUser = getUser(inputUser.getUserId());
-
         if (inputUser.getUsername()!=null && !inputUser.getUsername().equals("")){
             databaseUser.setUsername(inputUser.getUsername());
         }
@@ -123,7 +121,9 @@ public class UserService {
         if (inputUser.getBirthdate()!=null && !inputUser.getBirthdate().toString().equals("")){
             databaseUser.setBirthdate(inputUser.getBirthdate());
         }
-
+        if (inputUser.getBio()!=null && !inputUser.getBio().equals("")){
+            databaseUser.setBio(inputUser.getBio());
+        }
         userRepository.save(databaseUser);
     }
 }

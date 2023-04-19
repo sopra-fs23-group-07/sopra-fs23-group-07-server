@@ -12,8 +12,8 @@ public class UserPutDTO {
     private String email;
     private UserStatus userStatus;
     private String token;
-
     private LocalDate birthdate;
+    private String bio;
 
     public Long getUserId() {return userId; }
 
@@ -46,5 +46,13 @@ public class UserPutDTO {
 
     public void setBirthdate(){
         this.birthdate = birthdate;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }

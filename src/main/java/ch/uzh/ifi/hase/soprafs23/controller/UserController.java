@@ -21,6 +21,7 @@ import java.util.List;
  * UserService and finally return the result.
  */
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
   private final UserService userService;
@@ -29,7 +30,7 @@ public class UserController {
     this.userService = userService;
   }
 
-  @GetMapping("/users")
+  @GetMapping("")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public List<UserGetDTO> getAllUsers() {
@@ -45,7 +46,7 @@ public class UserController {
   }
 
   //registration
-  @PostMapping("/users")
+  @PostMapping("")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public UserGetDTO createUser(@RequestBody UserPostDTO userPostDTO) {
@@ -58,7 +59,7 @@ public class UserController {
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
   }
 
-  @PostMapping("/users/login")
+  @PostMapping("/login")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public UserGetDTO loginUser(@RequestBody UserPostDTO userPostDTO){
@@ -70,7 +71,7 @@ public class UserController {
   }
 
     //for accessing specific user
-    @GetMapping ("/users/{userId}")
+    @GetMapping ("/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public UserGetDTO getUser(@PathVariable long userId) {
@@ -80,7 +81,7 @@ public class UserController {
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(foundUser);}
 
     // logout user
-    @PostMapping("/users/logout/{userId}")
+    @PostMapping("/logout/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void logoutUser(@PathVariable long userId){
@@ -88,7 +89,7 @@ public class UserController {
 
     }
 
-    @PutMapping("/users/{userId}")
+    @PutMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void updateUser(@RequestBody UserPutDTO userPutDTO, @PathVariable long userId){
@@ -98,5 +99,12 @@ public class UserController {
       //userPutDTO.setUserId(userId);
       User userInput = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(userPutDTO);
       userService.updateUser(userInput);
+    }
+
+    @GetMapping("/usersTest")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<User> getAllUsersDetails() {
+      return userService.getUsers();
     }
 }

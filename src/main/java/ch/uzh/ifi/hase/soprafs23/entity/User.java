@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -8,6 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Internal User Representation
@@ -24,37 +26,33 @@ import java.util.List;
 public class User implements Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
-
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
   @SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", initialValue = 1)
   private Long userId;
-
   @Column(nullable = true)
   private String email;
-
   @Column(nullable = true, unique = true)
   private String username;
-
   @Column(nullable = true, unique = false)
   private String password;
-
   @Column(nullable = true, unique = true)
   private String token;
-
   @Column(nullable = true)
   private UserStatus status;
-
   @Column(nullable = true, unique = false, updatable = false)
   private LocalDate creationDate;
-
   @Column
   private LocalDate birthdate;
+  @Column
+  private String bio;
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Participant> participants = new ArrayList<>();
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  //private List<Member> members = new ArrayList<>();
+  @ManyToMany(mappedBy = "lobbyUsers")
   private List<Lobby> lobbies = new ArrayList<>();
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @ManyToMany(mappedBy = "eventUsers")
   private List<Event> events = new ArrayList<>();
 
   public Long getUserId() {
@@ -138,4 +136,15 @@ public class User implements Serializable {
         lobbies.removeIf(lobby -> lobby.equals(lobbyToRemove));
     }
 
+    public boolean isInLobby() {
+      return lobbies.size() > 0;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 }

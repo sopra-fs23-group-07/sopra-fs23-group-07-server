@@ -1,5 +1,8 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
@@ -49,9 +52,9 @@ public class Event implements Serializable {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participant> eventParticipants = new ArrayList<>();
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", insertable = false, updatable = false)
-    private User user;
+    private List<User> eventUsers = new ArrayList<>();
 
     public Long getEventId() {
         return eventId;
@@ -131,5 +134,13 @@ public class Event implements Serializable {
         return eventParticipants.size() == 0;
     }
 
+    public Integer getEventParticipantsCount() {return eventParticipants.size();}
+
+    public void addEventUser(User userToAdd) {
+        eventUsers.add(userToAdd);
+    }
+    public void removeEventUser(User userToRemove) {
+        eventUsers.removeIf(user -> user.equals(userToRemove));
+    }
 }
 

@@ -58,8 +58,8 @@ public class Member implements Serializable {
     @CollectionTable(name = "member_dates", joinColumns = @JoinColumn(name = "member_id"))
     private List<LocalDateTime> selectedDates;
 
-    @Column
-    private String suggestedLocation;
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Location suggestedLocation;
     @Column
     private boolean hasLockedSelections;
 
@@ -148,6 +148,9 @@ public class Member implements Serializable {
     public List<Location> getSelectedLocations() {
         return selectedLocations;
     }
+    public void addSelectedLocation(Location location) {
+        this.selectedLocations.add(location);
+    }
 
     public void setSelectedLocations(List<Location> selectedLocations) {
         this.selectedLocations = selectedLocations;
@@ -161,11 +164,10 @@ public class Member implements Serializable {
         this.selectedDates = selectedDates;
     }
 
-    public String getSuggestedLocation() {
+    public Location getSuggestedLocation() {
         return suggestedLocation;
     }
-
-    public void setSuggestedLocation(String suggestedLocation) {
+    public void setSuggestedLocation(Location suggestedLocation) {
         this.suggestedLocation = suggestedLocation;
     }
 

@@ -29,7 +29,7 @@ public class Location implements Serializable {
     private Set<Long> memberVotes = new HashSet<>();
     @Column(nullable = true)
     private Long lobbyId;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lobbyId", insertable = false, updatable = false)
     private Lobby lobby;
     @Column(nullable = true)
@@ -39,6 +39,9 @@ public class Location implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "eventId", insertable = false, updatable = false)
     private Event event;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "memberId", insertable = false, updatable = false)
+    private Member member;
 
     // Getters and setters for the longitude and latitude fields
     public double getLongitude() {
@@ -119,5 +122,9 @@ public class Location implements Serializable {
 
     public void setEventId(Long eventId) {
         this.eventId = eventId;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
     }
 }

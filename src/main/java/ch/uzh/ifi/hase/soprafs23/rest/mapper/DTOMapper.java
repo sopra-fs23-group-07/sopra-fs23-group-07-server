@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs23.rest.mapper;
 
 import ch.uzh.ifi.hase.soprafs23.entity.*;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,22 @@ public interface DTOMapper {
   @Mapping(source = "status", target = "status")
   @Mapping(source = "creationDate", target = "creationDate")
   @Mapping(source = "birthdate", target = "birthdate")
+  @Mapping(source = "bio", target = "bio")
+  @Mapping(source = "events", target = "userEventGetDTOs")
   UserGetDTO convertEntityToUserGetDTO(User user);
+    @Named("convertEntityToUserEventGetDTO")
+    UserEventGetDTO convertEntityToUserEventGetDTO(Event event);
+
+    default List<UserEventGetDTO> convertEntityListToUserEventGetDTOList(List<Event> entityList) {
+        if (entityList == null) {
+            return null;
+        }
+        return entityList.stream().map(this::convertEntityToUserEventGetDTO).collect(Collectors.toList());
+    }
+    @AfterMapping
+    default void addEventsToUserGetDTO(User user, @MappingTarget UserGetDTO userGetDTO) {
+        userGetDTO.setUserEventGetDTOs(convertEntityListToUserEventGetDTOList(user.getEvents()));
+    }
 
     //mapping internal representation of  User to UserPutDTO
   @Mapping(source = "userId", target = "userId")
@@ -47,6 +63,7 @@ public interface DTOMapper {
   @Mapping(source = "email", target = "email")
   @Mapping(source = "password", target= "password")
   @Mapping(source = "birthdate", target = "birthdate")
+  @Mapping(source = "bio", target = "bio")
   User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
 
   @BeforeMapping
@@ -102,6 +119,7 @@ public interface DTOMapper {
   @Mapping(source = "eventDate", target = "eventDate")
   @Mapping(source = "eventSport", target = "eventSport")
   @Mapping(source = "eventRegion", target = "eventRegion")
+  @Mapping(source = "eventParticipantsCount", target = "eventParticipantsCount")
   @Mapping(source = "eventMaxParticipants", target = "eventMaxParticipants")
   @Mapping(source = "eventLocation", target = "eventLocationDTO", qualifiedByName = "toLocationDTO")
   EventGetDTO convertEntityToEventGetDTO(Event event);

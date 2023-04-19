@@ -58,11 +58,6 @@ public class LobbyService {
         this.participantRepository = participantRepository;
     }
 
-
-    public List<Lobby> getLobbies() {
-        return this.lobbyRepository.findAll();
-    }
-
     public LobbyGetDTO updateLobby(Lobby lobby) {
         lobby.setLobbyDecidedSport(lobby.decideSport());
         lobby.setLobbyDecidedLocation(lobby.decideLocation());
@@ -138,6 +133,7 @@ public class LobbyService {
 
     public Lobby createLobby(Lobby newLobby) {
         checkIfLobbyExists(newLobby);
+        checkIfUserIsMemberOfALobby(userRepository.findByUserId(newLobby.getHostMemberId()));
         newLobby.setToken(UUID.randomUUID().toString());
 
         // Set the lobby timer and save it to the database
@@ -161,7 +157,6 @@ public class LobbyService {
     }
     private void checkIfLobbyExists(Lobby lobbyToBeCreated) {
         Lobby lobbyByLobbyName = lobbyRepository.findByLobbyName(lobbyToBeCreated.getLobbyName());
-
         String baseErrorMessage = "The %s provided %s not unique. Therefore, the lobby could not be created!";
         if (lobbyByLobbyName != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "lobbyName", "is"));
@@ -203,6 +198,7 @@ public class LobbyService {
     public Member addMember(Long lobbyId, Long userId) {
         Lobby lobby = getLobby(lobbyId);
         User databaseUser = getUser(userId);
+        checkIfUserIsMemberOfALobby(databaseUser);
         if (lobby.isLobbyFull()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Lobby is full");
         }
@@ -212,27 +208,30 @@ public class LobbyService {
         }
         Member member = new Member();
         member.setUser(databaseUser);
-        member.setLobbyId(lobby.getLobbyId());
+        member.setLobbyId(lobbyId);
 
         lobby.addLobbyMember(member);
+        lobby.addLobbyUser(databaseUser);
         databaseUser.addLobby(lobby);
         memberRepository.save(member);
         userRepository.save(databaseUser);
         lobbyRepository.save(lobby);
         return member;
     }
+
     public void removeMember(Long lobbyId, Long userId) {
         Lobby lobby = getLobby(lobbyId);
         User databaseUser = getUser(userId);
         Member member = getMember(lobby, databaseUser);
 
+        lobby.removeLobbyLocation(member.getSuggestedLocation());
         lobby.removeLobbyMember(member);
+        lobby.removeLobbyUser(databaseUser);
         databaseUser.removeLobby(lobby);
         //databaseUser.removeMember(member);
         memberRepository.delete(member);
         lobbyRepository.save(lobby);
         userRepository.save(databaseUser);
-
         if(lobby.getLobbyMembersCount() == 0) {lobbyRepository.delete(lobby);}
     }
     public void deleteLobby(Long lobbyId) {
@@ -242,6 +241,7 @@ public class LobbyService {
     public Member setSports(Long lobbyId, Long memberId, List<String> selectedSports) {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
+        checkIfIsMemberOfLobby(lobby, member);
         member.setSelectedSports(selectedSports);
         //member.addSelectedSport(selectedSport);
 
@@ -270,22 +270,43 @@ public class LobbyService {
         }
         member.setSelectedLocations(locations);
     }
-    public void setDates(Long lobbyId, Long memberId, List<String> selectedDates) {
+    public Member setDates(Long lobbyId, Long memberId, List<String> selectedDates) {
+        Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
+        checkIfIsMemberOfLobby(lobby, member);
         List<LocalDateTime> dates = new ArrayList<>();
         for (String string : selectedDates) {
             dates.add(LocalDateTime.parse(string));
         }
         member.setSelectedDates(dates);
+        return member;
     }
     public Member lockSelections(Long lobbyId, Long memberId) {
+        Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
+        checkIfIsMemberOfLobby(lobby, member);
+        String errorMessage = "";
+        if (member.getSelectedSports().size() == 0) {
+            errorMessage += "Please select at least one sport.\n";
+        }
+        if (member.getSelectedDates().size() == 0) {
+            errorMessage += "Please select at least one date.\n";
+        }
+        if (member.getSelectedLocations().size() == 0) {
+            errorMessage += "Please vote for at least one location." +
+                    " If there are no locations to vote for, please confirm a location and vote for it.";
+        }
+        if (!errorMessage.equals("")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMessage);
+        }
         member.setHasLockedSelections(true);
         return member;
     }
 
     public Member unlockSelections(Long lobbyId, Long memberId) {
+        Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
+        checkIfIsMemberOfLobby(lobby, member);
         member.setHasLockedSelections(false);
         return member;
     }
@@ -293,8 +314,13 @@ public class LobbyService {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(location.getMemberId());
         checkIfIsMemberOfLobby(lobby, member);
-
+        if (member.getSuggestedLocation() != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("Member with memberId %s has already" +
+                    " posted a location", member.getMemberId()));
+        }
         location.setLobbyId(lobbyId);
+        //location.setMember(member);
+        member.setSuggestedLocation(location);
 
         locationRepository.save(location);
         lobby.addLobbyLocation(location);
@@ -310,7 +336,7 @@ public class LobbyService {
         Lobby lobby = getLobby(lobbyId);
         checkIfIsMemberOfLobby(lobby, member);
         location.addMemberVotes(memberId);
-        //member.setSelectedLocations(location.get());
+        member.addSelectedLocation(location);
 
         locationRepository.save(location);
         lobbyRepository.save(lobby);
@@ -339,7 +365,15 @@ public class LobbyService {
                     lobby.getLobbyId()));
         }
     }
-
+    private void checkIfUserIsMemberOfALobby(User user) {
+        if (user.isInLobby()) {
+            String baseErrorMessage = "The %s provided %s already member of a Lobby.";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "userId", "is"));
+        }
+    }
+    public List<Lobby> getLobbies() {
+        return this.lobbyRepository.findAll();
+    }
     public List<Member> getMembers() {
         return this.memberRepository.findAll();
     }
