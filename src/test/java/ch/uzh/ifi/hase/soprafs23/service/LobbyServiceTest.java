@@ -325,6 +325,20 @@ class LobbyServiceTest {
 
     @Test
     void setLocations() {
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
+        Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+
+        List<String> testLocations = new ArrayList<>();
+        testLocations.add("0.0,0.0");
+
+        testMember.setSelectedLocations(new ArrayList<>());
+
+        testLobby.addLobbyMember(testMember);
+
+        lobbyService.setLocations(testLobby.getLobbyId(), testMember.getMemberId(), testLocations);
+
+        assertEquals(testMember.getSelectedLocations().get(0).getLatitude(), 0.0);
+        assertEquals(testMember.getSelectedLocations().get(0).getLongitude(), 0.0);
 
     }
 
@@ -410,7 +424,7 @@ class LobbyServiceTest {
 
     @Test
     void addLobbyLocationVote_locationDoesNotExists_ThrowsException() {
-        assertThrows(ResponseStatusException.class, () -> lobbyService.addLobbyLocationVote(testLobby.getLobbyId(), testUser.getUserId(), 1L));
+        assertThrows(ResponseStatusException.class, () -> lobbyService.addLobbyLocationVote(testLobby.getLobbyId(), testMember.getMemberId(), 1L));
     }
 
     @Test
@@ -430,7 +444,7 @@ class LobbyServiceTest {
 
     @Test
     void removeLobbyLocationVote_locationDoesNotExists_ThrowsException() {
-        assertThrows(ResponseStatusException.class, () -> lobbyService.removeLobbyLocationVote(testLobby.getLobbyId(), testUser.getUserId(), 1L));
+        assertThrows(ResponseStatusException.class, () -> lobbyService.removeLobbyLocationVote(testLobby.getLobbyId(), testMember.getMemberId(), 1L));
     }
 
     @Test
@@ -457,9 +471,9 @@ class LobbyServiceTest {
 
         Mockito.when(locationRepository.findAll()).thenReturn(testLocations);
 
-        List<Location> members = lobbyService.getLocations();
+        List<Location> locations = lobbyService.getLocations();
 
 
-        assertEquals(members, testLocations);
+        assertEquals(locations, testLocations);
     }
 }
