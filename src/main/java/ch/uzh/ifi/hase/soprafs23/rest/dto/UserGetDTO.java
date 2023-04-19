@@ -15,7 +15,7 @@ public class UserGetDTO {
   private LocalDate creationDate;
   private LocalDate birthdate;
   private String bio;
-  private List<EventGetDTO> eventGetDTOS;
+  private List<UserEventGetDTO> userEventGetDTOs;
 
   public Long getUserId() {
     return userId;
@@ -78,11 +78,11 @@ public class UserGetDTO {
         this.bio = bio;
     }
 
-    public List<EventGetDTO> getEventGetDTOs() {
-        return eventGetDTOS;
+    public List<UserEventGetDTO> getEventGetDTOs() {
+        return userEventGetDTOs;
     }
 
-    public void setEventGetDTOs(List<EventGetDTO> eventGetDTOS) {
-        this.eventGetDTOS = eventGetDTOS;
+    public void setUserEventGetDTOs(List<UserEventGetDTO> eventGetDTOS) {
+        this.userEventGetDTOs = eventGetDTOS;
     }
 }

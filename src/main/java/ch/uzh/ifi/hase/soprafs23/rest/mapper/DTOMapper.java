@@ -41,20 +41,20 @@ public interface DTOMapper {
   @Mapping(source = "creationDate", target = "creationDate")
   @Mapping(source = "birthdate", target = "birthdate")
   @Mapping(source = "bio", target = "bio")
-  @Mapping(source = "events", target = "eventGetDTOs")
+  @Mapping(source = "events", target = "userEventGetDTOs")
   UserGetDTO convertEntityToUserGetDTO(User user);
-    @Named("convertEntityToUserGetDTO")
-    EventGetDTO convertEntityToEventDTO(Event event);
+    @Named("convertEntityToUserEventGetDTO")
+    UserEventGetDTO convertEntityToUserEventGetDTO(Event event);
 
-    default List<EventGetDTO> convertEntityListToEventDTOList(List<Event> entityList) {
+    default List<UserEventGetDTO> convertEntityListToUserEventGetDTOList(List<Event> entityList) {
         if (entityList == null) {
             return null;
         }
-        return entityList.stream().map(this::convertEntityToEventDTO).collect(Collectors.toList());
+        return entityList.stream().map(this::convertEntityToUserEventGetDTO).collect(Collectors.toList());
     }
     @AfterMapping
     default void addEventsToUserGetDTO(User user, @MappingTarget UserGetDTO userGetDTO) {
-        userGetDTO.setEventGetDTOs(convertEntityListToEventDTOList(user.getEvents()));
+        userGetDTO.setUserEventGetDTOs(convertEntityListToUserEventGetDTOList(user.getEvents()));
     }
 
     //mapping internal representation of  User to UserPutDTO
