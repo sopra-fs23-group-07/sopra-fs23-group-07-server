@@ -41,3 +41,4 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
     return new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
   }
 }
+
