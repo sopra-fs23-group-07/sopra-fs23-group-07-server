@@ -18,9 +18,9 @@ public class MemberDTO {
     private LocalDate creationDate;
     private LocalDate birthdate;
     private List<String> selectedSports;
-    private List<Location> selectedLocations;
+    private List<LobbyLocationDTO> selectedLocations;
     private List<LocalDateTime> selectedDates;
-    private Location suggestedLocation;
+    private LobbyLocationDTO suggestedLocation;
     private boolean hasLockedSelections;
 
     public Long getMemberId() {
@@ -95,11 +95,11 @@ public class MemberDTO {
         this.selectedSports = selectedSports;
     }
 
-    public List<Location> getSelectedLocations() {
+    public List<LobbyLocationDTO> getSelectedLocations() {
         return selectedLocations;
     }
 
-    public void setSelectedLocations(List<Location> selectedLocations) {
+    public void setSelectedLocations(List<LobbyLocationDTO> selectedLocations) {
         this.selectedLocations = selectedLocations;
     }
 
@@ -111,11 +111,11 @@ public class MemberDTO {
         this.selectedDates = selectedDates;
     }
 
-    public Location getSuggestedLocation() {
+    public LobbyLocationDTO getSuggestedLocation() {
         return suggestedLocation;
     }
 
-    public void setSuggestedLocation(Location suggestedLocation) {
+    public void setSuggestedLocation(LobbyLocationDTO suggestedLocation) {
         this.suggestedLocation = suggestedLocation;
     }
 

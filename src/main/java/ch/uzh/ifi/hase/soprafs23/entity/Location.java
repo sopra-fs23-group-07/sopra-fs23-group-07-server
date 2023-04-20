@@ -42,6 +42,8 @@ public class Location implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId", insertable = false, updatable = false)
     private Member member;
+    @Column(nullable = true)
+    private String locationType; // can be "DECIDED" or "OTHER"
 
     // Getters and setters for the longitude and latitude fields
     public double getLongitude() {
@@ -126,5 +128,13 @@ public class Location implements Serializable {
 
     public void setMember(Member member) {
         this.member = member;
+    }
+
+    public String getLocationType() {
+        return locationType;
+    }
+
+    public void setLocationType(String locationType) {
+        this.locationType = locationType;
     }
 }

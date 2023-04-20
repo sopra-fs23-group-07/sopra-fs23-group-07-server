@@ -34,8 +34,7 @@ public class Event implements Serializable {
     @Column(nullable = true)
     private String eventName;
 
-    //@OneToOne(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Column(length = 10000)
+    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Location eventLocation;
 
     @Column(nullable = true, unique = false)

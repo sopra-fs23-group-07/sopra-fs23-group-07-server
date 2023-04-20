@@ -19,7 +19,7 @@ public class LobbyGetDTO {
 
   private String token;
 
-  private Location lobbyDecidedLocation;
+  private LobbyLocationDTO lobbyDecidedLocation;
 
   private String lobbyDecidedSport;
 
@@ -94,9 +94,9 @@ public class LobbyGetDTO {
 
   public void setLobbyDecidedDate(LocalDateTime lobbyDecidedDate) {this.lobbyDecidedDate = lobbyDecidedDate;}
 
-  public Location getLobbyDecidedLocation() {return lobbyDecidedLocation;}
+  public LobbyLocationDTO getLobbyDecidedLocation() {return lobbyDecidedLocation;}
 
-  public void setLobbyDecidedLocation(Location lobbyDecidedLocation) {this.lobbyDecidedLocation = lobbyDecidedLocation;}
+  public void setLobbyDecidedLocation(LobbyLocationDTO lobbyDecidedLocation) {this.lobbyDecidedLocation = lobbyDecidedLocation;}
 
   public String getToken() {
         return token;

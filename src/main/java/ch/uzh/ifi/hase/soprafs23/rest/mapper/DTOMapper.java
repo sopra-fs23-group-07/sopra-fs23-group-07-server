@@ -88,7 +88,7 @@ public interface DTOMapper {
   @Mapping(source = "lobbyTimeLimit", target = "lobbyTimeLimit")
   @Mapping(source = "token", target = "token")
   @Mapping(source = "haveAllMembersLockedSelections", target = "haveAllMembersLockedSelections")
-  @Mapping(source = "lobbyDecidedLocation", target = "lobbyDecidedLocation")
+  @Mapping(target = "lobbyDecidedLocation", ignore = true)
   @Mapping(source = "lobbyDecidedSport", target = "lobbyDecidedSport")
   @Mapping(source = "lobbyDecidedDate", target = "lobbyDecidedDate")
   @Mapping(source = "createdEventId", target = "createdEventId")
@@ -98,6 +98,10 @@ public interface DTOMapper {
     @BeforeMapping
     default void setTimeRemaining(Lobby lobby, @MappingTarget LobbyGetDTO lobbyGetDTO) {
         lobbyGetDTO.setTimeRemaining(lobby.getTimeRemaining());
+    }
+    @BeforeMapping
+    default void setLobbyDecidedLocation(Lobby lobby, @MappingTarget LobbyGetDTO lobbyGetDTO) {
+        lobbyGetDTO.setLobbyDecidedLocation(convertEntityToLobbyLocationDTO(lobby.getDecidedLocation()));
     }
 
     @Mapping(source = "eventName", target = "eventName")

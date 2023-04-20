@@ -151,6 +151,9 @@ public class Member implements Serializable {
     public void addSelectedLocation(Location location) {
         this.selectedLocations.add(location);
     }
+    public void removeSelectedLocation(Location location) {
+        selectedLocations.removeIf(location1 -> location1.equals(location));
+    }
 
     public void setSelectedLocations(List<Location> selectedLocations) {
         this.selectedLocations = selectedLocations;

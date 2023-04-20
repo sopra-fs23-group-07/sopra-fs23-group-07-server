@@ -130,6 +130,7 @@ public class LobbyController {
   @ResponseBody
   public LobbyGetDTO addLobbyLocation(@RequestBody LobbyLocationDTO lobbyLocationDTO, @PathVariable Long lobbyId) {
       Location location = DTOMapper.INSTANCE.convertLobbyLocationDTOtoEntity(lobbyLocationDTO);
+      location.setLocationType("OTHER");
       lobbyService.addLobbyLocation(lobbyId, location);
       return DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobbyService.getLobby(lobbyId));
   }

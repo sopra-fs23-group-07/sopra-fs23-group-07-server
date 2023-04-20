@@ -60,7 +60,7 @@ public class LobbyService {
 
     public LobbyGetDTO updateLobby(Lobby lobby) {
         lobby.setLobbyDecidedSport(lobby.decideSport());
-        lobby.setLobbyDecidedLocation(lobby.decideLocation());
+        lobby.decideLocation();
         lobby.setLobbyDecidedDate(lobby.decideDate());
 
         LobbyGetDTO lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
@@ -133,7 +133,10 @@ public class LobbyService {
 
     public Lobby createLobby(Lobby newLobby) {
         checkIfLobbyExists(newLobby);
-        checkIfUserIsMemberOfALobby(userRepository.findByUserId(newLobby.getHostMemberId()));
+        if (newLobby.getLobbyMaxMembers() > 12) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Maximum number of lobby members cannot exceed 12 people.");
+        }
+        //checkIfUserIsMemberOfALobby(userRepository.findByUserId(newLobby.getHostMemberId())); //restriction to be member of only 1 lobby
         newLobby.setToken(UUID.randomUUID().toString());
 
         // Set the lobby timer and save it to the database
@@ -198,7 +201,7 @@ public class LobbyService {
     public Member addMember(Long lobbyId, Long userId) {
         Lobby lobby = getLobby(lobbyId);
         User databaseUser = getUser(userId);
-        checkIfUserIsMemberOfALobby(databaseUser);
+        //checkIfUserIsMemberOfALobby(databaseUser); //restriction to be member of only 1 lobby
         if (lobby.isLobbyFull()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Lobby is full");
         }
@@ -352,6 +355,7 @@ public class LobbyService {
         Lobby lobby = getLobby(lobbyId);
         checkIfIsMemberOfLobby(lobby, member);
         location.removeMemberVotes(memberId);
+        member.removeSelectedLocation(location);
 
         locationRepository.save(location);
         lobbyRepository.save(lobby);

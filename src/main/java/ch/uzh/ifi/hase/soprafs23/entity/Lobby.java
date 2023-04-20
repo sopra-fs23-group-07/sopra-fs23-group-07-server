@@ -58,10 +58,6 @@ public class Lobby implements Serializable {
   @Column(nullable = false)
   private Integer lobbyTimeLimit;
 
-  //@OneToOne(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Column(length = 10000)
-  private Location lobbyDecidedLocation;
-
   @Column(nullable = true)
   private String lobbyDecidedSport;
 
@@ -175,10 +171,13 @@ public class Lobby implements Serializable {
       Hashtable<Location, Integer> locationCount = new Hashtable<>();
       if(lobbyLocations.isEmpty()) { return null; }
       Location selectedLocation = lobbyLocations.get(0);
+      selectedLocation.setLocationType("DECIDED");
 
       for(Location location : lobbyLocations) {
           if(location.getMemberVotes() > selectedLocation.getMemberVotes()) {
+              selectedLocation.setLocationType("OTHER");
               selectedLocation = location;
+              selectedLocation.setLocationType("DECIDED");
           }
       }
 
@@ -216,7 +215,7 @@ public class Lobby implements Serializable {
       Event event = new Event();
 
       //lobbyDecidedLocation.setEventId(event.getEventId());
-      event.setEventLocation( lobbyDecidedLocation );
+      event.setEventLocation( getDecidedLocation() );
       //event.getEventLocation().setEventId(event.getEventId());
       event.setEventName( lobbyName );
       event.setEventSport( lobbyDecidedSport );
@@ -316,10 +315,6 @@ public class Lobby implements Serializable {
 
   public void setLobbyDecidedDate(LocalDateTime lobbyDecidedDate) {this.lobbyDecidedDate = lobbyDecidedDate;}
 
-  public Location getLobbyDecidedLocation() {return lobbyDecidedLocation;}
-
-  public void setLobbyDecidedLocation(Location lobbyDecidedLocation) {this.lobbyDecidedLocation = lobbyDecidedLocation;}
-
   public Integer getNumberOfVotesForLocation(Location location) {return 0;}
 
   public String getToken() {
@@ -346,5 +341,14 @@ public class Lobby implements Serializable {
     }
     public Timer getTimer() {
       return timer;
+    }
+
+    public Location getDecidedLocation() {
+        for (Location location : lobbyLocations) {
+            if ("DECIDED".equals(location.getLocationType())) {
+                return location;
+            }
+        }
+        return null;
     }
 }
