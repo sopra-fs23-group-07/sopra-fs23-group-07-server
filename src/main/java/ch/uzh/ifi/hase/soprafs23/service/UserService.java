@@ -77,7 +77,7 @@ public class UserService {
     public User loginUser(User userToBeLoggedIn) {
         User userInDb = userRepository.findByUsername(userToBeLoggedIn.getUsername());
         if (userInDb == null) {
-            String baseErrorMessage = "The %s provide %s not found";
+            String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "username", "was"));
         }
         if (!userInDb.getPassword().equals(userToBeLoggedIn.getPassword())) {
@@ -96,6 +96,12 @@ public class UserService {
         User userToBeLoggedOut = getUser(userId);
         userToBeLoggedOut.setStatus(UserStatus.OFFLINE);
 
+    }
+    public void userLoggedIn(String token) {
+        User userByToken = userRepository.findByToken(token);
+        if (userByToken == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Token is not valid");
+        }
     }
 
     public User getUser(long userId) {

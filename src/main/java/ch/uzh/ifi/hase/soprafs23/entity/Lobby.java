@@ -121,6 +121,15 @@ public class Lobby implements Serializable {
       }
       return endLobby;
   }
+  public boolean isAtLeastTwoMembersHaveLockedSelections() {
+      int members = 0;
+      for (Member member : lobbyMembers) {
+          if (member.getHasLockedSelections()) {
+              members++;
+          }
+      }
+      return members >= 2;
+  }
 
   public void setHaveAllMembersLockedSelections(boolean haveAllMembersLockedSelections) {
       this.haveAllMembersLockedSelections = haveAllMembersLockedSelections;
