@@ -66,7 +66,7 @@ public class EventService {
 
 
     public Event getEvent(long eventId) {
-        Optional<Event> eventToFind = eventRepository.findById(eventId);
+        Optional<Event> eventToFind = eventRepository.findByEventId(eventId);
         if (eventToFind.isEmpty()) {
             String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "eventId", "was"));

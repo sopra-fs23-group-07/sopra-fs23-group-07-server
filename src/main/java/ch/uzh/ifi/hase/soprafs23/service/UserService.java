@@ -67,7 +67,6 @@ public class UserService {
      */
     private void checkIfUserExists(User userToBeCreated) {
         User userByUsername = userRepository.findByUsername(userToBeCreated.getUsername());
-
         String baseErrorMessage = "The %s provided %s not unique. Therefore, the user could not be created!";
         if (userByUsername != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "username", "is"));
@@ -85,7 +84,6 @@ public class UserService {
         }
         userInDb.setStatus(UserStatus.ONLINE);
         userInDb.setToken(UUID.randomUUID().toString());
-        //userRepository.save(userInDb);
 
         log.debug("Created Information for User: {}", userToBeLoggedIn);
 
@@ -96,12 +94,6 @@ public class UserService {
         User userToBeLoggedOut = getUser(userId);
         userToBeLoggedOut.setStatus(UserStatus.OFFLINE);
 
-    }
-    public void userLoggedIn(String token) {
-        User userByToken = userRepository.findByToken(token);
-        if (userByToken == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Token is not valid");
-        }
     }
 
     public User getUser(long userId) {

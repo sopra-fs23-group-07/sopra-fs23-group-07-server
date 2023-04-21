@@ -1,8 +1,5 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
