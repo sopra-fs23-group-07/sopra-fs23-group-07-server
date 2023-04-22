@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs23.entity.Event;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,13 +10,16 @@ import org.mockito.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
 
@@ -44,6 +48,22 @@ public class UserServiceTest {
     // testUser
     when(userRepository.save(any())).thenReturn(testUser);
   }
+    @Test
+    void getEvents_ShouldReturnListOfUsers() {
+        // Create some test users
+        User testUser2 = new User();
+        testUser2.setUserId(2L);
+        List<User> testUsers = Arrays.asList(testUser, testUser2);
+
+        // Mock the repository method call to return the test events
+        when(userRepository.findAll()).thenReturn(testUsers);
+
+        // Call the method to be tested
+        List<User> returnedUsers = userService.getUsers();
+
+        // Verify that the returned events match the test events
+        assertEquals(testUsers, returnedUsers);
+    }
 
   @Test
   public void createUser_validInputs_success() {
@@ -63,19 +83,6 @@ public class UserServiceTest {
 
   @Test
   public void createUser_duplicateName_throwsException() {
-    // given -> a first user has already been created
-    userService.createUser(testUser);
-
-    // when -> setup additional mocks for UserRepository
-    when(userRepository.findByUsername(any())).thenReturn(testUser);
-
-    // then -> attempt to create second user with same user -> check that an error
-    // is thrown
-    assertThrows(ResponseStatusException.class, () -> userService.createUser(testUser));
-  }
-
-  @Test
-  public void createUser_duplicateInputs_throwsException() {
     // given -> a first user has already been created
     userService.createUser(testUser);
 
@@ -155,6 +162,104 @@ public class UserServiceTest {
 
         // Verify that the exception has a 404 NOT FOUND status code
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
+    }
+    @Test
+    void getUser_ShouldReturnUserById() {
+
+        when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
+
+        // Call the method to be tested
+        User retrievedUser = userService.getUser(testUser.getUserId());
+
+        // Assert that the captured user ID matches the ID of the test user
+        assertEquals(testUser.getUserId(), retrievedUser.getUserId());
+        // Assert that the returned user is the same as the test user
+        assertEquals(testUser, retrievedUser);
+    }
+    @Test
+    void getUser_UserNotFound() {
+
+        when(userRepository.findByUserId(testUser.getUserId())).thenReturn(null);
+
+        // Call the method to be tested and assert that it throws the expected exception
+        assertThrows(ResponseStatusException.class, () -> userService.getUser(testUser.getUserId()));
+    }
+    @Test
+    void logoutUser_ShouldSetUserStatusToOffline() {
+
+        // Mock the necessary method call
+        when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
+
+        // Call the method to be tested
+        userService.logoutUser(testUser.getUserId());
+
+        // Assert that the user's status is set to offline
+        assertEquals(UserStatus.OFFLINE, testUser.getStatus());
+    }
+    @Test
+    void updateUser_ShouldUpdateUserFields() {
+
+        // Create an input user with updated fields
+        User inputUser = new User();
+        inputUser.setUserId(1L);
+        inputUser.setUsername("updatedTestUser");
+        inputUser.setPassword("updatedTestPassword");
+        inputUser.setEmail("updatedTest@example.com");
+        inputUser.setBio("BIO");
+        inputUser.setBirthdate(LocalDate.parse("2000-05-05"));
+
+        // Mock the necessary method calls
+        when(userRepository.findByUserId(inputUser.getUserId())).thenReturn(testUser);
+
+        // Call the method to be tested
+        userService.updateUser(inputUser);
+
+        // Verify that the save method was called with the correct user object
+        verify(userRepository).save(testUser);
+
+        // Assert that the user fields were updated correctly
+        assertEquals(inputUser.getUsername(), testUser.getUsername());
+        assertEquals(inputUser.getPassword(), testUser.getPassword());
+        assertEquals(inputUser.getEmail(), testUser.getEmail());
+        assertEquals(inputUser.getBio(), testUser.getBio());
+        assertEquals(inputUser.getBirthdate(), testUser.getBirthdate());
+    }
+    @Test
+    void updateUser_ShouldNotUpdateUsername() {
+
+        // Create an input user with updated fields
+        User inputUser = new User();
+        inputUser.setUserId(1L);
+        inputUser.setUsername("testUsername");
+
+        // Mock the necessary method calls
+        when(userRepository.findByUserId(inputUser.getUserId())).thenReturn(testUser);
+
+        // Call the method to be tested
+        userService.updateUser(inputUser);
+
+        // Assert that the user fields are the same
+        assertEquals(inputUser.getUsername(), testUser.getUsername());
+    }
+    @Test
+    void updateUser_SameUsername() {
+
+        User user2 = new User();
+        user2.setUserId(2L);
+        user2.setUsername("testName2d");
+        //userRepository.save(user2);
+
+        // Create input user with the same username as user2
+        User inputUser = new User();
+        inputUser.setUserId(1L);
+        inputUser.setUsername("testName2");
+
+        // Mock the necessary method calls
+        when(userRepository.findByUserId(inputUser.getUserId())).thenReturn(testUser);
+        when(userRepository.findByUsername(inputUser.getUsername())).thenReturn(user2);
+
+        // Call the method to be tested
+        assertThrows(ResponseStatusException.class, () -> userService.updateUser(inputUser));
     }
 
 }

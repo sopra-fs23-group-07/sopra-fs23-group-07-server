@@ -6,6 +6,9 @@ import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -13,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.UUID;
+import java.beans.PropertyDescriptor;
+import java.util.*;
 
 import java.time.LocalDate;
 
@@ -89,39 +92,46 @@ public class UserService {
 
         return userInDb;
     }
-
     public void logoutUser(long userId) {
         User userToBeLoggedOut = getUser(userId);
         userToBeLoggedOut.setStatus(UserStatus.OFFLINE);
-
     }
 
     public User getUser(long userId) {
         User userToFind = userRepository.findByUserId(userId);
         if (userToFind == null) {
-            String baseErrorMessage = "The %s provide %s not found";
+            String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "userId", "was"));
         }
         return userToFind;
     }
-
     public void updateUser(User inputUser) {
         User databaseUser = getUser(inputUser.getUserId());
-        if (inputUser.getUsername()!=null && !inputUser.getUsername().equals("")){
-            databaseUser.setUsername(inputUser.getUsername());
+
+        // Check if username already exists
+        if (!Objects.equals(inputUser.getUsername(), databaseUser.getUsername())) {
+            checkIfUserExists(inputUser);
         }
-        if (inputUser.getPassword()!=null && !inputUser.getPassword().equals("")){
-            databaseUser.setPassword(inputUser.getPassword());
-        }
-        if (inputUser.getEmail()!=null && !inputUser.getEmail().equals("")){
-            databaseUser.setEmail(inputUser.getEmail());
-        }
-        if (inputUser.getBirthdate()!=null && !inputUser.getBirthdate().toString().equals("")){
-            databaseUser.setBirthdate(inputUser.getBirthdate());
-        }
-        if (inputUser.getBio()!=null && !inputUser.getBio().equals("")){
-            databaseUser.setBio(inputUser.getBio());
-        }
+
+        // Copy non-null properties from inputUser to databaseUser
+        BeanUtils.copyProperties(inputUser, databaseUser, getNullPropertyNames(inputUser));
+
+        // Save the merged user object
         userRepository.save(databaseUser);
+    }
+
+    private String[] getNullPropertyNames(Object source) {
+        final BeanWrapper src = new BeanWrapperImpl(source);
+        PropertyDescriptor[] pds = src.getPropertyDescriptors();
+
+        Set<String> emptyNames = new HashSet<>();
+        for (PropertyDescriptor pd : pds) {
+            Object srcValue = src.getPropertyValue(pd.getName());
+            if (srcValue == null) {
+                emptyNames.add(pd.getName());
+            }
+        }
+        String[] result = new String[emptyNames.size()];
+        return emptyNames.toArray(result);
     }
 }
