@@ -50,8 +50,8 @@ public class EventPostDTO {
         return eventCreator;
     }
 
-    public void setEventCreator(Long eventParticipants){
-        this.eventCreator = eventParticipants;
+    public void setEventCreator(Long eventCreator){
+        this.eventCreator = eventCreator;
     }
 
     public Integer getEventMaxParticipants() {
