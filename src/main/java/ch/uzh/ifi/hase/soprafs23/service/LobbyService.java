@@ -83,6 +83,7 @@ public class LobbyService {
                     participant.setEvent(event);
 
                     event.addEventParticipant(participant);
+                    event.addEventUser(databaseUser);
                     databaseUser.addEvent(event);
                     participantRepository.save(participant);
                     userRepository.save(databaseUser);
