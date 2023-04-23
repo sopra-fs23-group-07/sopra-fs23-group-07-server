@@ -89,10 +89,10 @@ public class LobbyService {
                     eventRepository.save(event);
                 }
 
-                //Location eventLocation = lobby.getLobbyDecidedLocation();
+                //Location eventLocation = lobby.getDecidedLocation();
                 //eventLocation.setEventId(event.getEventId());
 
-                //event.getEventLocation().setEventId(event.getEventId());
+                event.getEventLocation().setEventId(event.getEventId());
 
                 //eventLocation = locationRepository.save(eventLocation);
                 //locationRepository.flush();
