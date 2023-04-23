@@ -39,7 +39,7 @@ public class Lobby implements Serializable {
   @Column(nullable = false)
   private Long hostMemberId;
 
-  @OneToMany(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   private List<Member> lobbyMembers = new ArrayList<>();
 
   @Column(nullable = true)

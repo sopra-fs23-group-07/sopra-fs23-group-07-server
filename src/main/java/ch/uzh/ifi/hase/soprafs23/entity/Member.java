@@ -53,6 +53,7 @@ public class Member implements Serializable {
     private List<String> selectedSports = new ArrayList<>();
     @ElementCollection
     @CollectionTable(name = "member_location", joinColumns = @JoinColumn(name = "member_id"))
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Location> selectedLocations;
     @ElementCollection
     @CollectionTable(name = "member_dates", joinColumns = @JoinColumn(name = "member_id"))

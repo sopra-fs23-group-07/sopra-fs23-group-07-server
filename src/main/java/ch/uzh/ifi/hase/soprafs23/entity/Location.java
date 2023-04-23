@@ -24,7 +24,7 @@ public class Location implements Serializable {
     private double longitude;
     @Column(nullable = false)
     private double latitude;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "location_votes", joinColumns = @JoinColumn(name = "location_id"))
     private Set<Long> memberVotes = new HashSet<>();
     @Column(nullable = true)
