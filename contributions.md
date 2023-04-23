@@ -91,11 +91,22 @@
 
 # Week 4
 
-| **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                           | **Comment**                                    |
-| -------- | ----------------------- | --------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------- |
-| 4        | 17/04/2023 - 24/04/2023 | Yannic          | [#188](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/188)       | Cleaned up the contributions.md file           |
-| 4        | 17/04/2023 - 24/04/2023 | Yannic          | [#60](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/60)         | Changed background color and redesigned header |
-| 4        | 17/04/2023 - 24/04/2023 | ?               | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-[client/server?]/issues/?) | ?                                              |
+| **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                           | **Comment**                                                        |
+| -------- | ----------------------- |-----------------|--------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| 4        | 17/04/2023 - 24/04/2023 | Yannic          | [#188](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/188)       | Cleaned up the contributions.md file                               |
+| 4        | 17/04/2023 - 24/04/2023 | Yannic          | [#60](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/60)         | Changed background color and redesigned header                     |
+| 4        | 17/04/2023 - 24/04/2023 | ?               | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-[client/server?]/issues/?) | ?                                                                  |
+| 4        | 17/04/2023 - 24/04/2023 | Patrick         | [#186](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/186)       | lobbyMember can only lock selections when all parameters are set   |
+| 4        | 17/04/2023 - 24/04/2023 | Patrick         | [#189](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/189)       | add bio to User                                                    |
+| 4        | 17/04/2023 - 24/04/2023 | Patrick         | [#83](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/83)         | add Lock method                                                    |
+| 4        | 17/04/2023 - 24/04/2023 | Patrick         | [#187](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/187)       | lobbyMember can only lock selections when all parameters are set   |
+| 4        | 17/04/2023 - 24/04/2023 | Patrick         | [#190](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/190)       | Mapping of userEvents to userGetDTO                                |
+| 4        | 17/04/2023 - 24/04/2023 | Patrick         | [#191](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/191)       | new DTO for displaying userEvents without participantsList         |
+| 4        | 17/04/2023 - 24/04/2023 | Patrick         | [#195](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/195)       | Vote and unvote only possible one time, refactor                   |
+| 4        | 17/04/2023 - 24/04/2023 | Patrick         | [#196](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/196)       | add token validation if user forgets to logout. not needed anymore |
+| 4        | 17/04/2023 - 24/04/2023 | Patrick         | [#197](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/197)       | add tests to eventServiceTest                                      |
+| 4        | 17/04/2023 - 24/04/2023 | Patrick         | [#198](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/198)       | add userService tests                                              |
+| 4        | 17/04/2023 - 24/04/2023 | Patrick         | [#199](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/199)       | add test for eventController                                       |
 
 # Week 5
 
