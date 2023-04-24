@@ -118,6 +118,10 @@
 | 4        | 17/04/2023 - 24/04/2023 | Suleman         | [#193](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/193) | add tests to lobbyServiceIntegrationTest |
 | 4        | 17/04/2023 - 24/04/2023 | Suleman         | [#194](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/194) | add setLocations tests to lobbyServiceTest |
 | 4        | 17/04/2023 - 24/04/2023 | Suleman         | [#200](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/200) | add tests to lobbyControllerTest |
+| 4        | 17/04/2023 - 24/04/2023 | Raffael         | [#64](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/64) | alert messages replaced with MUI Alert component |
+| 4        | 17/04/2023 - 24/04/2023 | Raffael         | [#17](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/17) | Linking from username to user profile |
+| 4        | 17/04/2023 - 24/04/2023 | Raffael         | [#25](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/25) | bio can now be edited |
+| 4        | 17/04/2023 - 24/04/2023 | Raffael         | [#5](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/5) | join and leave api calls on Event Detail page working but there needs to be a way to validate whether user is already a participant or not (backend?) |
 
 # Week 5
 
