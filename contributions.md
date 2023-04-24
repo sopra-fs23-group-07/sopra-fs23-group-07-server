@@ -114,7 +114,7 @@
 | 4        | 17/04/2023 - 24/04/2023 | Patrick         | [#197](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/197) | add tests to eventServiceTest                                                                                 |
 | 4        | 17/04/2023 - 24/04/2023 | Patrick         | [#198](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/198) | add userService tests                                                                                         |
 | 4        | 17/04/2023 - 24/04/2023 | Patrick         | [#199](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/199) | add test for eventController                                                                                  |
-| 4        | 17/04/2023 - 24/04/2023 | Suleman         | [#192](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/193) | fix tests in lobbyServiceTest |
+| 4        | 17/04/2023 - 24/04/2023 | Suleman         | [#192](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/192) | fix tests in lobbyServiceTest |
 | 4        | 17/04/2023 - 24/04/2023 | Suleman         | [#193](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/193) | add tests to lobbyServiceIntegrationTest |
 | 4        | 17/04/2023 - 24/04/2023 | Suleman         | [#194](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/194) | add setLocations tests to lobbyServiceTest |
 | 4        | 17/04/2023 - 24/04/2023 | Suleman         | [#200](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/200) | add tests to lobbyControllerTest |
