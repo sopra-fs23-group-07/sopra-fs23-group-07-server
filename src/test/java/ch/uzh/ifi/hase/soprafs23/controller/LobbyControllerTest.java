@@ -1,25 +1,23 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
-import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs23.entity.*;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.LobbyService;
-import ch.uzh.ifi.hase.soprafs23.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,9 +26,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,6 +51,7 @@ public class LobbyControllerTest {
 
   @MockBean
   private LobbyService lobbyService;
+  private ObjectMapper objectMapper;
 
   private Lobby lobby;
 
@@ -70,7 +73,7 @@ public class LobbyControllerTest {
 
         member = new Member();
         member.setUser(user);
-        member.setMemberIdId(1L);
+        member.setMemberId(1L);
         member.setUserId(1L);
         member.setUsername("username");
         member.setLobbyId(1L);
@@ -97,6 +100,8 @@ public class LobbyControllerTest {
         lobbyGetDTO.setLobbyTimeLimit(10);
         lobbyGetDTO.setLobbyId(1L);
         lobbyGetDTO.setToken("token");
+
+        objectMapper = new ObjectMapper();
     }
 
   @Test
@@ -120,64 +125,87 @@ public class LobbyControllerTest {
             .andExpect(jsonPath("$[0].lobbyTimeLimit", is(lobby.getLobbyTimeLimit())))
             .andExpect(jsonPath("$[0].lobbyId", is(1)));
   }
+    @Test
+    public void givenLobby_whenGetLobby_thenReturnJsonArray() throws Exception {
+        // Mocking the lobbyService.getLobby() method
+        given(lobbyService.getLobby(any(Long.class))).willReturn(lobby);
 
-//    @Test
-//    public void givenLobby_whenGetLobby_thenReturnJsonArray() throws Exception {
-//
-//
-//        given(lobbyService.getLobby(Mockito.anyLong())).willReturn(lobby);
-//        given(lobbyService.updateLobby(Mockito.any())).willReturn(lobbyGetDTO);
-//
-//        // when
-//        MockHttpServletRequestBuilder getRequest = get("/lobbies/" + lobby.getLobbyId()).contentType(MediaType.APPLICATION_JSON);
-//
-//        // then
-//        mockMvc.perform(getRequest).andExpect(status().isOk())
-//                .andExpect(jsonPath("$.lobbyName", is(lobby.getLobbyName())))
-//                .andExpect(jsonPath("$.lobbyMaxMembers", is(lobby.getLobbyMaxMembers())))
-//                .andExpect(jsonPath("$.lobbyRegion", is(lobby.getLobbyRegion())))
-//                .andExpect(jsonPath("$.lobbyTimeLimit", is(lobby.getLobbyTimeLimit())))
-//                .andExpect(jsonPath("$.lobbyId", is(1)));
-//    }
+        // Mocking the lobbyService.updateLobby() method
+        given(lobbyService.updateLobby(lobby)).willReturn(lobbyGetDTO);
 
-//    @Test
-//    public void givenLobbyGetDTO_createLobby_thenReturnsJsonArray() throws Exception {
-//        LobbyPostDTO lobbyPostDTO = new LobbyPostDTO();
-//        lobbyPostDTO.setLobbyName("name");
-//        lobbyPostDTO.setLobbyRegion("ZH");
-//        lobbyPostDTO.setLobbyTimeLimit(10);
-//        lobbyPostDTO.setLobbyMaxMembers(10);
-//        lobbyPostDTO.setHostMemberId(1L);
-//
-//        MemberDTO memberDTO = new MemberDTO();
-//        memberDTO.setLobbyId(lobby.getLobbyId());
-//        memberDTO.setUserId(user.getUserId());
-//        memberDTO.setMemberId(member.getMemberId());
-//        memberDTO.setUsername(user.getUsername());
-//
-//        given(lobbyService.createLobby(Mockito.any())).willReturn(lobby);
-//        given(lobbyService.addMember(Mockito.anyLong(), Mockito.anyLong())).willReturn(member);
-//
-//        given(DTOMapper.INSTANCE.convertEntityToMemberDTO(Mockito.any())).willReturn(memberDTO);
-//
-//        MockHttpServletRequestBuilder postRequest = post("/lobbies")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(asJsonString(lobbyPostDTO));
-//
-//        // then
-//        mockMvc.perform(postRequest).andExpect(status().isCreated())
-//                .andExpect(jsonPath("$.username", is(member.getUsername())))
-//                .andExpect(jsonPath("$.userId", is(1)))
-//                .andExpect(jsonPath("$.memberId", is(1)))
-//                .andExpect(jsonPath("$.lobbyId", is(1)));
-//    }
+        // Performing the GET request to retrieve the lobby
+        MvcResult mvcResult = mockMvc.perform(get("/lobbies/" + lobby.getLobbyId()).contentType(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                .content(""))
+                //.andExpect(status().isOk())
+                .andReturn();
+
+        // Verifying that the lobbyService.getLobby() and lobbyService.updateLobby() methods were called
+        verify(lobbyService).getLobby(any(Long.class));
+        verify(lobbyService).updateLobby(eq(lobby));
+
+        // Deserializing the response into a LobbyGetDTO object and asserting its properties
+        LobbyGetDTO actualLobbyGetDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), LobbyGetDTO.class);
+        assertEquals(actualLobbyGetDTO.getLobbyId(), lobbyGetDTO.getLobbyId());
+        assertEquals(actualLobbyGetDTO.getLobbyName(), lobbyGetDTO.getLobbyName());
+        assertEquals(actualLobbyGetDTO.getLobbyRegion(), lobbyGetDTO.getLobbyRegion());
+        assertEquals(actualLobbyGetDTO.getLobbyMaxMembers(), lobbyGetDTO.getLobbyMaxMembers());
+        assertEquals(actualLobbyGetDTO.getLobbyTimeLimit(), lobbyGetDTO.getLobbyTimeLimit());
+        assertEquals(actualLobbyGetDTO.getToken(), lobbyGetDTO.getToken());
+    }
+
+
+
+    @Test
+    public void givenLobbyPostDTO_createLobby_thenReturnsMemberDTO() throws Exception {
+
+        LobbyPostDTO lobbyPostDTO = new LobbyPostDTO();
+        lobbyPostDTO.setLobbyName("Test Lobby");
+        lobbyPostDTO.setLobbyRegion("ZH");
+        lobbyPostDTO.setLobbyTimeLimit(10);
+        lobbyPostDTO.setLobbyMaxMembers(10);
+        lobbyPostDTO.setHostMemberId(1L);
+
+        given(lobbyService.createLobby(any(Lobby.class))).willAnswer(invocation -> {
+            Lobby lobby = invocation.getArgument(0);
+            lobby.setLobbyId(1L);
+            return lobby;
+        });
+        given(lobbyService.addMember(eq(1L), eq(1L))).willReturn(member);
+
+        MvcResult mvcResult = mockMvc.perform(post("/lobbies")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(lobbyPostDTO)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        verify(lobbyService).createLobby(any(Lobby.class));
+        verify(lobbyService).addMember(eq(1L), eq(1L));
+
+        MemberDTO expectedMemberDTO = new MemberDTO();
+        expectedMemberDTO.setLobbyId(1L);
+        expectedMemberDTO.setUserId(1L);
+        expectedMemberDTO.setMemberId(1L);
+        expectedMemberDTO.setUsername("username");
+        expectedMemberDTO.setEmail("user@user.com");
+        MemberDTO actualMemberDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), MemberDTO.class);
+        assertEquals(expectedMemberDTO.getUsername(), actualMemberDTO.getUsername());
+        assertEquals(expectedMemberDTO.getUsername(), actualMemberDTO.getUsername());
+        assertEquals(expectedMemberDTO.getUserId(), actualMemberDTO.getUserId());
+        assertEquals(expectedMemberDTO.getLobbyId(), actualMemberDTO.getLobbyId());
+        assertEquals(expectedMemberDTO.getMemberId(), actualMemberDTO.getMemberId());
+        assertNull(actualMemberDTO.getSelectedDates());
+        assertNull(actualMemberDTO.getSelectedLocations());
+        assertTrue(actualMemberDTO.getSelectedSports().isEmpty());
+        assertFalse(actualMemberDTO.getHasLockedSelections());
+    }
 
     @Test
     public void givenLobbyAndUser_userJoinsLobby_thenReturnJsonArray() throws Exception {
         UserLobbyDTO userLobbyDTO = new UserLobbyDTO();
         userLobbyDTO.setUserId(user.getUserId());
 
-        given(lobbyService.addMember(Mockito.anyLong(), Mockito.anyLong())).willReturn(member);
+        given(lobbyService.addMember(anyLong(), anyLong())).willReturn(member);
 
         MockHttpServletRequestBuilder putRequest = put("/lobbies/{lobbyId}/join", lobby.getLobbyId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -228,7 +256,7 @@ public class LobbyControllerTest {
         memberWithSport = member;
         memberWithSport.setSelectedSports(sports);
 
-        given(lobbyService.setSports(Mockito.anyLong(), Mockito.anyLong(), Mockito.anyList())).willReturn(memberWithSport);
+        given(lobbyService.setSports(anyLong(), anyLong(), Mockito.anyList())).willReturn(memberWithSport);
 
         MockHttpServletRequestBuilder putRequest = put("/lobbies/{lobbyId}/sport", lobby.getLobbyId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -261,7 +289,7 @@ public class LobbyControllerTest {
         memberWithDate = member;
         memberWithDate.setSelectedDates(dates);
 
-        given(lobbyService.setDates(Mockito.anyLong(), Mockito.anyLong(), Mockito.anyList())).willReturn(memberWithDate);
+        given(lobbyService.setDates(anyLong(), anyLong(), Mockito.anyList())).willReturn(memberWithDate);
 
         MockHttpServletRequestBuilder putRequest = put("/lobbies/{lobbyId}/date", lobby.getLobbyId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -284,7 +312,7 @@ public class LobbyControllerTest {
         Member memberLocked = member;
         memberLocked.setHasLockedSelections(true);
 
-        given(lobbyService.lockSelections(Mockito.anyLong(), Mockito.anyLong())).willReturn(memberLocked);
+        given(lobbyService.lockSelections(anyLong(), anyLong())).willReturn(memberLocked);
 
         MockHttpServletRequestBuilder putRequest = put("/lobbies/{lobbyId}/lock", lobby.getLobbyId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -304,7 +332,7 @@ public class LobbyControllerTest {
         MemberLockDTO memberLockDTO = new MemberLockDTO();
         memberLockDTO.setMemberId(member.getMemberId());
 
-        given(lobbyService.unlockSelections(Mockito.anyLong(), Mockito.anyLong())).willReturn(member);
+        given(lobbyService.unlockSelections(anyLong(), anyLong())).willReturn(member);
 
         MockHttpServletRequestBuilder putRequest = put("/lobbies/{lobbyId}/unlock", lobby.getLobbyId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -337,7 +365,7 @@ public class LobbyControllerTest {
         Lobby lobbyWithLocation = lobby;
         lobbyWithLocation.addLobbyLocation(location);
 
-        given(lobbyService.getLobby(Mockito.anyLong())).willReturn(lobbyWithLocation);
+        given(lobbyService.getLobby(anyLong())).willReturn(lobbyWithLocation);
 
         MockHttpServletRequestBuilder postRequest = post("/lobbies/{lobbyId}/locations", lobby.getLobbyId())
                 .contentType(MediaType.APPLICATION_JSON)

@@ -132,7 +132,7 @@ public class Member implements Serializable {
         return memberId;
     }
 
-    public void setMemberIdId(Long memberId) {
+    public void setMemberId(Long memberId) {
         this.memberId = memberId;
     }
 

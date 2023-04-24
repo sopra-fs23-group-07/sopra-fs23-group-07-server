@@ -15,7 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,7 +84,7 @@ class LobbyServiceTest {
 
         testMember = new Member();
 
-        testMember.setMemberIdId(1L);
+        testMember.setMemberId(1L);
         testMember.setUserId(1L);
         testMember.setLobbyId(1L);
         testMember.setUser(testUser);
