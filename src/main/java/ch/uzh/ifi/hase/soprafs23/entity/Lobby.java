@@ -224,7 +224,15 @@ public class Lobby implements Serializable {
       Event event = new Event();
 
       //lobbyDecidedLocation.setEventId(event.getEventId());
-      event.setEventLocation( getDecidedLocation() );
+
+      Location eventLocationCopy = new Location();
+       eventLocationCopy.setEventId(event.getEventId());
+       eventLocationCopy.setAddress(getDecidedLocation().getAddress());
+       eventLocationCopy.setLongitude(getDecidedLocation().getLongitude());
+       eventLocationCopy.setLatitude(getDecidedLocation().getLatitude());
+       event.setEventLocation(eventLocationCopy);
+
+      //event.setEventLocation( getDecidedLocation() );
       //event.getEventLocation().setEventId(event.getEventId());
       event.setEventName( lobbyName );
       event.setEventSport( lobbyDecidedSport );

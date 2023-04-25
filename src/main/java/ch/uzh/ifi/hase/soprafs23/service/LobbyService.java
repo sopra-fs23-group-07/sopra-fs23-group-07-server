@@ -92,6 +92,12 @@ public class LobbyService {
 
                 //Location eventLocation = lobby.getDecidedLocation();
                 //eventLocation.setEventId(event.getEventId());
+                /**Location eventLocationCopy = new Location();
+                eventLocationCopy.setEventId(event.getEventId());
+                eventLocationCopy.setAddress(event.getEventLocation().getAddress());
+                eventLocationCopy.setLongitude(event.getEventLocation().getLongitude());
+                eventLocationCopy.setLatitude(event.getEventLocation().getLatitude());
+                event.setEventLocation(eventLocationCopy);**/
 
                 event.getEventLocation().setEventId(event.getEventId());
 
@@ -229,6 +235,9 @@ public class LobbyService {
         User databaseUser = getUser(userId);
         Member member = getMember(lobby, databaseUser);
 
+        for (Location location : member.getSelectedLocations()) {
+            lobby.removeLobbyLocation(location);
+        }
         lobby.removeLobbyLocation(member.getSuggestedLocation());
         lobby.removeLobbyMember(member);
         lobby.removeLobbyUser(databaseUser);
