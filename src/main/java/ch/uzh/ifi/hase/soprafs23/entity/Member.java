@@ -31,9 +31,9 @@ public class Member implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", insertable = false, updatable = false)
     private User user;
-    @ManyToOne(fetch = FetchType.LAZY)
+    /**@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "locationId", insertable = false, updatable = false)
-    private Location location;
+    private Location location;**/
 
     @Column(nullable = true)
     private String email;
@@ -51,15 +51,15 @@ public class Member implements Serializable {
     @ElementCollection
     @CollectionTable(name = "member_sport", joinColumns = @JoinColumn(name = "member_id"))
     private List<String> selectedSports = new ArrayList<>();
-    @ElementCollection
-    @CollectionTable(name = "member_location", joinColumns = @JoinColumn(name = "member_id"))
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Location> selectedLocations;
+    //@ElementCollection
+    //@CollectionTable(name = "member_location", joinColumns = @JoinColumn(name = "member_id"))
+    @ManyToMany(mappedBy = "selectedMembers", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Location> selectedLocations = new ArrayList<>();
     @ElementCollection
     @CollectionTable(name = "member_dates", joinColumns = @JoinColumn(name = "member_id"))
     private List<LocalDateTime> selectedDates;
 
-    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "suggestedBy", cascade = CascadeType.ALL, orphanRemoval = true)
     private Location suggestedLocation;
     @Column
     private boolean hasLockedSelections;

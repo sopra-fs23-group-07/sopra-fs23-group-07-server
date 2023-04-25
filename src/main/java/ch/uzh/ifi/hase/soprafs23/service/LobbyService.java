@@ -303,8 +303,9 @@ public class LobbyService {
         }
         if (!errorMessage.equals("")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMessage);
+        } else {
+            member.setHasLockedSelections(true);
         }
-        member.setHasLockedSelections(true);
         return member;
     }
 
@@ -340,6 +341,9 @@ public class LobbyService {
         Member member = getMemberById(memberId);
         Lobby lobby = getLobby(lobbyId);
         checkIfIsMemberOfLobby(lobby, member);
+        //member.setLocationId(locationId);
+        location.getSelectedMembers().add(member);
+        //location.setMemberId(memberId);
         location.addMemberVotes(memberId);
         member.addSelectedLocation(location);
 

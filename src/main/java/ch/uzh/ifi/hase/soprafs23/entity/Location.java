@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -39,9 +40,12 @@ public class Location implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "eventId", insertable = false, updatable = false)
     private Event event;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId", insertable = false, updatable = false)
-    private Member member;
+    private List<Member> selectedMembers;
+    @OneToOne
+    @JoinColumn(name = "memberId", insertable = false, updatable = false)
+    private Member suggestedBy;
     @Column(nullable = true)
     private String locationType; // can be "DECIDED" or "OTHER"
 
@@ -126,8 +130,11 @@ public class Location implements Serializable {
         this.eventId = eventId;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setSelectedMembers(List<Member> members) {
+        this.selectedMembers = members;
+    }
+    public List<Member> getSelectedMembers() {
+        return this.selectedMembers;
     }
 
     public String getLocationType() {
