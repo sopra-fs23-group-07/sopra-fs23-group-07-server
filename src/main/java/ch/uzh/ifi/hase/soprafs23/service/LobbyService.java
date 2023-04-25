@@ -141,8 +141,8 @@ public class LobbyService {
 
     public Lobby createLobby(Lobby newLobby) {
         checkIfLobbyExists(newLobby);
-        if (newLobby.getLobbyMaxMembers() > 12) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Maximum number of lobby members cannot exceed 12 people.");
+        if (newLobby.getLobbyMaxMembers() > 128) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Maximum number of lobby members cannot exceed 128 people.");
         }
         //checkIfUserIsMemberOfALobby(userRepository.findByUserId(newLobby.getHostMemberId())); //restriction to be member of only 1 lobby
         newLobby.setToken(UUID.randomUUID().toString());
@@ -236,9 +236,11 @@ public class LobbyService {
         Member member = getMember(lobby, databaseUser);
 
         for (Location location : member.getSelectedLocations()) {
-            lobby.removeLobbyLocation(location);
+            location.getSelectedMembers().remove(member);
+            location.removeMemberVotes(member.getMemberId());
         }
         lobby.removeLobbyLocation(member.getSuggestedLocation());
+
         lobby.removeLobbyMember(member);
         lobby.removeLobbyUser(databaseUser);
         databaseUser.removeLobby(lobby);
@@ -369,6 +371,7 @@ public class LobbyService {
         Member member = getMemberById(memberId);
         Lobby lobby = getLobby(lobbyId);
         checkIfIsMemberOfLobby(lobby, member);
+        location.getSelectedMembers().remove(member);
         location.removeMemberVotes(memberId);
         member.removeSelectedLocation(location);
 

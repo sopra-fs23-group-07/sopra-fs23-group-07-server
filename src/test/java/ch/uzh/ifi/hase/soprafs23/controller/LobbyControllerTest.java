@@ -195,7 +195,7 @@ public class LobbyControllerTest {
         assertEquals(expectedMemberDTO.getLobbyId(), actualMemberDTO.getLobbyId());
         assertEquals(expectedMemberDTO.getMemberId(), actualMemberDTO.getMemberId());
         assertNull(actualMemberDTO.getSelectedDates());
-        assertNull(actualMemberDTO.getSelectedLocations());
+        assertTrue(actualMemberDTO.getSelectedLocations().isEmpty());
         assertTrue(actualMemberDTO.getSelectedSports().isEmpty());
         assertFalse(actualMemberDTO.getHasLockedSelections());
     }
