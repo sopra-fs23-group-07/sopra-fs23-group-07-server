@@ -53,6 +53,7 @@ public class EventServiceTest {
         testEvent.setEventDate(LocalDateTime.parse("2023-05-05T18:00"));
         testEvent.setEventSport("Soccer");
         testEvent.setEventRegion("ZH");
+        testEvent.setEventMaxParticipants(10);
         testUser = new User();
         testUser.setUserId(1L);
         // when -> any object is being saved in the eventRepository -> return the dummy
