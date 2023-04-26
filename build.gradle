@@ -11,7 +11,18 @@ jacocoTestReport {
     reports {
         xml.enabled true
     }
+    dependsOn(test)
 }
+
+jacoco{
+    toolVersion = '0.8.8'
+    reportsDirectory = layout.buildDirectory.dir('$buildDir/reports/jacoco')
+}
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
+}
+
 
 group 'ch.uzh.ifi.hasel'
 version '1.0.0'
