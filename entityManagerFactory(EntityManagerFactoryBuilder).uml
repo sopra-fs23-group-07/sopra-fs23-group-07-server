@@ -3,87 +3,109 @@
   <ID>Persistence</ID>
   <OriginalElement>JavaeeElement:/9f36d5d/entityManagerFactory/ch.uzh.ifi.hasel.soprafs23.main/jpa/JPA/PersistenceModel</OriginalElement>
   <nodes>
-    <node x="23.760684437366933" y="421.8442033870415">Timer#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Timer.java</node>
-    <node x="538.6573514396916" y="556.0298897716016">Location#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Location.java</node>
-    <node x="189.75433908769068" y="558.732086816422">Lobby#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Lobby.java</node>
-    <node x="125.3308309792287" y="153.71758162736853">Participant#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Participant.java</node>
-    <node x="152.36728407637548" y="-147.75196633030208">User#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/User.java</node>
-    <node x="355.8122398099148" y="190.4541982729634">Member#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Member.java</node>
-    <node x="-139.17067601186994" y="-2.4596710484080972">Event#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Event.java</node>
+    <node x="-105.0" y="462.0">Timer#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Timer.java</node>
+    <node x="39.041666666666686" y="1060.0">Location#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Location.java</node>
+    <node x="-206.0" y="712.0">Lobby#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Lobby.java</node>
+    <node x="382.5" y="-148.0">AbstractPersistable#jar://C:/Users/patri/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.4.15/5d942ac549fe3cf68e02bf57eb7479512c3162c1/spring-data-jpa-2.4.15.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class</node>
+    <node x="-296.0" y="396.0">Participant#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Participant.java</node>
+    <node x="-175.94642857142856" y="68.0">User#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/User.java</node>
+    <node x="90.0" y="352.0">Member#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Member.java</node>
+    <node x="-56.083333333333314" y="-148.0">Event#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Event.java</node>
+    <node x="378.5" y="-44.0">AbstractAuditable#jar://C:/Users/patri/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.4.15/5d942ac549fe3cf68e02bf57eb7479512c3162c1/spring-data-jpa-2.4.15.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class</node>
   </nodes>
   <notes />
   <edges>
     <edge source="User#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/User.java" target="Lobby#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Lobby.java" relationship="RELATION">
-      <point x="84.99971592362452" y="-3.3669697927507514E-5" />
-      <point x="606.312" y="-32.75200000000001" />
-      <point x="606.312" y="527.0" />
-      <point x="329.254" y="527.0" />
-      <point x="-3.3908769067636513E-4" y="-148.00008681642197" />
+      <point x="0.0" y="115.0" />
+      <point x="-90.94642857142856" y="330.0" />
+      <point x="-115.5" y="330.0" />
+      <point x="-115.5" y="690.0" />
+      <point x="-136.25" y="690.0" />
+      <point x="-69.75" y="-148.0" />
     </edge>
     <edge source="Lobby#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Lobby.java" target="Member#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Member.java" relationship="RELATION">
-      <point x="139.4996609123093" y="-8.681642196961548E-5" />
-      <point x="504.0" y="706.732" />
-      <point x="504.0" y="512.0" />
-      <point x="546.1569999999999" y="512.0" />
-      <point x="73.84476019008522" y="147.9998017270366" />
+      <point x="69.75" y="-148.0" />
+      <point x="3.25" y="690.0" />
+      <point x="-17.5" y="690.0" />
+      <point x="-17.5" y="680.0" />
+      <point x="196.66666666666669" y="680.0" />
+      <point x="196.66666666666669" y="670.0" />
+      <point x="264.75" y="670.0" />
+      <point x="58.25" y="148.0" />
     </edge>
     <edge source="Member#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Member.java" target="User#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/User.java" relationship="RELATION">
-      <point x="-116.50023980991476" y="-1.9827296339514078E-4" />
-      <point x="324.0" y="338.454" />
-      <point x="324.0" y="136.218" />
-      <point x="252.367" y="136.218" />
-      <point x="14.999715923624517" y="114.99996633030207" />
+      <point x="0.0" y="-148.0" />
+      <point x="206.5" y="330.0" />
+      <point x="-90.94642857142856" y="330.0" />
+      <point x="0.0" y="115.0" />
+    </edge>
+    <edge source="AbstractAuditable#jar://C:/Users/patri/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.4.15/5d942ac549fe3cf68e02bf57eb7479512c3162c1/spring-data-jpa-2.4.15.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class" target="AbstractPersistable#jar://C:/Users/patri/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.4.15/5d942ac549fe3cf68e02bf57eb7479512c3162c1/spring-data-jpa-2.4.15.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class" relationship="INHERITANCE">
+      <point x="0.0" y="-38.0" />
+      <point x="0.0" y="27.0" />
     </edge>
     <edge source="Participant#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Participant.java" target="User#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/User.java" relationship="RELATION">
-      <point x="85.00016902077131" y="4.183726314685998E-4" />
-      <point x="324.0" y="257.718" />
-      <point x="324.0" y="136.218" />
-      <point x="252.367" y="136.218" />
-      <point x="14.999715923624517" y="114.99996633030207" />
+      <point x="0.0" y="-104.0" />
+      <point x="-211.0" y="320.0" />
+      <point x="-90.94642857142856" y="320.0" />
+      <point x="0.0" y="115.0" />
     </edge>
     <edge source="Location#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Location.java" target="Event#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Event.java" relationship="RELATION">
-      <point x="0.0" y="115.0" />
-      <point x="628.1573514396916" y="872.232086816422" />
-      <point x="-37.17067601186994" y="872.232086816422" />
-      <point x="0.0" y="82.0" />
+      <point x="44.75" y="-115.0" />
+      <point x="173.29166666666669" y="1039.0" />
+      <point x="231.04166666666674" y="1039.0" />
+      <point x="231.04166666666674" y="1029.0" />
+      <point x="333.5" y="1029.0" />
+      <point x="333.5" y="47.0" />
+      <point x="96.91666666666669" y="47.0" />
+      <point x="51.0" y="82.0" />
     </edge>
     <edge source="Location#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Location.java" target="Member#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Member.java" relationship="RELATION">
-      <point x="-89.50035143969166" y="1.1022839834140541E-4" />
-      <point x="504.0" y="671.03" />
-      <point x="504.0" y="512.0" />
-      <point x="546.1569999999999" y="512.0" />
-      <point x="73.84476019008522" y="147.9998017270366" />
+      <point x="44.75" y="-115.0" />
+      <point x="173.29166666666669" y="1039.0" />
+      <point x="231.04166666666674" y="1039.0" />
+      <point x="231.04166666666674" y="1029.0" />
+      <point x="196.66666666666669" y="1029.0" />
+      <point x="196.66666666666669" y="670.0" />
+      <point x="264.75" y="670.0" />
+      <point x="58.25" y="148.0" />
     </edge>
     <edge source="Participant#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Participant.java" target="Event#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Event.java" relationship="RELATION">
-      <point x="1.69020771309647E-4" y="-103.99958162736851" />
-      <point x="210.33100000000002" y="118.0" />
-      <point x="134.86700000000002" y="118.0" />
-      <point x="134.86700000000002" y="74.74799999999999" />
-      <point x="101.99967601186995" y="-4.792328951591912" />
+      <point x="0.0" y="-104.0" />
+      <point x="-211.0" y="47.0" />
+      <point x="-163.25" y="47.0" />
+      <point x="-163.25" y="37.0" />
+      <point x="-5.083333333333314" y="37.0" />
+      <point x="-51.0" y="82.0" />
     </edge>
     <edge source="User#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/User.java" target="Event#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Event.java" relationship="RELATION">
-      <point x="-2.8407637548255593E-4" y="114.99996633030207" />
-      <point x="237.367" y="118.0" />
-      <point x="134.86700000000002" y="118.0" />
-      <point x="134.86700000000002" y="74.74799999999999" />
-      <point x="101.99967601186995" y="-4.792328951591912" />
+      <point x="0.0" y="-115.0" />
+      <point x="-90.94642857142856" y="47.0" />
+      <point x="-163.25" y="47.0" />
+      <point x="-163.25" y="37.0" />
+      <point x="-5.083333333333314" y="37.0" />
+      <point x="-51.0" y="82.0" />
     </edge>
     <edge source="Location#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Location.java" target="Lobby#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Lobby.java" relationship="RELATION">
-      <point x="-3.514396916557416E-4" y="-114.99988977160166" />
-      <point x="628.1569999999999" y="527.0" />
-      <point x="329.254" y="527.0" />
-      <point x="-3.3908769067636513E-4" y="-148.00008681642197" />
+      <point x="-44.75" y="-115.0" />
+      <point x="83.79166666666669" y="1039.0" />
+      <point x="88.66666666666669" y="1039.0" />
+      <point x="88.66666666666669" y="1029.0" />
+      <point x="-66.5" y="1029.0" />
+      <point x="0.0" y="148.0" />
     </edge>
     <edge source="Lobby#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Lobby.java" target="Timer#file://C:/Users/patri/Documents/Sopra/sopra-fs23-group-07-server/src/main/java/ch/uzh/ifi/hase/soprafs23/entity/Timer.java" relationship="RELATION">
-      <point x="-132.0" y="-148.0" />
-      <point x="85.99365465032375" y="38.0" />
+      <point x="69.75" y="-148.0" />
+      <point x="3.25" y="690.0" />
+      <point x="-17.5" y="690.0" />
+      <point x="0.0" y="38.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic" zoom="0.7588856868395774" showDependencies="false" x="299.0" y="372.49999999999994" />
+  <settings layout="Hierarchic" zoom="0.541838134430727" showDependencies="false" x="134.5" y="581.0" />
   <SelectedNodes />
   <Categories>
     <Category>Embeddables</Category>
     <Category>Properties</Category>
+    <Category>Superclasses</Category>
   </Categories>
 </Diagram>
 

@@ -92,12 +92,6 @@ public class LobbyService {
 
                 //Location eventLocation = lobby.getDecidedLocation();
                 //eventLocation.setEventId(event.getEventId());
-                /**Location eventLocationCopy = new Location();
-                eventLocationCopy.setEventId(event.getEventId());
-                eventLocationCopy.setAddress(event.getEventLocation().getAddress());
-                eventLocationCopy.setLongitude(event.getEventLocation().getLongitude());
-                eventLocationCopy.setLatitude(event.getEventLocation().getLatitude());
-                event.setEventLocation(eventLocationCopy);**/
 
                 event.getEventLocation().setEventId(event.getEventId());
 

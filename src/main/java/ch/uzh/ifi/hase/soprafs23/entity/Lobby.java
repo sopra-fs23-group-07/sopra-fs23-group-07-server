@@ -347,10 +347,11 @@ public class Lobby implements Serializable {
         if (this.timer == null) {
             throw new RuntimeException("Timer is not started");
         }
-
         LocalDateTime currentTime = LocalDateTime.now();
         LocalDateTime timerEndTime = this.timer.getStartTime().plusMinutes(lobbyTimeLimit);
-
+        if (Duration.between(currentTime, timerEndTime).toMillis() < 0) {
+            return 0;
+        }
         return Duration.between(currentTime, timerEndTime).toMillis();
     }
     public void setTimer(Timer timer) {

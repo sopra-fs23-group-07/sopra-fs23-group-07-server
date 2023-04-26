@@ -93,6 +93,11 @@ public class EventService {
     public void addParticipant(long eventId, long userId) {
         Event event = getEvent(eventId);
         User databaseUser = getUser(userId);
+        if (event.eventIsFull()) {
+            String baseErrorMessage = "The %s provided %s full";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "Event", "is"));
+        }
+        checkIfUserIsParticipantOfEvent(event, databaseUser);
         Participant participant = new Participant();
         participant.setUser(databaseUser);
         participant.setEventId(event.getEventId());
@@ -120,6 +125,12 @@ public class EventService {
     public void deleteEvent(long eventId) {
         Event event = getEvent(eventId);
         eventRepository.delete(event);
+    }
+    private void checkIfUserIsParticipantOfEvent(Event event, User user) {
+        if (user.getEvents().contains(event)) {
+            String baseErrorMessage = "The %s provided %s already participant of this event.";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "User", "is"));
+        }
     }
 
     public List<Participant> getParticipants(){
