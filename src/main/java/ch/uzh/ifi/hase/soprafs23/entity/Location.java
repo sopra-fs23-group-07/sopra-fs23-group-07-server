@@ -6,6 +6,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class Location implements Serializable {
     private Event event;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId", insertable = false, updatable = false)
-    private List<Member> selectedMembers;
+    private List<Member> selectedMembers = new ArrayList<>();
     @OneToOne
     @JoinColumn(name = "memberId", insertable = false, updatable = false)
     private Member suggestedBy;

@@ -650,46 +650,46 @@ public class LobbyServiceIntegrationTest {
 //        assertEquals(memberLocation.getLocationType(), testLocation.getLocationType());
 //    }
 
-//    @Test
-//    void setDates() {
-//        assertTrue(lobbyRepository.findAll().isEmpty());
-//        assertTrue(userRepository.findAll().isEmpty());
-//        assertTrue(memberRepository.findAll().isEmpty());
-//
-//        User testUser = new User();
-//
-//        testUser.setEmail("testName");
-//        testUser.setUsername("testUsername");
-//        testUser.setPassword("testPassword");
-//
-//        userRepository.save(testUser);
-//
-//        Lobby testLobby = new Lobby();
-//
-//        testLobby.setLobbyName("testName");
-//        testLobby.setLobbyMaxMembers(10);
-//        testLobby.setLobbyRegion("Zurich");
-//        testLobby.setLobbyTimeLimit(10);
-//        testLobby.setHostMemberId(testUser.getUserId());
-//
-//
-//        LocalDateTime testDate = LocalDateTime.now();
-//
-//        testLobby = lobbyService.createLobby(testLobby);
-//
-//        Member testMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
-//
-//
-//        List<String> testDates = new ArrayList<>();
-//        testDates.add(testDate.toString());
-//
-//        lobbyService.setDates(testLobby.getLobbyId(), testMember.getMemberId(), testDates);
-//
-//        testMember = lobbyService.getMemberById(testMember.getMemberId());
-//        LocalDateTime memberDate = testMember.getSelectedDates().get(0);
-//
-//        assertEquals(memberDate, testDate);
-//    }
+    @Test
+    void setDates() {
+        assertTrue(lobbyRepository.findAll().isEmpty());
+        assertTrue(userRepository.findAll().isEmpty());
+        assertTrue(memberRepository.findAll().isEmpty());
+
+        User testUser = new User();
+
+        testUser.setEmail("testName");
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+
+        userRepository.save(testUser);
+
+        Lobby testLobby = new Lobby();
+
+        testLobby.setLobbyName("testName");
+        testLobby.setLobbyMaxMembers(10);
+        testLobby.setLobbyRegion("Zurich");
+        testLobby.setLobbyTimeLimit(10);
+        testLobby.setHostMemberId(testUser.getUserId());
+
+
+        LocalDateTime testDate = LocalDateTime.of(2023, 10, 10, 1, 1, 1);
+
+        testLobby = lobbyService.createLobby(testLobby);
+
+        Member testMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
+
+
+        List<String> testDates = new ArrayList<>();
+        testDates.add(testDate.toString());
+
+        lobbyService.setDates(testLobby.getLobbyId(), testMember.getMemberId(), testDates);
+
+        testMember = lobbyService.getMemberById(testMember.getMemberId());
+        LocalDateTime memberDate = testMember.getSelectedDates().get(0);
+
+        assertEquals(memberDate, testDate);
+    }
 
     @Test
     void lockSelections_memberHasSetAllSelections() {
@@ -869,63 +869,63 @@ public class LobbyServiceIntegrationTest {
         assertEquals(addedMember.getMemberId(), location.getMemberId());
     }
 
-//commented out because the failing tests are blocking the deployment to sonarcloud
-//    @Test
-//    void addLobbyLocationVote_locationExists() {
-//        assertTrue(lobbyRepository.findAll().isEmpty());
-//        assertTrue(userRepository.findAll().isEmpty());
-//        assertTrue(memberRepository.findAll().isEmpty());
-//        assertTrue(locationRepository.findAll().isEmpty());
-//
-//        User testUser = new User();
-//
-//        testUser.setEmail("testName");
-//        testUser.setUsername("testUsername");
-//        testUser.setPassword("testPassword");
-//
-//        userRepository.save(testUser);
-//
-//        Lobby testLobby = new Lobby();
-//
-//        testLobby.setLobbyName("testName");
-//        testLobby.setLobbyMaxMembers(10);
-//        testLobby.setLobbyRegion("Zurich");
-//        testLobby.setLobbyTimeLimit(10);
-//        testLobby.setHostMemberId(testUser.getUserId());
-//
-//        Lobby createdLobby = lobbyService.createLobby(testLobby);
-//        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId());
-//
-//        Location testLocation = new Location();
-//        testLocation.setLongitude(0.0);
-//        testLocation.setLatitude(0.0);
-//        testLocation.setMemberId(addedMember.getMemberId());
-//
-//        createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
-//        addedMember = lobbyService.getMember(createdLobby, testUser);
-//
-//        lobbyService.addLobbyLocation(createdLobby.getLobbyId(), testLocation);
-//
-//        Location addedLocation = locationRepository.findByLocationId(testLocation.getLocationId());
-//
-//        assertEquals(addedLocation.getMemberVotes(), 0);
-//        assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
-//        assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
-//        assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
-//        assertEquals(addedLocation.getMemberId(), addedMember.getMemberId());
-//
-//        lobbyService.addLobbyLocationVote(testLobby.getLobbyId(), addedMember.getMemberId(), addedLocation.getLocationId());
-//
-//        addedLocation = locationRepository.findByLocationId(addedLocation.getLocationId());
-//        createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
-//        addedMember = lobbyService.getMember(createdLobby, testUser);
-//
-//        assertEquals(addedLocation.getMemberVotes(), 1);
-//        assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
-//        assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
-//        assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
-//        assertEquals(addedLocation.getMemberId(), addedMember.getMemberId());
-//    }
+
+    @Test
+    void addLobbyLocationVote_locationExists() {
+        assertTrue(lobbyRepository.findAll().isEmpty());
+        assertTrue(userRepository.findAll().isEmpty());
+        assertTrue(memberRepository.findAll().isEmpty());
+        assertTrue(locationRepository.findAll().isEmpty());
+
+        User testUser = new User();
+
+        testUser.setEmail("testName");
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+
+        userRepository.save(testUser);
+
+        Lobby testLobby = new Lobby();
+
+        testLobby.setLobbyName("testName");
+        testLobby.setLobbyMaxMembers(10);
+        testLobby.setLobbyRegion("Zurich");
+        testLobby.setLobbyTimeLimit(10);
+        testLobby.setHostMemberId(testUser.getUserId());
+
+        Lobby createdLobby = lobbyService.createLobby(testLobby);
+        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId());
+
+        Location testLocation = new Location();
+        testLocation.setLongitude(0.0);
+        testLocation.setLatitude(0.0);
+        testLocation.setMemberId(addedMember.getMemberId());
+
+        createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
+        addedMember = lobbyService.getMember(createdLobby, testUser);
+
+        lobbyService.addLobbyLocation(createdLobby.getLobbyId(), testLocation);
+
+        Location addedLocation = locationRepository.findByLocationId(testLocation.getLocationId());
+
+        assertEquals(addedLocation.getMemberVotes(), 0);
+        assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
+        assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
+        assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
+        assertEquals(addedLocation.getMemberId(), addedMember.getMemberId());
+
+        lobbyService.addLobbyLocationVote(testLobby.getLobbyId(), addedMember.getMemberId(), addedLocation.getLocationId());
+
+        addedLocation = locationRepository.findByLocationId(addedLocation.getLocationId());
+        createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
+        addedMember = lobbyService.getMember(createdLobby, testUser);
+
+        assertEquals(addedLocation.getMemberVotes(), 1);
+        assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
+        assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
+        assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
+        assertEquals(addedLocation.getMemberId(), addedMember.getMemberId());
+    }
 
     @Test
     void addLobbyLocationVote_locationDoesNotExists_ThrowsException() {
@@ -962,76 +962,74 @@ public class LobbyServiceIntegrationTest {
         assertThrows(ResponseStatusException.class, () -> lobbyService.addLobbyLocationVote(finalCreatedLobby.getLobbyId(), finalAddedMember.getMemberId(), 1L));
     }
 
-//commented out because the failing tests are blocking the deployment to sonarcloud
+    @Test
+    void removeLobbyLocationVote_LocationExists() {
+        assertTrue(lobbyRepository.findAll().isEmpty());
+        assertTrue(userRepository.findAll().isEmpty());
+        assertTrue(memberRepository.findAll().isEmpty());
+        assertTrue(locationRepository.findAll().isEmpty());
 
-//    @Test
-//    void removeLobbyLocationVote_LocationExists() {
-//        assertTrue(lobbyRepository.findAll().isEmpty());
-//        assertTrue(userRepository.findAll().isEmpty());
-//        assertTrue(memberRepository.findAll().isEmpty());
-//        assertTrue(locationRepository.findAll().isEmpty());
-//
-//        User testUser = new User();
-//
-//        testUser.setEmail("testName");
-//        testUser.setUsername("testUsername");
-//        testUser.setPassword("testPassword");
-//
-//        userRepository.save(testUser);
-//
-//        Lobby testLobby = new Lobby();
-//
-//        testLobby.setLobbyName("testName");
-//        testLobby.setLobbyMaxMembers(10);
-//        testLobby.setLobbyRegion("Zurich");
-//        testLobby.setLobbyTimeLimit(10);
-//        testLobby.setHostMemberId(testUser.getUserId());
-//
-//        Lobby createdLobby = lobbyService.createLobby(testLobby);
-//        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId());
-//
-//        Location testLocation = new Location();
-//        testLocation.setLongitude(0.0);
-//        testLocation.setLatitude(0.0);
-//        testLocation.setMemberId(addedMember.getMemberId());
-//
-//        createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
-//        addedMember = lobbyService.getMember(createdLobby, testUser);
-//
-//        lobbyService.addLobbyLocation(createdLobby.getLobbyId(), testLocation);
-//
-//        Location addedLocation = locationRepository.findByLocationId(testLocation.getLocationId());
-//
-//        assertEquals(addedLocation.getMemberVotes(), 0);
-//        assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
-//        assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
-//        assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
-//        assertEquals(addedLocation.getMemberId(), addedMember.getMemberId());
-//
-//        lobbyService.addLobbyLocationVote(createdLobby.getLobbyId(), addedMember.getMemberId(), addedLocation.getLocationId());
-//
-//        addedLocation = locationRepository.findByLocationId(addedLocation.getLocationId());
-//        createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
-//        addedMember = lobbyService.getMember(createdLobby, testUser);
-//
-//        assertEquals(addedLocation.getMemberVotes(), 1);
-//        assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
-//        assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
-//        assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
-//        assertEquals(addedLocation.getMemberId(), addedMember.getMemberId());
-//
-//        lobbyService.removeLobbyLocationVote(createdLobby.getLobbyId(), addedMember.getMemberId(), addedLocation.getLocationId());
-//
-//        addedLocation = locationRepository.findByLocationId(addedLocation.getLocationId());
-//        createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
-//        addedMember = lobbyService.getMember(createdLobby, testUser);
-//
-//        assertEquals(addedLocation.getMemberVotes(), 0);
-//        assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
-//        assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
-//        assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
-//        assertEquals(addedLocation.getMemberId(), addedMember.getMemberId());
-//    }
+        User testUser = new User();
+
+        testUser.setEmail("testName");
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+
+        userRepository.save(testUser);
+
+        Lobby testLobby = new Lobby();
+
+        testLobby.setLobbyName("testName");
+        testLobby.setLobbyMaxMembers(10);
+        testLobby.setLobbyRegion("Zurich");
+        testLobby.setLobbyTimeLimit(10);
+        testLobby.setHostMemberId(testUser.getUserId());
+
+        Lobby createdLobby = lobbyService.createLobby(testLobby);
+        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId());
+
+        Location testLocation = new Location();
+        testLocation.setLongitude(0.0);
+        testLocation.setLatitude(0.0);
+        testLocation.setMemberId(addedMember.getMemberId());
+
+        createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
+        addedMember = lobbyService.getMember(createdLobby, testUser);
+
+        lobbyService.addLobbyLocation(createdLobby.getLobbyId(), testLocation);
+
+        Location addedLocation = locationRepository.findByLocationId(testLocation.getLocationId());
+
+        assertEquals(addedLocation.getMemberVotes(), 0);
+        assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
+        assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
+        assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
+        assertEquals(addedLocation.getMemberId(), addedMember.getMemberId());
+
+        lobbyService.addLobbyLocationVote(createdLobby.getLobbyId(), addedMember.getMemberId(), addedLocation.getLocationId());
+
+        addedLocation = locationRepository.findByLocationId(addedLocation.getLocationId());
+        createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
+        addedMember = lobbyService.getMember(createdLobby, testUser);
+
+        assertEquals(addedLocation.getMemberVotes(), 1);
+        assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
+        assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
+        assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
+        assertEquals(addedLocation.getMemberId(), addedMember.getMemberId());
+
+        lobbyService.removeLobbyLocationVote(createdLobby.getLobbyId(), addedMember.getMemberId(), addedLocation.getLocationId());
+
+        addedLocation = locationRepository.findByLocationId(addedLocation.getLocationId());
+        createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
+        addedMember = lobbyService.getMember(createdLobby, testUser);
+
+        assertEquals(addedLocation.getMemberVotes(), 0);
+        assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
+        assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
+        assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
+        assertEquals(addedLocation.getMemberId(), addedMember.getMemberId());
+    }
 
     @Test
     void removeLobbyLocationVote_locationDoesNotExists_ThrowsException() {

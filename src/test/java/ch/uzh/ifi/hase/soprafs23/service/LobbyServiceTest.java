@@ -254,45 +254,46 @@ class LobbyServiceTest {
         assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId()));
     }
 
-    //commented out because the failing tests are blocking the deployment to sonarcloud
-//    @Test
-//    void removeMember_lobbyIsNotEmpty() {
-//        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
-//        Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
-//        Mockito.when(memberRepository.findByLobbyAndUser(Mockito.any(), Mockito.any())).thenReturn(Optional.ofNullable(testMember));
-//
-//        testLobby.addLobbyMember(testMember);
-//        Member testMember2 = new Member();
-//        testLobby.addLobbyMember(testMember2);
-//
-//        lobbyService.removeMember(testLobby.getLobbyId(), testUser.getUserId());
-//
-//        List<Member> members = new ArrayList<>();
-//        members.add(testMember2);
-//
-//        assertEquals(testLobby.getLobbyMembers(), members);
-//        assertEquals(testLobby.isLobbyEmpty(), false);
-//        assertEquals(testLobby.getLobbyMembersCount(), 1);
-//
-//    }
-//
-//    @Test
-//    void removeMember_lobbyIsNowEmpty() {
-//        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
-//        Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
-//        Mockito.when(memberRepository.findByLobbyAndUser(Mockito.any(), Mockito.any())).thenReturn(Optional.ofNullable(testMember));
-//
-//        testLobby.addLobbyMember(testMember);
-//
-//        lobbyService.removeMember(testLobby.getLobbyId(), testUser.getUserId());
-//
-//        List<Member> members = new ArrayList<>();
-//
-//        assertEquals(testLobby.getLobbyMembers(), members);
-//        assertEquals(testLobby.isLobbyEmpty(), true);
-//        assertEquals(testLobby.getLobbyMembersCount(), 0);
-//
-//    }
+    @Test
+    void removeMember_lobbyIsNotEmpty() {
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
+        Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
+        testMember.setSelectedLocations(new ArrayList<>());
+        Mockito.when(memberRepository.findByLobbyAndUser(Mockito.any(), Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+
+        testLobby.addLobbyMember(testMember);
+        Member testMember2 = new Member();
+        testLobby.addLobbyMember(testMember2);
+
+        lobbyService.removeMember(testLobby.getLobbyId(), testUser.getUserId());
+
+        List<Member> members = new ArrayList<>();
+        members.add(testMember2);
+
+        assertEquals(testLobby.getLobbyMembers(), members);
+        assertEquals(testLobby.isLobbyEmpty(), false);
+        assertEquals(testLobby.getLobbyMembersCount(), 1);
+
+    }
+
+    @Test
+    void removeMember_lobbyIsNowEmpty() {
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
+        Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
+        testMember.setSelectedLocations(new ArrayList<>());
+        Mockito.when(memberRepository.findByLobbyAndUser(Mockito.any(), Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+
+        testLobby.addLobbyMember(testMember);
+
+        lobbyService.removeMember(testLobby.getLobbyId(), testUser.getUserId());
+
+        List<Member> members = new ArrayList<>();
+
+        assertEquals(testLobby.getLobbyMembers(), members);
+        assertEquals(testLobby.isLobbyEmpty(), true);
+        assertEquals(testLobby.getLobbyMembersCount(), 0);
+
+    }
 
     @Test
     void deleteLobby() {
@@ -407,43 +408,44 @@ class LobbyServiceTest {
     }
 
 
-    //commented out because the failing tests are blocking the deployment to sonarcloud
-//    @Test
-//    void addLobbyLocationVote_locationExists() {
-//        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
-//        Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
-//        Mockito.when(locationRepository.findByLocationId(Mockito.anyLong())).thenReturn(testLocation);
-//
-//        testLobby.addLobbyMember(testMember);
-//        testLobby.addLobbyLocation(testLocation);
-//
-//        lobbyService.addLobbyLocationVote(testLobby.getLobbyId(), testMember.getMemberId(), testLocation.getLocationId());
-//
-//        Location location = testLobby.getLobbyLocations().get(0);
-//        assertEquals(location.getMemberVotes(), 1);
-//
-//    }
+
+    @Test
+    void addLobbyLocationVote_locationExists() {
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
+        testMember.setSelectedLocations(new ArrayList<>());
+        Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+        Mockito.when(locationRepository.findByLocationId(Mockito.anyLong())).thenReturn(testLocation);
+
+        testLobby.addLobbyMember(testMember);
+        testLobby.addLobbyLocation(testLocation);
+
+        lobbyService.addLobbyLocationVote(testLobby.getLobbyId(), testMember.getMemberId(), testLocation.getLocationId());
+
+        Location location = testLobby.getLobbyLocations().get(0);
+        assertEquals(location.getMemberVotes(), 1);
+
+    }
 
     @Test
     void addLobbyLocationVote_locationDoesNotExists_ThrowsException() {
         assertThrows(ResponseStatusException.class, () -> lobbyService.addLobbyLocationVote(testLobby.getLobbyId(), testMember.getMemberId(), 1L));
     }
 
-    //commented out because the failing tests are blocking the deployment to sonarcloud
-//    @Test
-//    void removeLobbyLocationVote_LocationExists() {
-//        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
-//        Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
-//        Mockito.when(locationRepository.findByLocationId(Mockito.anyLong())).thenReturn(testLocation);
-//
-//        testLobby.addLobbyMember(testMember);
-//        testLobby.addLobbyLocation(testLocation);
-//        testLocation.addMemberVotes(testMember.getMemberId());
-//
-//        lobbyService.removeLobbyLocationVote(testLobby.getLobbyId(), testMember.getMemberId(), testLocation.getLocationId());
-//
-//        assertEquals(testLocation.getMemberVotes(), 0);
-//    }
+
+    @Test
+    void removeLobbyLocationVote_LocationExists() {
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
+        Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+        Mockito.when(locationRepository.findByLocationId(Mockito.anyLong())).thenReturn(testLocation);
+
+        testLobby.addLobbyMember(testMember);
+        testLobby.addLobbyLocation(testLocation);
+        testLocation.addMemberVotes(testMember.getMemberId());
+
+        lobbyService.removeLobbyLocationVote(testLobby.getLobbyId(), testMember.getMemberId(), testLocation.getLocationId());
+
+        assertEquals(testLocation.getMemberVotes(), 0);
+    }
 
     @Test
     void removeLobbyLocationVote_locationDoesNotExists_ThrowsException() {

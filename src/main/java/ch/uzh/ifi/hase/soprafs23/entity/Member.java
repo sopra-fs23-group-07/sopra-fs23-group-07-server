@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -53,9 +55,10 @@ public class Member implements Serializable {
     private List<String> selectedSports = new ArrayList<>();
     //@ElementCollection
     //@CollectionTable(name = "member_location", joinColumns = @JoinColumn(name = "member_id"))
-    @ManyToMany(mappedBy = "selectedMembers")
+    @ManyToMany(mappedBy = "selectedMembers", fetch = FetchType.EAGER)
     private List<Location> selectedLocations = new ArrayList<>();
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @CollectionTable(name = "member_dates", joinColumns = @JoinColumn(name = "member_id"))
     private List<LocalDateTime> selectedDates;
 
