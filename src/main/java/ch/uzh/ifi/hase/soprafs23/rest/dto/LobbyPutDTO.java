@@ -34,7 +34,6 @@ public class LobbyPutDTO {
 
     public void setToken(String token) {this.token = token;}
 
-
     public UserStatus getUserStatus() {return userStatus;}
 
     public void setUserStatus(UserStatus userStatus) {this.userStatus = userStatus;}
