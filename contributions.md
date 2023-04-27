@@ -146,6 +146,12 @@
 | 5        | 24/04/2023 - 01/05/2023 | Patrick         | [#204](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/204) | when lobby is deleted, event location should be not deleted                                                                                                                                   |
 | 5        | 24/04/2023 - 01/05/2023 | Patrick         | [#205](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/205) | member can leave lobby when having voted for locations and votes get removed                                                                                                                  |
 | 5        | 24/04/2023 - 01/05/2023 | Patrick         | [#207](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/207) | check if user is already participant of event and if event is full                                                                                                                            |
+| 5        | 24/04/2023 - 01/05/2023 | Raffael         | [#206](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/206) | made Line Coverage on sonarcube visible |
+| 5        | 24/04/2023 - 01/05/2023 | Raffael         | [#70](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/70) |  fixed bugs on Edit Profile Page  |
+| 5        | 24/04/2023 - 01/05/2023 | Raffael         | [#71](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/71) |  added Guards to Profile Pages and Edit Profile Page |
+| 5        | 24/04/2023 - 01/05/2023 | Raffael         | [#72](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/72) | improved the layout and content of the Home Page     |
+| 5        | 24/04/2023 - 01/05/2023 | Raffael         | [#87](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/87) | Github action does not finish     |
+
 
 # Week 6
 
