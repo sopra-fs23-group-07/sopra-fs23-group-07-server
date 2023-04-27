@@ -35,10 +35,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew build sonarqube --info
-      - name: Upload Jacoco report artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: jacoco-report
-          path: build/reports/jacoco/test/jacocoTestReport.xml
-      - name: List artifacts
-        run: ls ${{ github.workspace }}/dist
