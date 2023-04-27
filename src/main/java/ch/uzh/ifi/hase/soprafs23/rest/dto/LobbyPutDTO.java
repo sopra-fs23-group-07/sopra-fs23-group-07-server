@@ -12,7 +12,6 @@ public class LobbyPutDTO {
     private String email;
     private UserStatus userStatus;
     private String token;
-
     private LocalDate birthdate;
 
     public Long getUserId() {return userId; }
@@ -45,6 +44,5 @@ public class LobbyPutDTO {
     }
 
     public void setBirthdate(){
-        this.birthdate = birthdate;
     }
 }
