@@ -36,7 +36,6 @@ public class LobbyService {
     private final LocationRepository locationRepository;
     private final EventRepository eventRepository;
     private final TimerRepository timerRepository;
-
     private final ParticipantRepository participantRepository;
 
     //private final EventService eventService;
