@@ -1,9 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.entity;
 
 import ch.uzh.ifi.hase.soprafs23.constant.OverlapColor;
-import ch.uzh.ifi.hase.soprafs23.repository.TimerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -99,12 +96,7 @@ public class Lobby implements Serializable {
   }
 
   public boolean isLobbyFull() {
-      if(lobbyMembers.size() >= lobbyMaxMembers) {
-          return true;
-      }
-      else {
-          return false;
-      }
+      return lobbyMembers.size() >= lobbyMaxMembers;
   }
 
   public boolean isLobbyEmpty() {
@@ -139,17 +131,7 @@ public class Lobby implements Serializable {
       return getTimeRemaining() < 0;
   }
 
-  public Event decideAllSelections() {
-      String selectedSport = decideSport();
-      Location selectedLocation = decideLocation();
-      LocalDateTime selectedDate = decideDate();
-
-      Event event = createEvent();
-
-      return event;
-  }
-
-  public String decideSport() {
+    public String decideSport() {
       Hashtable<String, Integer> sportsCount = new Hashtable<>();
       String selectedSport = "";
 
@@ -177,7 +159,6 @@ public class Lobby implements Serializable {
   }
 
   public Location decideLocation() {
-      Hashtable<Location, Integer> locationCount = new Hashtable<>();
       if(lobbyLocations.isEmpty()) { return null; }
       Location selectedLocation = lobbyLocations.get(0);
       selectedLocation.setLocationType("DECIDED");
@@ -223,8 +204,6 @@ public class Lobby implements Serializable {
   public Event createEvent() {
       Event event = new Event();
 
-      //lobbyDecidedLocation.setEventId(event.getEventId());
-
       Location eventLocationCopy = new Location();
        eventLocationCopy.setEventId(event.getEventId());
        eventLocationCopy.setAddress(getDecidedLocation().getAddress());
@@ -232,8 +211,6 @@ public class Lobby implements Serializable {
        eventLocationCopy.setLatitude(getDecidedLocation().getLatitude());
        event.setEventLocation(eventLocationCopy);
 
-      //event.setEventLocation( getDecidedLocation() );
-      //event.getEventLocation().setEventId(event.getEventId());
       event.setEventName( lobbyName );
       event.setEventSport( lobbyDecidedSport );
       event.setEventRegion( lobbyRegion );
@@ -242,40 +219,8 @@ public class Lobby implements Serializable {
       }
       event.setEventMaxParticipants( lobbyMaxMembers );
 
-      //List<Participant> participants =getParticipantList(event);
-
-      //event.setEventParticipants(participants);
-
       return event;
   }
-
-  private List<Participant> getParticipantList(Event event) {
-      List<Participant> participantList = new ArrayList<>();
-
-      for(Member member : lobbyMembers) {
-          Participant participant = new Participant();
-
-          participant.setUserId(member.getUserId());
-          participant.setEventId(event.getEventId());
-          //participant.setEmail(member.getEmail());
-          //participant.setUsername(member.getUsername());
-          //participant.setStatus(member.getStatus());
-          //participant.setCreationDate(member.getCreationDate());
-          //participant.setBirthdate(member.getBirthdate());
-
-          //participantList.add(participant);
-          event.addEventParticipant(participant);
-
-      }
-
-      return participantList;
-  }
-
-  public OverlapColor checkSportOverlap(String sport) {return OverlapColor.RED;}
-
-  public OverlapColor checkLocationOverlap(Location location) {return OverlapColor.RED;}
-
-  public OverlapColor checkDateOverlap(Date date) {return OverlapColor.RED;}
 
   public void addLobbyMember(Member member) {
       lobbyMembers.add(member);
@@ -332,9 +277,7 @@ public class Lobby implements Serializable {
 
   public void setLobbyDecidedDate(LocalDateTime lobbyDecidedDate) {this.lobbyDecidedDate = lobbyDecidedDate;}
 
-  public Integer getNumberOfVotesForLocation(Location location) {return 0;}
-
-  public String getToken() {
+    public String getToken() {
     return token;
   }
 
