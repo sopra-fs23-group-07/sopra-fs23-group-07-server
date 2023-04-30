@@ -38,8 +38,6 @@ public class LobbyService {
     private final TimerRepository timerRepository;
     private final ParticipantRepository participantRepository;
 
-    //private final EventService eventService;
-
     @Autowired
     public LobbyService(@Qualifier("lobbyRepository") LobbyRepository lobbyRepository,
                         @Qualifier("userRepository") UserRepository userRepository,
@@ -106,12 +104,6 @@ public class LobbyService {
                 lobby = lobbyRepository.save(lobby);
                 lobbyRepository.flush();
 
-//                for(Member member : lobby.getLobbyMembers()) {
-//                    memberRepository.delete(member);
-//                }
-                //timerRepository.delete(lobby.getTimer());
-                //lobbyRepository.delete(lobby);
-
                 log.debug("Created Information for Event: {}", event);
             }
 
@@ -149,8 +141,6 @@ public class LobbyService {
         // Set the timer on the lobby and return it
         newLobby.setTimer(timer);
 
-        //Member hostMember = new Member(hostUser);
-        //newLobby.addLobbyMember(hostMember);
         // saves the given entity but data is only persisted in the database once
         // flush() is called
         newLobby = lobbyRepository.save(newLobby);
@@ -252,13 +242,13 @@ public class LobbyService {
         Member member = getMemberById(memberId);
         checkIfIsMemberOfLobby(lobby, member);
         member.setSelectedSports(selectedSports);
-        //member.addSelectedSport(selectedSport);
+
 
         return member;
     }
     //to remove
     public void setLocations(Long lobbyId, Long memberId, List<String> selectedLocations) {
-        Lobby lobby = getLobby(lobbyId);
+
         Member member = getMemberById(memberId);
         List<Location> locations = new ArrayList<>();
         for (String string : selectedLocations) {
@@ -295,13 +285,13 @@ public class LobbyService {
         Member member = getMemberById(memberId);
         checkIfIsMemberOfLobby(lobby, member);
         String errorMessage = "";
-        if (member.getSelectedSports().size() == 0) {
+        if (member.getSelectedSports().isEmpty()) {
             errorMessage += "Please select at least one sport.\n";
         }
-        if (member.getSelectedDates().size() == 0) {
+        if (member.getSelectedDates().isEmpty()) {
             errorMessage += "Please select at least one date.\n";
         }
-        if (member.getSelectedLocations().size() == 0) {
+        if (member.getSelectedLocations().isEmpty()) {
             errorMessage += "Please vote for at least one location." +
                     " If there are no locations to vote for, please confirm a location and vote for it.";
         }
