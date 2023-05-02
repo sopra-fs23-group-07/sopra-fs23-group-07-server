@@ -6,7 +6,6 @@ import ch.uzh.ifi.hase.soprafs23.entity.Member;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.LobbyService;
-import ch.uzh.ifi.hase.soprafs23.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * User Controller
+ * Lobby Controller
  * This class is responsible for handling all REST request that are related to
- * the user.
+ * the lobby.
  * The controller will receive the request and delegate the execution to the
- * UserService and finally return the result.
+ * LobbyService and finally return the result.
  */
 @RestController
 @RequestMapping("/lobbies")
@@ -27,7 +26,6 @@ public class LobbyController {
   private final LobbyService lobbyService;
 
     LobbyController(LobbyService lobbyService) {
-
       this.lobbyService = lobbyService;
     }
 
@@ -50,8 +48,7 @@ public class LobbyController {
   @ResponseBody
   public LobbyGetDTO getLobby(@PathVariable Long lobbyId) {
     Lobby lobby = lobbyService.getLobby(lobbyId);
-    LobbyGetDTO lobbyGetDTO = lobbyService.updateLobby(lobby);
-    return lobbyGetDTO;
+      return lobbyService.updateLobby(lobby);
   }
 
   //registration
@@ -62,7 +59,7 @@ public class LobbyController {
     // convert API user to internal representation
     Lobby lobbyInput = DTOMapper.INSTANCE.convertLobbyPostDTOtoEntity(lobbyPostDTO);
 
-    Lobby createdLobby = lobbyService.createLobby(lobbyInput);
+    lobbyService.createLobby(lobbyInput);
 
     Member lobbyCreator = lobbyService.addMember(lobbyInput.getLobbyId(), lobbyPostDTO.getHostMemberId());
 
@@ -95,14 +92,6 @@ public class LobbyController {
     Member member = lobbyService.setSports(lobbyId, sportDTO.getMemberId(), sportDTO.getSelectedSports());
     return DTOMapper.INSTANCE.convertEntityToMemberDTO(member);
   }
-  //to remove
-    /**
-  @PutMapping("{lobbyId}/location")
-  @ResponseStatus(HttpStatus.OK)
-  @ResponseBody
-  public void setLocations(@RequestBody MemberLocationDTO locationDTO, @PathVariable Long lobbyId) {
-    lobbyService.setLocations(lobbyId, locationDTO.getMemberId(), locationDTO.getSelectedLocations());
-  }**/
   @PutMapping("{lobbyId}/date")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
@@ -134,6 +123,12 @@ public class LobbyController {
       lobbyService.addLobbyLocation(lobbyId, location);
       return DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobbyService.getLobby(lobbyId));
   }
+  @DeleteMapping("{lobbyId}/locations")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public void removeLobbyLocation(@RequestBody MemberLocationDTO memberLocationDTO, @PathVariable Long lobbyId) {
+      lobbyService.removeLobbyLocation(lobbyId, memberLocationDTO.getMemberId());
+  }
   
   @PutMapping("{lobbyId}/locations/{locationId}/vote")
   @ResponseStatus(HttpStatus.OK)
@@ -151,10 +146,10 @@ public class LobbyController {
   }
 
   //TESTS
-    @GetMapping("/test")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public List<Lobby> getAllLobbiesTest() {
+  @GetMapping("/test")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public List<Lobby> getAllLobbiesTest() {
         return lobbyService.getLobbies();
     }
 
@@ -165,11 +160,10 @@ public class LobbyController {
       return lobbyService.getMembers();
   }
 
-    @GetMapping("/locationsTest")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public List<Location> getLocations() {
+  @GetMapping("/locationsTest")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public List<Location> getLocations() {
         return lobbyService.getLocations();
     }
-
 }

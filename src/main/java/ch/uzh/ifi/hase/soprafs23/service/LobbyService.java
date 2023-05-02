@@ -126,8 +126,8 @@ public class LobbyService {
 
     public Lobby createLobby(Lobby newLobby) {
         checkIfLobbyExists(newLobby);
-        if (newLobby.getLobbyMaxMembers() > 128) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Maximum number of lobby members cannot exceed 128 people.");
+        if (newLobby.getLobbyMaxMembers() > 30) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Maximum number of lobby members cannot exceed 30 people.");
         }
         //checkIfUserIsMemberOfALobby(userRepository.findByUserId(newLobby.getHostMemberId())); //restriction to be member of only 1 lobby
         newLobby.setToken(UUID.randomUUID().toString());
@@ -326,6 +326,17 @@ public class LobbyService {
         lobby.addLobbyLocation(location);
         lobbyRepository.save(lobby);
     }
+    public void removeLobbyLocation(Long lobbyId, Long memberId) {
+        Lobby lobby = getLobby(lobbyId);
+        Member member = getMemberById(memberId);
+        checkIfIsMemberOfLobby(lobby, member);
+        if (member.getSuggestedLocation() == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Member with memberId %s has not yet" +
+                    " posted a location", member.getMemberId()));
+        }
+        lobby.removeLobbyLocation(member.getSuggestedLocation());
+        member.setSuggestedLocation(null);
+    }
     public void addLobbyLocationVote(Long lobbyId, Long memberId, Long locationId) {
         Location location = locationRepository.findByLocationId(locationId);
         if (location == null) {
@@ -368,12 +379,6 @@ public class LobbyService {
             String baseErrorMessage = "The %s provided %s not member of Lobby with LobbyId %s";
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "memberId", "is",
                     lobby.getLobbyId()));
-        }
-    }
-    private void checkIfUserIsMemberOfALobby(User user) {
-        if (user.isInLobby()) {
-            String baseErrorMessage = "The %s provided %s already member of a Lobby.";
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "userId", "is"));
         }
     }
     public List<Lobby> getLobbies() {

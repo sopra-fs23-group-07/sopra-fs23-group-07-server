@@ -44,6 +44,7 @@ public interface DTOMapper {
   @Mapping(source = "events", target = "userEventGetDTOs")
   UserGetDTO convertEntityToUserGetDTO(User user);
     @Named("convertEntityToUserEventGetDTO")
+    @Mapping(source = "eventLocation", target = "eventLocationDTO", qualifiedByName = "toLocationDTO")
     UserEventGetDTO convertEntityToUserEventGetDTO(Event event);
 
     default List<UserEventGetDTO> convertEntityListToUserEventGetDTOList(List<Event> entityList) {

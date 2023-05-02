@@ -128,7 +128,7 @@ public class Lobby implements Serializable {
   }
 
   public boolean hasTimerRunOut() {
-      return getTimeRemaining() < 0;
+      return getTimeRemaining() <= 0;
   }
 
     public String decideSport() {
