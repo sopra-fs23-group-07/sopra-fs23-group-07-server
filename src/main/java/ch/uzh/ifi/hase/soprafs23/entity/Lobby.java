@@ -67,6 +67,9 @@ public class Lobby implements Serializable {
   @OneToMany(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Location> lobbyLocations = new ArrayList<>();
 
+  @OneToMany(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Message> lobbyChat = new ArrayList<>();
+
   @Column(nullable = false, unique = true)
   private String token;
 
@@ -311,5 +314,17 @@ public class Lobby implements Serializable {
             }
         }
         return null;
+    }
+
+    public List<Message> getLobbyChat() {
+        return lobbyChat;
+    }
+
+    public void setLobbyChat(List<Message> lobbyChat) {
+        this.lobbyChat = lobbyChat;
+    }
+
+    public void addMessageToLobbyChat(Message message) {
+        this.lobbyChat.add(message);
     }
 }

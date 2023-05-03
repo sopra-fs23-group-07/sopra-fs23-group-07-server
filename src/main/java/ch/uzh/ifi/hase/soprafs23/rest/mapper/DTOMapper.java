@@ -165,6 +165,11 @@ public interface DTOMapper {
   @Named("convertEntityToLobbyLocationDTO")
   @Mapping(target = "memberVotes", ignore = true)
   LobbyLocationDTO convertEntityToLobbyLocationDTO(Location location);
+
+  @Named("convertEntityToMessageDTO")
+  @Mapping(source = "userName", target = "userName")
+  @Mapping(source = "message", target = "message")
+  MessageDTO convertEntityToMessageDTO(Message message);
   @BeforeMapping
   default void setVotesFromMemberVotes(Location location, @MappingTarget LobbyLocationDTO dto) {
       // Call getMemberVotes() method here and set the votes field in the DTO
@@ -177,10 +182,23 @@ public interface DTOMapper {
       }
       return entityList.stream().map(this::convertEntityToLobbyLocationDTO).collect(Collectors.toList());
   }
+
+  default List<MessageDTO> convertEntityListToLobbyMessageDTOList(List<Message> entityList) {
+      if (entityList == null) {
+          return null;
+      }
+      return entityList.stream().map(this::convertEntityToMessageDTO).collect(Collectors.toList());
+  }
   @AfterMapping
   default void addLobbyLocationsToLobbyGetDTO(Lobby lobby, @MappingTarget LobbyGetDTO lobbyGetDTO) {
       lobbyGetDTO.setLobbyLocationDTOs(convertEntityListToLobbyLocationDTOList(lobby.getLobbyLocations()));
   }
+
+  @AfterMapping
+  default void addLobbyMessagesToLobbyGetDTO(Lobby lobby, @MappingTarget LobbyGetDTO lobbyGetDTO) {
+      lobbyGetDTO.setLobbyMessageDTOs(convertEntityListToLobbyMessageDTOList(lobby.getLobbyChat()));
+  }
+
   @Mapping(source = "memberId", target = "memberId")
   @Mapping(source = "longitude", target = "longitude")
   @Mapping(source = "latitude", target = "latitude")

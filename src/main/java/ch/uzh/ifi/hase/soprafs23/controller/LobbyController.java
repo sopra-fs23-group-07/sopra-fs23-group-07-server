@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs23.controller;
 import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
 import ch.uzh.ifi.hase.soprafs23.entity.Location;
 import ch.uzh.ifi.hase.soprafs23.entity.Member;
+import ch.uzh.ifi.hase.soprafs23.entity.Message;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.LobbyService;
@@ -144,6 +145,15 @@ public class LobbyController {
                                    @PathVariable Long locationId) {
       lobbyService.removeLobbyLocationVote(lobbyId, memberlocationDTO.getMemberId(), locationId);
   }
+
+  @PostMapping("{lobbyId}/messages")
+  @ResponseStatus(HttpStatus.CREATED)
+  @ResponseBody
+  public LobbyGetDTO addLobbyMessage(@RequestBody MessageDTO messageDTO, @PathVariable Long lobbyId) {
+      lobbyService.addLobbyMessage(lobbyId, messageDTO);
+      return DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobbyService.getLobby(lobbyId));
+  }
+
 
   //TESTS
   @GetMapping("/test")

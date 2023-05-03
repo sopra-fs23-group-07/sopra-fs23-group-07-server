@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs23.entity.*;
 import ch.uzh.ifi.hase.soprafs23.entity.Timer;
 import ch.uzh.ifi.hase.soprafs23.repository.*;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.LobbyGetDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.MessageDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,8 @@ public class LobbyService {
     private final TimerRepository timerRepository;
     private final ParticipantRepository participantRepository;
 
+    private final MessageRepository messageRepository;
+
     @Autowired
     public LobbyService(@Qualifier("lobbyRepository") LobbyRepository lobbyRepository,
                         @Qualifier("userRepository") UserRepository userRepository,
@@ -45,7 +48,8 @@ public class LobbyService {
                         @Qualifier("locationRepository") LocationRepository locationRepository,
                         @Qualifier("eventRepository") EventRepository eventRepository,
                         @Qualifier("timerRepository") TimerRepository timerRepository,
-                        @Qualifier("participantRepository") ParticipantRepository participantRepository) {
+                        @Qualifier("participantRepository") ParticipantRepository participantRepository,
+                        @Qualifier("messageRepository") MessageRepository messageRepository) {
         this.lobbyRepository = lobbyRepository;
         this.userRepository = userRepository;
         this.memberRepository = memberRepository;
@@ -53,6 +57,7 @@ public class LobbyService {
         this.eventRepository = eventRepository;
         this.timerRepository = timerRepository;
         this.participantRepository = participantRepository;
+        this.messageRepository = messageRepository;
     }
 
     public LobbyGetDTO updateLobby(Lobby lobby) {
@@ -113,6 +118,25 @@ public class LobbyService {
 
         }
         return lobbyGetDTO;
+    }
+
+    public void addLobbyMessage(Long lobbyId, MessageDTO messageDTO) {
+        Lobby lobby = getLobby(lobbyId);
+
+        Message message = new Message();
+
+        message.setUserName(messageDTO.getUserName());
+        message.setMessage(messageDTO.getMessage());
+        message.setLobbyId(lobbyId);
+
+        messageRepository.save(message);
+        messageRepository.flush();
+
+        lobby.addMessageToLobbyChat(message);
+
+        lobbyRepository.save(lobby);
+        lobbyRepository.flush();
+
     }
 
     private Event checkIfEventExists(Long eventId) {
