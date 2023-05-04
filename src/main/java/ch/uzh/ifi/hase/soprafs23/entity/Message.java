@@ -3,9 +3,6 @@ package ch.uzh.ifi.hase.soprafs23.entity;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity
@@ -20,7 +17,7 @@ public class Message implements Serializable {
     private Long messageId;
 
     @Column
-    private String userName;
+    private String username;
 
     @Column
     private String message;
@@ -48,12 +45,12 @@ public class Message implements Serializable {
         this.message = message;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Lobby getLobby() {

@@ -122,18 +122,18 @@ public class LobbyService {
 
     public void addLobbyMessage(Long lobbyId, MessageDTO messageDTO) {
         Lobby lobby = getLobby(lobbyId);
-        User user = userRepository.findByUsername(messageDTO.getUserName());
+        User user = userRepository.findByUsername(messageDTO.getUsername());
 
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("User with username %s was not found"
-                    , messageDTO.getUserName()));
+                    , messageDTO.getUsername()));
         }
 
         Member member = getMember(lobby, user);
 
         Message message = new Message();
 
-        message.setUserName(messageDTO.getUserName());
+        message.setUsername(messageDTO.getUsername());
         message.setMessage(messageDTO.getMessage());
         message.setLobbyId(lobbyId);
 

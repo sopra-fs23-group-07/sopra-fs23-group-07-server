@@ -167,7 +167,7 @@ public interface DTOMapper {
   LobbyLocationDTO convertEntityToLobbyLocationDTO(Location location);
 
   @Named("convertEntityToMessageDTO")
-  @Mapping(source = "userName", target = "userName")
+  @Mapping(source = "username", target = "username")
   @Mapping(source = "message", target = "message")
   MessageDTO convertEntityToMessageDTO(Message message);
   @BeforeMapping
