@@ -146,11 +146,11 @@ public class LobbyController {
       lobbyService.removeLobbyLocationVote(lobbyId, memberlocationDTO.getMemberId(), locationId);
   }
 
-  @PostMapping("{lobbyId}/messages")
+  @PostMapping("{lobbyId}/users/{userId}/messages")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
-  public LobbyGetDTO addLobbyMessage(@RequestBody MessageDTO messageDTO, @PathVariable Long lobbyId) {
-      lobbyService.addLobbyMessage(lobbyId, messageDTO);
+  public LobbyGetDTO addLobbyMessage(@RequestBody MessageDTO messageDTO, @PathVariable Long lobbyId, @PathVariable Long userId) {
+      lobbyService.addLobbyMessage(lobbyId, userId, messageDTO);
       return DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobbyService.getLobby(lobbyId));
   }
 
