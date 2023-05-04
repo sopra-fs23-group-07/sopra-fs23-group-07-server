@@ -295,7 +295,10 @@ public class Lobby implements Serializable {
         }
         LocalDateTime currentTime = LocalDateTime.now();
         LocalDateTime timerEndTime = this.timer.getStartTime().plusMinutes(lobbyTimeLimit);
-        if (Duration.between(currentTime, timerEndTime).toMillis() < 0) {
+        if (Duration.between(currentTime, timerEndTime).toMillis() < -1800000) {
+            return -1;
+        }
+        if (Duration.between(currentTime, timerEndTime).isNegative()) {
             return 0;
         }
         return Duration.between(currentTime, timerEndTime).toMillis();

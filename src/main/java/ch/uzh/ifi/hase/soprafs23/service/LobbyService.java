@@ -413,8 +413,19 @@ public class LobbyService {
                     lobby.getLobbyId()));
         }
     }
+    private void checkIfTimerExpired(Lobby lobby) {
+        if (lobby.hasTimerRunOut()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lobby timer has expired");
+        }
+    }
     public List<Lobby> getLobbies() {
-        return this.lobbyRepository.findAll();
+        List<Lobby> lobbies = this.lobbyRepository.findAll();
+        for (Lobby lobby: lobbies) {
+            if (lobby.getTimeRemaining() == -1) {
+                lobbyRepository.delete(lobby);
+            }
+        }
+        return lobbies;
     }
     public List<Member> getMembers() {
         return this.memberRepository.findAll();
