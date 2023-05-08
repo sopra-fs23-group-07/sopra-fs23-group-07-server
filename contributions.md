@@ -151,10 +151,10 @@
 | 5        | 24/04/2023 - 01/05/2023 | Raffael         | [#71](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/71)   | added Guards to Profile Pages and Edit Profile Page                                                                                                                                             |
 | 5        | 24/04/2023 - 01/05/2023 | Raffael         | [#72](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/72)   | improved the layout and content of the Home Page                                                                                                                                                |
 | 5        | 24/04/2023 - 01/05/2023 | Raffael         | [#87](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/87)   | Github action does not finish                                                                                                                                                                   |
-| 5        | 24/04/2023 - 01/05/2023 | Suleman         | [#208](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/208) | fixed a test in eventServiceTest                                                                                                                                                                |
-| 5        | 24/04/2023 - 01/05/2023 | Suleman         | [#209](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/209) | fixed most of the erroneous tests for Lobby                                                                                                                                                     |
-| 5        | 24/04/2023 - 01/05/2023 | Suleman         | [#211](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/211) | cleaned up code smells in Lobby Class                                                                                                                                                           |
-| 5        | 24/04/2023 - 01/05/2023 | Suleman         | [#212](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/212) | cleaned up code smells in lobbyService                                                                                                                                                          |
+| 5        | 24/04/2023 - 01/05/2023 | Suleman         | [#208](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/208) | fixed a test in eventServiceTest                                                                                                                                                                |
+| 5        | 24/04/2023 - 01/05/2023 | Suleman         | [#209](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/209) | fixed most of the erroneous tests for Lobby                                                                                                                                                     |
+| 5        | 24/04/2023 - 01/05/2023 | Suleman         | [#211](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/211) | cleaned up code smells in Lobby Class                                                                                                                                                           |
+| 5        | 24/04/2023 - 01/05/2023 | Suleman         | [#212](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/212) | cleaned up code smells in lobbyService                                                                                                                                                          |
 
 # Week 6
 
@@ -174,9 +174,21 @@
 
 ---
 
-| **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                           | **Comment** |
-| -------- | ----------------------- | --------------- | ------------------------------------------------------------------------------------------ | ----------- |
-| 7        | 08/05/2023 - 15/05/2023 | ?               | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-[client/server?]/issues/?) | ?           |
+| **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                     | **Comment**                                                 |
+| -------- | ----------------------- | --------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
+| 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#105](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/105) | implement chat functionality                                |
+| 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#216](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/216) | add Message Class to back end                               |
+| 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#217](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/217) | add Message List to Lobby Class                             |
+| 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#218](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/218) | create MessageDTO                                           |
+| 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#219](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/219) | add Message List to LobbyGetDTO                             |
+| 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#220](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/220) | implement Message in DTOMapper                              |
+| 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#221](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/221) | implement Message converter in DTOMapperImpl                |
+| 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#222](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/222) | implement MessageRepository                                 |
+| 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#223](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/223) | add POST messgae request to LobbyController                 |
+| 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#224](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/224) | implement addMessageToLobby in lobbyService                 |
+| 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#225](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/225) | check that user exists when adding message to chat          |
+| 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#229](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/229) | change userName to username                                 |
+| 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#230](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/230) | fixed message post request by adding userId to request path |
 
 # Template
 
