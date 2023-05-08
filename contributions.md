@@ -181,6 +181,8 @@
 | 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#225](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/225) | check that user exists when adding message to chat          |
 | 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#229](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/229) | change userName to username                                 |
 | 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#230](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/230) | fixed message post request by adding userId to request path |
+| 6        | 01/05/2023 - 08/05/2023 | Omar         | [#102](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/102) | A user can add a location for direct creation of event |
+| 6        | 01/05/2023 - 08/05/2023 | Omar         | [#106](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/106) | Add constraint --> User can only put marker in map in same region he chose |
 
 # Week 7
 
