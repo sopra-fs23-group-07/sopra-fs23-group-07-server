@@ -85,6 +85,9 @@ public class UserService {
         if (!userInDb.getPassword().equals(userToBeLoggedIn.getPassword())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong password");
         }
+        if (userInDb.getStatus().equals(UserStatus.ONLINE)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User already logged in, please logout first");
+        }
         userInDb.setStatus(UserStatus.ONLINE);
         userInDb.setToken(UUID.randomUUID().toString());
 

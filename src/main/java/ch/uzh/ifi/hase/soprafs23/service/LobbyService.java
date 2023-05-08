@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs23.entity.*;
 import ch.uzh.ifi.hase.soprafs23.entity.Timer;
 import ch.uzh.ifi.hase.soprafs23.repository.*;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.LobbyGetDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.MessageDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,7 @@ public class LobbyService {
     private final TimerRepository timerRepository;
     private final ParticipantRepository participantRepository;
 
-    //private final EventService eventService;
+    private final MessageRepository messageRepository;
 
     @Autowired
     public LobbyService(@Qualifier("lobbyRepository") LobbyRepository lobbyRepository,
@@ -47,7 +48,8 @@ public class LobbyService {
                         @Qualifier("locationRepository") LocationRepository locationRepository,
                         @Qualifier("eventRepository") EventRepository eventRepository,
                         @Qualifier("timerRepository") TimerRepository timerRepository,
-                        @Qualifier("participantRepository") ParticipantRepository participantRepository) {
+                        @Qualifier("participantRepository") ParticipantRepository participantRepository,
+                        @Qualifier("messageRepository") MessageRepository messageRepository) {
         this.lobbyRepository = lobbyRepository;
         this.userRepository = userRepository;
         this.memberRepository = memberRepository;
@@ -55,6 +57,7 @@ public class LobbyService {
         this.eventRepository = eventRepository;
         this.timerRepository = timerRepository;
         this.participantRepository = participantRepository;
+        this.messageRepository = messageRepository;
     }
 
     public LobbyGetDTO updateLobby(Lobby lobby) {
@@ -106,12 +109,6 @@ public class LobbyService {
                 lobby = lobbyRepository.save(lobby);
                 lobbyRepository.flush();
 
-//                for(Member member : lobby.getLobbyMembers()) {
-//                    memberRepository.delete(member);
-//                }
-                //timerRepository.delete(lobby.getTimer());
-                //lobbyRepository.delete(lobby);
-
                 log.debug("Created Information for Event: {}", event);
             }
 
@@ -121,6 +118,33 @@ public class LobbyService {
 
         }
         return lobbyGetDTO;
+    }
+
+    public void addLobbyMessage(Long lobbyId, Long userId, MessageDTO messageDTO) {
+        Lobby lobby = getLobby(lobbyId);
+        User user = userRepository.findByUserId(userId);
+
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("User with username %s was not found"
+                    , messageDTO.getUsername()));
+        }
+
+        Member member = getMember(lobby, user);
+
+        Message message = new Message();
+
+        message.setUsername(user.getUsername());
+        message.setMessage(messageDTO.getMessage());
+        message.setLobbyId(lobbyId);
+
+        messageRepository.save(message);
+        messageRepository.flush();
+
+        lobby.addMessageToLobbyChat(message);
+
+        lobbyRepository.save(lobby);
+        lobbyRepository.flush();
+
     }
 
     private Event checkIfEventExists(Long eventId) {
@@ -134,8 +158,8 @@ public class LobbyService {
 
     public Lobby createLobby(Lobby newLobby) {
         checkIfLobbyExists(newLobby);
-        if (newLobby.getLobbyMaxMembers() > 128) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Maximum number of lobby members cannot exceed 128 people.");
+        if (newLobby.getLobbyMaxMembers() > 30) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Maximum number of lobby members cannot exceed 30 people.");
         }
         //checkIfUserIsMemberOfALobby(userRepository.findByUserId(newLobby.getHostMemberId())); //restriction to be member of only 1 lobby
         newLobby.setToken(UUID.randomUUID().toString());
@@ -149,8 +173,6 @@ public class LobbyService {
         // Set the timer on the lobby and return it
         newLobby.setTimer(timer);
 
-        //Member hostMember = new Member(hostUser);
-        //newLobby.addLobbyMember(hostMember);
         // saves the given entity but data is only persisted in the database once
         // flush() is called
         newLobby = lobbyRepository.save(newLobby);
@@ -252,13 +274,13 @@ public class LobbyService {
         Member member = getMemberById(memberId);
         checkIfIsMemberOfLobby(lobby, member);
         member.setSelectedSports(selectedSports);
-        //member.addSelectedSport(selectedSport);
+
 
         return member;
     }
     //to remove
     public void setLocations(Long lobbyId, Long memberId, List<String> selectedLocations) {
-        Lobby lobby = getLobby(lobbyId);
+
         Member member = getMemberById(memberId);
         List<Location> locations = new ArrayList<>();
         for (String string : selectedLocations) {
@@ -295,13 +317,13 @@ public class LobbyService {
         Member member = getMemberById(memberId);
         checkIfIsMemberOfLobby(lobby, member);
         String errorMessage = "";
-        if (member.getSelectedSports().size() == 0) {
+        if (member.getSelectedSports().isEmpty()) {
             errorMessage += "Please select at least one sport.\n";
         }
-        if (member.getSelectedDates().size() == 0) {
+        if (member.getSelectedDates().isEmpty()) {
             errorMessage += "Please select at least one date.\n";
         }
-        if (member.getSelectedLocations().size() == 0) {
+        if (member.getSelectedLocations().isEmpty()) {
             errorMessage += "Please vote for at least one location." +
                     " If there are no locations to vote for, please confirm a location and vote for it.";
         }
@@ -335,6 +357,17 @@ public class LobbyService {
         locationRepository.save(location);
         lobby.addLobbyLocation(location);
         lobbyRepository.save(lobby);
+    }
+    public void removeLobbyLocation(Long lobbyId, Long memberId) {
+        Lobby lobby = getLobby(lobbyId);
+        Member member = getMemberById(memberId);
+        checkIfIsMemberOfLobby(lobby, member);
+        if (member.getSuggestedLocation() == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Member with memberId %s has not yet" +
+                    " posted a location", member.getMemberId()));
+        }
+        lobby.removeLobbyLocation(member.getSuggestedLocation());
+        member.setSuggestedLocation(null);
     }
     public void addLobbyLocationVote(Long lobbyId, Long memberId, Long locationId) {
         Location location = locationRepository.findByLocationId(locationId);
@@ -380,14 +413,19 @@ public class LobbyService {
                     lobby.getLobbyId()));
         }
     }
-    private void checkIfUserIsMemberOfALobby(User user) {
-        if (user.isInLobby()) {
-            String baseErrorMessage = "The %s provided %s already member of a Lobby.";
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "userId", "is"));
+    private void checkIfTimerExpired(Lobby lobby) {
+        if (lobby.hasTimerRunOut()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lobby timer has expired");
         }
     }
     public List<Lobby> getLobbies() {
-        return this.lobbyRepository.findAll();
+        List<Lobby> lobbies = this.lobbyRepository.findAll();
+        for (Lobby lobby: lobbies) {
+            if (lobby.getTimeRemaining() == -1) {
+                lobbyRepository.delete(lobby);
+            }
+        }
+        return lobbies;
     }
     public List<Member> getMembers() {
         return this.memberRepository.findAll();

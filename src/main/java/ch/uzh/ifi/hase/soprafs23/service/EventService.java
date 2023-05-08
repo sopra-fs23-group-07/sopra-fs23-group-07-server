@@ -54,6 +54,9 @@ public class EventService {
     }
 
     public Event createEvent(Event newEvent) {
+        if (newEvent.getEventMaxParticipants() > 30) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Maximum number of event participants cannot exceed 30 people.");
+        }
         // saves the given entity but data is only persisted in the database once
         // flush() is called
         newEvent = eventRepository.save(newEvent);

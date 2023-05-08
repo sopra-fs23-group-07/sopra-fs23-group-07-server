@@ -28,6 +28,8 @@ public class LobbyGetDTO {
   private Long createdEventId;
 
   private List<LobbyLocationDTO> lobbyLocationDTOs;
+
+  private List<MessageDTO> lobbyMessageDTOs;
   private List<MemberDTO> memberDTOS;
 
   private Integer lobbyMembersCount;
@@ -98,7 +100,15 @@ public class LobbyGetDTO {
 
   public void setLobbyDecidedLocation(LobbyLocationDTO lobbyDecidedLocation) {this.lobbyDecidedLocation = lobbyDecidedLocation;}
 
-  public String getToken() {
+    public List<MessageDTO> getLobbyMessageDTOs() {
+        return lobbyMessageDTOs;
+    }
+
+    public void setLobbyMessageDTOs(List<MessageDTO> lobbyMessageDTOs) {
+        this.lobbyMessageDTOs = lobbyMessageDTOs;
+    }
+
+    public String getToken() {
         return token;
     }
 
