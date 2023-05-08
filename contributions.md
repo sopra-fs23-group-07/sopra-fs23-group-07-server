@@ -161,7 +161,7 @@
 ---
 
 | **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                     | **Comment**                                                 |
-| -------- | ----------------------- | --------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
+|----------| ----------------------- |-----------------|--------------------------------------------------------------------------------------| ----------------------------------------------------------- |
 | 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#35](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/35)   | create Events page with table                               |
 | 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#99](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/99)   | Events file removed console.logs and commented              |
 | 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#100](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/100) | Lobbies file cleaned, removed console.logs and commented    |
@@ -181,13 +181,20 @@
 | 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#225](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/225) | check that user exists when adding message to chat          |
 | 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#229](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/229) | change userName to username                                 |
 | 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#230](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/230) | fixed message post request by adding userId to request path |
-| 6        | 01/05/2023 - 08/05/2023 | Omar         | [#102](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/102) | A user can add a location for direct creation of event |
+| 6        | 01/05/2023 - 08/05/2023 | Omar            | [#102](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/102) | A user can add a location for direct creation of event |
+| 6        | 01/05/2023 - 08/05/2023 | Omar            | [#106](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/106) | Add constraint --> User can only put marker in map in same region he chose |
 | 6        | 01/05/2023 - 08/05/2023 | Raffael         | [#98](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/98)   | sharing event/lobby link works - now with visual feedback |
 | 6        | 01/05/2023 - 08/05/2023 | Raffael         | [#110](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/110) | added FAQ page |
-| 6        | 01/05/2023 - 08/05/2023 | Raffael         | [#90](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/90) | Error messages now displayed with Toastify |
+| 6        | 01/05/2023 - 08/05/2023 | Raffael         | [#90](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/90)   | Error messages now displayed with Toastify |
 | 6        | 01/05/2023 - 08/05/2023 | Raffael         | [#107](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/107) | added guard to lobby (not yet finished) |
 | 6        | 01/05/2023 - 08/05/2023 | Raffael         | [#108](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/108) | added avatars (not yet finished) |
 | 6        | 01/05/2023 - 08/05/2023 | Raffael         | [#109](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/109) | email validation (not yet finished) |
+| 6        | 01/05/2023 - 08/05/2023 | Patrick         | [#213](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/213) | map eventLocation in userGetDTO eventGetDTOs                            |
+| 6        | 01/05/2023 - 08/05/2023 | Patrick         | [#214](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/214) | set lobbyMaxMembers and eventMaxParticipants to 30                      |
+| 6        | 01/05/2023 - 08/05/2023 | Patrick         | [#215](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/215) | option to remove/unconfirm suggested location of a member               |
+| 6        | 01/05/2023 - 08/05/2023 | Patrick         | [#226](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/226) | check that user is logged in only once                                  |
+| 6        | 01/05/2023 - 08/05/2023 | Patrick         | [#227](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/227) | delete lobby when timer has expired for 30min                           |
+| 6        | 01/05/2023 - 08/05/2023 | Patrick         | [#228](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/228) | possibility to save entities to database file in server root folder     |
 
 # Week 7
 
