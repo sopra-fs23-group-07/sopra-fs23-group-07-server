@@ -151,6 +151,10 @@
 | 5        | 24/04/2023 - 01/05/2023 | Raffael         | [#71](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/71) |  added Guards to Profile Pages and Edit Profile Page |
 | 5        | 24/04/2023 - 01/05/2023 | Raffael         | [#72](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/72) | improved the layout and content of the Home Page     |
 | 5        | 24/04/2023 - 01/05/2023 | Raffael         | [#87](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/87) | Github action does not finish     |
+| 5        | 24/04/2023 - 01/05/2023 | Suleman         | [#208](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/208) | fixed a test in eventServiceTest     |
+| 5        | 24/04/2023 - 01/05/2023 | Suleman         | [#209](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/209) | fixed most of the erroneous tests for Lobby     |
+| 5        | 24/04/2023 - 01/05/2023 | Suleman         | [#211](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/211) | cleaned up code smells in Lobby Class     |
+| 5        | 24/04/2023 - 01/05/2023 | Suleman         | [#212](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/212) | cleaned up code smells in lobbyService     |
 
 
 # Week 6
