@@ -160,22 +160,14 @@
 
 ---
 
-| **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                           | **Comment**                                              |
-| -------- | ----------------------- | --------------- | ------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
-| 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#35](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/35)         | create Events page with table                            |
-| 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#99](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/99)         | Events file removed console.logs and commented           |
-| 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#100](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/100)       | Lobbies file cleaned, removed console.logs and commented |
-| 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#101](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/101)       | Event Creation added Buttons, Guards, Routing, Form      |
-| 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#103](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/103)       | Create Event: Fixed time and date selection              |
-| 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#104](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/104)       | cleaned code smells in all guards                        |
-| 6        | 01/05/2023 - 08/05/2023 | ?               | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-[client/server?]/issues/?) | ?                                                        |
-
-# Week 7
-
----
-
 | **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                     | **Comment**                                                 |
 | -------- | ----------------------- | --------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
+| 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#35](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/35)   | create Events page with table                               |
+| 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#99](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/99)   | Events file removed console.logs and commented              |
+| 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#100](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/100) | Lobbies file cleaned, removed console.logs and commented    |
+| 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#101](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/101) | Event Creation added Buttons, Guards, Routing, Form         |
+| 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#103](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/103) | Create Event: Fixed time and date selection                 |
+| 6        | 01/05/2023 - 08/05/2023 | Yannic          | [#104](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/104) | cleaned code smells in all guards                           |
 | 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#105](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/105) | implement chat functionality                                |
 | 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#216](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/216) | add Message Class to back end                               |
 | 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#217](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/217) | add Message List to Lobby Class                             |
@@ -189,6 +181,14 @@
 | 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#225](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/225) | check that user exists when adding message to chat          |
 | 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#229](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/229) | change userName to username                                 |
 | 6        | 01/05/2023 - 08/05/2023 | Suleman         | [#230](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/230) | fixed message post request by adding userId to request path |
+
+# Week 7
+
+---
+
+| **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                           | **Comment** |
+| -------- | ----------------------- | --------------- | ------------------------------------------------------------------------------------------ | ----------- |
+| 7        | 08/05/2023 - 15/05/2023 | ?               | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-[client/server?]/issues/?) | ?           |
 
 # Template
 
