@@ -4,22 +4,23 @@ If you have ever tried to organize a sports event with friends then you know how
 
 ## Technologies
 * Springboot Framework
-* GitHub Projects
-* GitHub
-* GitHub Actions
-* sonarQube
 * Google Cloud
 * JPA
 
 
 ## High-Level Components
-* Lobby
-* User
-* Event
+### Lobby
+The lobby is the soul of SpeetUp. It is where users can work together to create an event that satisfies everyone. The lobby component is responsible for keeping track of all members who have joined as well as all the chioces they have selected. The lobby is also responsible for creating an event based on the final choices. It does this either after all members have locked their choices or if the lobby timer has run out.
+
+### User
+The users are the heart of SpeetUp. The user component is responsible for storing all relevant information for a user. It is used for authentication when logging in and is used to create a member component when joining a lobby.
+
+### Event
+Events are responsible for storing information for all users to see. It also allows users to join and leave an event as they please. Additionally users are able to view which upcoming events they have joined as well as all previous events they were a part of.
 
 ##  Launch & Deployment
 
-1. Download both the server repo as a zip file from GitHub
+1. Download the server repo as a zip file from GitHub
 2. Unzip the files
 3. Open the directory in your IDE of choice
 
