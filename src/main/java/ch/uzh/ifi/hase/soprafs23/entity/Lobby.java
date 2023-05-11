@@ -52,6 +52,9 @@ public class Lobby implements Serializable {
   @Column(nullable = false)
   private String lobbyRegion;
 
+    @Column(nullable = false)
+    private String lobbyRegionShortCode;
+
   @Column(nullable = false)
   private Integer lobbyTimeLimit;
 
@@ -267,6 +270,12 @@ public class Lobby implements Serializable {
   public void setLobbyRegion(String lobbyRegion) {
     this.lobbyRegion = lobbyRegion;
   }
+
+  public String getLobbyRegionShortCode(){return lobbyRegionShortCode;}
+
+    public void setLobbyRegionShortCode(String lobbyRegionShortCode){
+      this.lobbyRegionShortCode = lobbyRegionShortCode;
+    }
 
   public Integer getLobbyTimeLimit() {return this.lobbyTimeLimit; }
 

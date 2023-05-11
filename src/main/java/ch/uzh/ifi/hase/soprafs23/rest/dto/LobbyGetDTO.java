@@ -15,6 +15,9 @@ public class LobbyGetDTO {
 
   private String lobbyRegion;
 
+
+    private String lobbyRegionShortCode;
+
   private Integer lobbyTimeLimit;
 
   private String token;
@@ -83,6 +86,15 @@ public class LobbyGetDTO {
   public void setLobbyRegion(String lobbyRegion) {
         this.lobbyRegion = lobbyRegion;
     }
+
+    public String getLobbyRegionShortCode() {
+        return lobbyRegionShortCode;
+    }
+
+    public void setLobbyRegionShortCode(String lobbyRegionShortCode) {
+        this.lobbyRegionShortCode = lobbyRegionShortCode;
+    }
+
 
   public Integer getLobbyTimeLimit() {return this.lobbyTimeLimit; }
 
