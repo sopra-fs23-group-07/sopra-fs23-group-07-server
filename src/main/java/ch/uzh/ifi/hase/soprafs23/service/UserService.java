@@ -123,8 +123,9 @@ public class UserService {
     public void updateUser(User inputUser) {
         User databaseUser = getUser(inputUser.getUserId());
 
-        // Check if username already exists
-        if (!Objects.equals(inputUser.getUsername(), databaseUser.getUsername())) {
+        // Check if username and email address already exist
+        if ((!Objects.equals(inputUser.getUsername(), databaseUser.getUsername())) ||
+                (!Objects.equals(inputUser.getEmail(), databaseUser.getEmail()))) {
             checkIfUserExists(inputUser);
         }
 

@@ -722,7 +722,7 @@ public class LobbyServiceIntegrationTest {
         Member testMember = lobbyService.getMember(testLobby, testUser);
 
 
-        LocalDateTime date = LocalDateTime.now();
+        LocalDateTime date = LocalDateTime.of(2030, 1, 1, 11, 0);
         List<String> dates = new ArrayList<>();
         dates.add(date.toString());
 
