@@ -10,13 +10,13 @@ If you have ever tried to organize a sports event with friends then you know how
 
 ## High-Level Components
 ### Lobby
-The lobby is the soul of SpeetUp. It is where users can work together to create an event that satisfies everyone. The lobby component is responsible for keeping track of all members who have joined as well as all the chioces they have selected. The lobby is also responsible for creating an event based on the final choices. It does this either after all members have locked their choices or if the lobby timer has run out.
+Lobbies are the soul of SpeetUp and model the synchronization and communication between users. It stores information on all the members that have joined the lobby, what choices they have selected (with help from a member component), what locations have been suggested as well as storing the lobby chat. The lobby is responsible for checking if it should close, either becuase all members of the lobby have locked their choices or because the timer has run out. In the case it should end, it is repsonsible for creating an event based on the majority choices of the members in the lobby.
 
 ### User
-The users are the heart of SpeetUp. The user component is responsible for storing all relevant information for a user. It is used for authentication when logging in and is used to create a member component when joining a lobby.
+The users are the heart of SpeetUp and our User component is responsible for modelling the users. It stores all relevenat information regarding the user from their username to their avatar. It is also essential regarding user authentication and ensuring uniqueness within users as it stores information such as a users password. Additionally the User model is used as a base when creating a member object to represent a user in a lobby. The User component also keeps track of all previous and upcoming events that concern the user.
 
-### Event
-Events are responsible for storing information for all users to see. It also allows users to join and leave an event as they please. Additionally users are able to view which upcoming events they have joined as well as all previous events they were a part of.
+### Member
+The Member component can be easily confused with the User component but is vastly different. The Member component models a user inside a lobby. It only requires a subset of the uers information, such as username and unlike the User, the Member component is responsible for storing all choices that the user has made in a lobby and thus allows all other members to see their choices. A Member component is created using a User and is used by a Lobby, making it the bridge between the two components allowing seamless interaction between users in a lobby.
 
 ##  Launch & Deployment
 
