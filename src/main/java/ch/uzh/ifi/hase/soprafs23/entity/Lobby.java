@@ -52,7 +52,7 @@ public class Lobby implements Serializable {
   @Column(nullable = false)
   private String lobbyRegion;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String lobbyRegionShortCode;
 
   @Column(nullable = false)
