@@ -307,7 +307,9 @@ public class LobbyService {
         checkIfIsMemberOfLobby(lobby, member);
         List<LocalDateTime> dates = new ArrayList<>();
         for (String string : selectedDates) {
-            dates.add(LocalDateTime.parse(string));
+            if (!LocalDateTime.parse(string).isBefore(LocalDateTime.now())) {
+                dates.add(LocalDateTime.parse(string));
+            }
         }
         member.setSelectedDates(dates);
         return member;
