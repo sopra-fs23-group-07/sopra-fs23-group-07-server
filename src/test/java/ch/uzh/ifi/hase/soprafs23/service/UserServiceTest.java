@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
-import ch.uzh.ifi.hase.soprafs23.entity.Event;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,15 +10,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class UserServiceTest {
 
@@ -81,18 +81,18 @@ public class UserServiceTest {
     assertEquals(UserStatus.ONLINE, createdUser.getStatus());
   }
 
-  @Test
-  public void createUser_duplicateName_throwsException() {
-    // given -> a first user has already been created
-    userService.createUser(testUser);
+    @Test
+    public void createUser_duplicateName_throwsException() {
+        // given -> a first user has already been created
+        userService.createUser(testUser);
 
-    // when -> setup additional mocks for UserRepository
-    when(userRepository.findByUsername(any())).thenReturn(testUser);
+        // when -> setup additional mocks for UserRepository
+        when(userRepository.findAll()).thenReturn(Collections.singletonList(testUser));
 
-    // then -> attempt to create second user with same user -> check that an error
-    // is thrown
-    assertThrows(ResponseStatusException.class, () -> userService.createUser(testUser));
-  }
+        // then -> attempt to create a second user with the same username -> check that an error is thrown
+        assertThrows(ResponseStatusException.class, () -> userService.createUser(testUser));
+    }
+
     @Test
     void loginUser_ShouldReturnLoggedInUser() {
         // Mock the necessary method calls
@@ -112,9 +112,7 @@ public class UserServiceTest {
         when(userRepository.findByUsername(any(String.class))).thenReturn(null);
 
         // Call the method to be tested and assert that it throws the expected exception
-        assertThrows(ResponseStatusException.class, () -> {
-            userService.loginUser(testUser);
-        }, "The username provided was not found");
+        assertThrows(ResponseStatusException.class, () -> userService.loginUser(testUser), "The username provided was not found");
     }
     @Test
     void loginUser_ShouldThrowBadRequestException_WhenWrongPassword() {
@@ -130,9 +128,7 @@ public class UserServiceTest {
         when(userRepository.findByUsername(testUser.getUsername())).thenReturn(testUser);
 
         // Call the method to be tested and assert that it throws the expected exception
-        assertThrows(ResponseStatusException.class, () -> {
-            userService.loginUser(wrongPasswordUser);
-        }, "Wrong password");
+        assertThrows(ResponseStatusException.class, () -> userService.loginUser(wrongPasswordUser), "Wrong password");
     }
     @Test
     void loginUser_ShouldThrowResponseStatusException_WhenUserNotFound() {
@@ -156,9 +152,7 @@ public class UserServiceTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         // Call the method to be tested
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
-            userService.getUser(testUser.getUserId());
-        });
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> userService.getUser(testUser.getUserId()));
 
         // Verify that the exception has a 404 NOT FOUND status code
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
@@ -242,24 +236,24 @@ public class UserServiceTest {
         assertEquals(inputUser.getUsername(), testUser.getUsername());
     }
     @Test
-    void updateUser_SameUsername() {
+    void updateUser_DuplicateUsernameOrEmail_ThrowsException() {
+        // Create an existing user with a duplicate username
+        User existingUser = new User();
+        existingUser.setUserId(2L);
+        existingUser.setUsername("existingUser");
+        existingUser.setEmail("existing@example.com");
 
-        User user2 = new User();
-        user2.setUserId(2L);
-        user2.setUsername("testName2d");
-        //userRepository.save(user2);
-
-        // Create input user with the same username as user2
+        // Create the input user with updated username and email
         User inputUser = new User();
         inputUser.setUserId(1L);
-        inputUser.setUsername("testName2");
+        inputUser.setUsername("existingUser");  // Duplicate username
+        inputUser.setEmail("existing@example.com");  // Duplicate email
 
         // Mock the necessary method calls
         when(userRepository.findByUserId(inputUser.getUserId())).thenReturn(testUser);
-        when(userRepository.findByUsername(inputUser.getUsername())).thenReturn(user2);
+        when(userRepository.findAll()).thenReturn(Collections.singletonList(existingUser));
 
-        // Call the method to be tested
+        // Call the method to be tested and assert that it throws an exception
         assertThrows(ResponseStatusException.class, () -> userService.updateUser(inputUser));
     }
-
 }

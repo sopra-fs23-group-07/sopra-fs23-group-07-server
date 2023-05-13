@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
-import ch.uzh.ifi.hase.soprafs23.entity.Location;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import org.slf4j.Logger;
@@ -17,9 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.beans.PropertyDescriptor;
-import java.util.*;
-
 import java.time.LocalDate;
+import java.util.*;
 
 /**
  * User Service
@@ -123,8 +121,9 @@ public class UserService {
     public void updateUser(User inputUser) {
         User databaseUser = getUser(inputUser.getUserId());
 
-        // Check if username already exists
-        if (!Objects.equals(inputUser.getUsername(), databaseUser.getUsername())) {
+        // Check if username and email address already exist
+        if ((!Objects.equals(inputUser.getUsername(), databaseUser.getUsername())) ||
+                (!Objects.equals(inputUser.getEmail(), databaseUser.getEmail()))) {
             checkIfUserExists(inputUser);
         }
 
