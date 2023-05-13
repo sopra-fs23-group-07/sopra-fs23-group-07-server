@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
-import ch.uzh.ifi.hase.soprafs23.entity.Location;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import org.slf4j.Logger;
@@ -17,9 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.beans.PropertyDescriptor;
-import java.util.*;
-
 import java.time.LocalDate;
+import java.util.*;
 
 /**
  * User Service
@@ -69,10 +67,21 @@ public class UserService {
      * @see User
      */
     private void checkIfUserExists(User userToBeCreated) {
-        User userByUsername = userRepository.findByUsername(userToBeCreated.getUsername());
-        String baseErrorMessage = "The %s provided %s not unique. Therefore, the user could not be created!";
-        if (userByUsername != null) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "username", "is"));
+        String username = userToBeCreated.getUsername();
+        String email = userToBeCreated.getEmail();
+
+        User duplicateUser = userRepository.findAll().stream()
+                .filter(user -> user.getUsername().equalsIgnoreCase(username) || user.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
+
+        if (duplicateUser != null) {
+            String errorMessage = "The %s provided %s not unique. Therefore, the user could not be created!";
+            if (duplicateUser.getUsername().equalsIgnoreCase(username)) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(errorMessage, "username", "is"));
+            } else {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(errorMessage, "email address", "is"));
+            }
         }
     }
 
@@ -111,8 +120,9 @@ public class UserService {
     public void updateUser(User inputUser) {
         User databaseUser = getUser(inputUser.getUserId());
 
-        // Check if username already exists
-        if (!Objects.equals(inputUser.getUsername(), databaseUser.getUsername())) {
+        // Check if username and email address already exist
+        if ((!Objects.equals(inputUser.getUsername(), databaseUser.getUsername())) ||
+                (!Objects.equals(inputUser.getEmail(), databaseUser.getEmail()))) {
             checkIfUserExists(inputUser);
         }
 
