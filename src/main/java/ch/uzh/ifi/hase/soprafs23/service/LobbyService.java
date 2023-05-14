@@ -67,8 +67,7 @@ public class LobbyService {
 
         LobbyGetDTO lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
 
-        if(lobby.isHaveAllMembersLockedSelections() || (lobby.hasTimerRunOut() &&
-                lobby.isAtLeastTwoMembersHaveLockedSelections())) {
+        if(lobby.isAtLeastTwoMembersHaveLockedSelections() && (lobby.isHaveAllMembersLockedSelections() || lobby.hasTimerRunOut())) {
             //Event event = checkIfEventExists(lobby.getCreatedEventId());
 
             if(lobby.getCreatedEventId() == null) {
@@ -144,13 +143,6 @@ public class LobbyService {
 
         lobbyRepository.save(lobby);
         lobbyRepository.flush();
-
-    }
-
-    private Event checkIfEventExists(Long eventId) {
-        Optional<Event> eventById = eventRepository.findById(eventId);
-
-        return eventById.orElse(null);
     }
 
     public Lobby createLobby(Lobby newLobby) {
@@ -412,10 +404,11 @@ public class LobbyService {
                     lobby.getLobbyId()));
         }
     }
-    private void checkIfTimerExpired(Lobby lobby) {
+    private void checkIfTimerHasRunUp(Lobby lobby) {
         if (lobby.hasTimerRunOut()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lobby timer has expired");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Timer has expired");
         }
+
     }
     public List<Lobby> getLobbies() {
         List<Lobby> lobbies = this.lobbyRepository.findAll();
@@ -431,15 +424,5 @@ public class LobbyService {
     }
     public List<Location> getLocations() {
         return this.locationRepository.findAll();
-    }
-
-    public void stopTimer(Timer timer) {
-        if (timer == null) {
-            throw new RuntimeException("Timer is not started");
-        }
-
-        this.timerRepository.delete(timer);
-        // Cancel the timer task using the Timer class as before
-        // ...
     }
 }

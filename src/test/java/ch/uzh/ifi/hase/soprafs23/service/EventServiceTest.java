@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -218,6 +219,25 @@ public class EventServiceTest {
         verify(eventRepository, times(1)).save(any(Event.class));
     }
     @Test
+    public void addParticipant_eventIsFull_throwsException() {
+        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(Optional.of(testEvent));
+        when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
+        testEvent.setEventMaxParticipants(1);
+        eventService.addParticipant(testEvent.getEventId(), testUser.getUserId());
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
+                eventService.addParticipant(testEvent.getEventId(), testUser.getUserId()));
+
+        // Verify that the exception message contains the expected error message
+        String expectedErrorMessage = "The Event provided is full";
+        assertTrue(Objects.requireNonNull(exception.getReason()).contains(expectedErrorMessage));
+
+        // Verify that the participant was not added to the event
+        assertEquals(1, testEvent.getEventParticipants().size());
+    }
+
+
+    @Test
     void removeParticipant_ShouldRemoveParticipantFromEventAndUser() {
         // Mock the necessary method calls
         when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(java.util.Optional.of(testEvent));
@@ -249,5 +269,30 @@ public class EventServiceTest {
         // Verify that the event was deleted
         verify(eventRepository, times(1)).delete(testEvent);
     }
+    @Test
+    void moreThan30Members() {
+        Event event = new Event();
+        event.setEventMaxParticipants(31);
+        assertThrows(ResponseStatusException.class, () -> eventService.createEvent(event));
+    }
+    @Test
+    public void addParticipant_userIsAlreadyParticipant_throwsException() {
+        // Mock the behavior of the eventRepository
+        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(Optional.of(testEvent));
 
+        // Mock the behavior of the userRepository
+        when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
+
+        // Create an event and add the user as a participant
+        Event createdEvent = eventService.createEvent(testEvent);
+        eventService.addParticipant(createdEvent.getEventId(), testUser.getUserId());
+
+        // Call the method to add the participant again and expect an exception to be thrown
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
+                eventService.addParticipant(createdEvent.getEventId(), testUser.getUserId()));
+
+        // Verify that the exception message contains the expected error message
+        String expectedErrorMessage = "The User provided is already participant of this event.";
+        assertTrue(Objects.requireNonNull(exception.getReason()).contains(expectedErrorMessage));
+    }
 }

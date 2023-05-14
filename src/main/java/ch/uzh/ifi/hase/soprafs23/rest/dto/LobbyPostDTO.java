@@ -1,10 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
 
-import ch.uzh.ifi.hase.soprafs23.entity.Member;
-
-import javax.persistence.criteria.CriteriaBuilder;
-
 public class LobbyPostDTO {
   private String lobbyName;
   private String lobbyRegion;

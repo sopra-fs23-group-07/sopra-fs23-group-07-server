@@ -4,7 +4,6 @@ import ch.uzh.ifi.hase.soprafs23.entity.Event;
 import ch.uzh.ifi.hase.soprafs23.entity.Participant;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.EventRepository;
-import ch.uzh.ifi.hase.soprafs23.repository.LocationRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.ParticipantRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import org.slf4j.Logger;
@@ -30,23 +29,18 @@ import java.util.Optional;
 @Service
 @Transactional
 public class EventService {
-
     private final Logger log = LoggerFactory.getLogger(EventService.class);
-
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final ParticipantRepository participantRepository;
-    private final LocationRepository locationRepository;
 
     @Autowired
     public EventService(@Qualifier("eventRepository") EventRepository eventRepository,
                         @Qualifier("userRepository") UserRepository userRepository,
-                        @Qualifier("participantRepository") ParticipantRepository participantRepository,
-                        LocationRepository locationRepository){
+                        @Qualifier("participantRepository") ParticipantRepository participantRepository){
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
         this.participantRepository = participantRepository;
-        this.locationRepository = locationRepository;
     }
 
     public List<Event> getEvents() {
@@ -66,7 +60,6 @@ public class EventService {
         log.debug("Created Information for Event: {}", newEvent);
         return newEvent;
     }
-
 
     public Event getEvent(long eventId) {
         Optional<Event> eventToFind = eventRepository.findByEventId(eventId);
