@@ -138,7 +138,7 @@ class LobbyControllerTest {
 
         // Verifying that the lobbyService.getLobby() and lobbyService.updateLobby() methods were called
         verify(lobbyService).getLobby(any(Long.class));
-        verify(lobbyService).updateLobby(eq(lobby));
+        verify(lobbyService).updateLobby(lobby);
 
         // Deserializing the response into a LobbyGetDTO object and asserting its properties
         LobbyGetDTO actualLobbyGetDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), LobbyGetDTO.class);
@@ -161,13 +161,14 @@ class LobbyControllerTest {
         lobbyPostDTO.setLobbyTimeLimit(10);
         lobbyPostDTO.setLobbyMaxMembers(10);
         lobbyPostDTO.setHostMemberId(1L);
+        lobbyPostDTO.setHostMemberToken("token");
 
         given(lobbyService.createLobby(any(Lobby.class))).willAnswer(invocation -> {
             Lobby lobby = invocation.getArgument(0);
             lobby.setLobbyId(1L);
             return lobby;
         });
-        given(lobbyService.addMember(eq(1L), eq(1L), eq("token"))).willReturn(member);
+        given(lobbyService.addMember(1L, 1L, "token")).willReturn(member);
 
         MvcResult mvcResult = mockMvc.perform(post("/lobbies")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -176,7 +177,7 @@ class LobbyControllerTest {
                 .andReturn();
 
         verify(lobbyService).createLobby(any(Lobby.class));
-        verify(lobbyService).addMember(eq(1L), eq(1L), eq("token"));
+        verify(lobbyService).addMember(1L, 1L, "token");
 
         MemberDTO expectedMemberDTO = new MemberDTO();
         expectedMemberDTO.setLobbyId(1L);
@@ -200,6 +201,7 @@ class LobbyControllerTest {
     void givenLobbyAndUser_userJoinsLobby_thenReturnJsonArray() throws Exception {
         UserLobbyDTO userLobbyDTO = new UserLobbyDTO();
         userLobbyDTO.setUserId(user.getUserId());
+        userLobbyDTO.setToken("token");
 
         given(lobbyService.addMember(anyLong(), anyLong(), anyString())).willReturn(member);
 
@@ -248,8 +250,7 @@ class LobbyControllerTest {
 
         memberSportDTO.setSelectedSports(sports);
 
-        Member memberWithSport = new Member();
-        memberWithSport = member;
+        Member memberWithSport = member;
         memberWithSport.setSelectedSports(sports);
 
         given(lobbyService.setSports(anyLong(), anyLong(), Mockito.anyList())).willReturn(memberWithSport);
@@ -275,14 +276,13 @@ class LobbyControllerTest {
 
         List<String> datesString = new ArrayList<>();
         List<LocalDateTime> dates = new ArrayList<>();
-        LocalDateTime time = LocalDateTime.of(2023, 04, 24, 14, 33, 48, 0);
+        LocalDateTime time = LocalDateTime.of(2023, 4, 24, 14, 33, 48, 0);
         dates.add(time);
         datesString.add(time.toString());
 
         memberDateDTO.setSelectedDates(datesString);
 
-        Member memberWithDate = new Member();
-        memberWithDate = member;
+        Member memberWithDate = member;
         memberWithDate.setSelectedDates(dates);
 
         given(lobbyService.setDates(anyLong(), anyLong(), Mockito.anyList())).willReturn(memberWithDate);
@@ -373,9 +373,9 @@ class LobbyControllerTest {
                 .andExpect(jsonPath("$.lobbyMaxMembers", is(lobby.getLobbyMaxMembers())))
                 .andExpect(jsonPath("$.lobbyRegion", is(lobby.getLobbyRegion())))
                 .andExpect(jsonPath("$.lobbyTimeLimit", is(lobby.getLobbyTimeLimit())))
-                .andExpect(jsonPath("$.lobbyId", is(Integer.valueOf(Math.toIntExact(lobby.getLobbyId())))))
-                .andExpect(jsonPath("$.lobbyLocationDTOs[0].memberId", is(Integer.valueOf(Math.toIntExact(member.getMemberId())))))
-                .andExpect(jsonPath("$.lobbyLocationDTOs[0].lobbyId", is(Integer.valueOf(Math.toIntExact(lobby.getLobbyId())))))
+                .andExpect(jsonPath("$.lobbyId", is(Math.toIntExact(lobby.getLobbyId()))))
+                .andExpect(jsonPath("$.lobbyLocationDTOs[0].memberId", is(Math.toIntExact(member.getMemberId()))))
+                .andExpect(jsonPath("$.lobbyLocationDTOs[0].lobbyId", is(Math.toIntExact(lobby.getLobbyId()))))
                 .andExpect(jsonPath("$.lobbyLocationDTOs[0].longitude", is(lobbyLocationDTO.getLongitude())))
                 .andExpect(jsonPath("$.lobbyLocationDTOs[0].latitude", is(lobbyLocationDTO.getLatitude())));
 
@@ -428,7 +428,6 @@ class LobbyControllerTest {
    * can be processed
    * Input will look like this: {"name": "Test User", "username": "testUsername"}
    * 
-   * @param object
    * @return string
    */
   private String asJsonString(final Object object) {
@@ -436,7 +435,7 @@ class LobbyControllerTest {
       return new ObjectMapper().writeValueAsString(object);
     } catch (JsonProcessingException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          String.format("The request body could not be created.%s", e.toString()));
+          String.format("The request body could not be created.%s", e));
     }
   }
 }
