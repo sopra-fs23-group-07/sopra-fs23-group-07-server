@@ -2,14 +2,11 @@ package ch.uzh.ifi.hase.soprafs23.controller;
 
 import ch.uzh.ifi.hase.soprafs23.entity.*;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
-import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.LobbyService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,13 +23,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * This tests if the UserController works.
  */
 @WebMvcTest(LobbyController.class)
-public class LobbyControllerTest {
+class LobbyControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -105,7 +101,7 @@ public class LobbyControllerTest {
     }
 
   @Test
-  public void givenLobbies_whenGetLobbies_thenReturnJsonArray() throws Exception {
+  void givenLobbies_whenGetLobbies_thenReturnJsonArray() throws Exception {
 
     List<Lobby> allLobbies = Collections.singletonList(lobby);
 
@@ -126,7 +122,7 @@ public class LobbyControllerTest {
             .andExpect(jsonPath("$[0].lobbyId", is(1)));
   }
     @Test
-    public void givenLobby_whenGetLobby_thenReturnJsonArray() throws Exception {
+    void givenLobby_whenGetLobby_thenReturnJsonArray() throws Exception {
         // Mocking the lobbyService.getLobby() method
         given(lobbyService.getLobby(any(Long.class))).willReturn(lobby);
 
@@ -157,7 +153,7 @@ public class LobbyControllerTest {
 
 
     @Test
-    public void givenLobbyPostDTO_createLobby_thenReturnsMemberDTO() throws Exception {
+    void givenLobbyPostDTO_createLobby_thenReturnsMemberDTO() throws Exception {
 
         LobbyPostDTO lobbyPostDTO = new LobbyPostDTO();
         lobbyPostDTO.setLobbyName("Test Lobby");
@@ -201,7 +197,7 @@ public class LobbyControllerTest {
     }
 
     @Test
-    public void givenLobbyAndUser_userJoinsLobby_thenReturnJsonArray() throws Exception {
+    void givenLobbyAndUser_userJoinsLobby_thenReturnJsonArray() throws Exception {
         UserLobbyDTO userLobbyDTO = new UserLobbyDTO();
         userLobbyDTO.setUserId(user.getUserId());
 
@@ -220,7 +216,7 @@ public class LobbyControllerTest {
     }
 
     @Test
-    public void givenLobbyAndUser_userLeavesLobby() throws Exception {
+    void givenLobbyAndUser_userLeavesLobby() throws Exception {
         UserLobbyDTO userLobbyDTO = new UserLobbyDTO();
         userLobbyDTO.setUserId(user.getUserId());
 
@@ -233,7 +229,7 @@ public class LobbyControllerTest {
     }
 
     @Test
-    public void givenLobby_lobbyIsDeleted() throws Exception {
+    void givenLobby_lobbyIsDeleted() throws Exception {
         MockHttpServletRequestBuilder deleteRequest = delete("/lobbies/{lobbyId}/delete", lobby.getLobbyId())
                 .contentType(MediaType.APPLICATION_JSON);
 
@@ -243,7 +239,7 @@ public class LobbyControllerTest {
 
 
     @Test
-    public void givenLobbyAndMember_memberAddsSport_thenReturnJsonArray() throws Exception {
+    void givenLobbyAndMember_memberAddsSport_thenReturnJsonArray() throws Exception {
         MemberSportDTO memberSportDTO = new MemberSportDTO();
         memberSportDTO.setMemberId(member.getMemberId());
 
@@ -273,7 +269,7 @@ public class LobbyControllerTest {
 
 
     @Test
-    public void givenLobbyAndMember_memberAddsDate_thenReturnJsonArray() throws Exception {
+    void givenLobbyAndMember_memberAddsDate_thenReturnJsonArray() throws Exception {
         MemberDateDTO memberDateDTO = new MemberDateDTO();
         memberDateDTO.setMemberId(member.getMemberId());
 
@@ -305,7 +301,7 @@ public class LobbyControllerTest {
     }
 
     @Test
-    public void givenLobbyAndMember_memberLocksChoices_thenReturnsJsonArray() throws Exception {
+    void givenLobbyAndMember_memberLocksChoices_thenReturnsJsonArray() throws Exception {
         MemberLockDTO memberLockDTO = new MemberLockDTO();
         memberLockDTO.setMemberId(member.getMemberId());
 
@@ -328,7 +324,7 @@ public class LobbyControllerTest {
     }
 
     @Test
-    public void givenLobbyAndMember_memberUnlocksChoices_thenReturnsJsonArray() throws Exception {
+    void givenLobbyAndMember_memberUnlocksChoices_thenReturnsJsonArray() throws Exception {
         MemberLockDTO memberLockDTO = new MemberLockDTO();
         memberLockDTO.setMemberId(member.getMemberId());
 
@@ -348,7 +344,7 @@ public class LobbyControllerTest {
     }
 
     @Test
-    public void givenLobbyAndLocation_addLobbyLocation_thenReturnsJsonArray() throws Exception {
+    void givenLobbyAndLocation_addLobbyLocation_thenReturnsJsonArray() throws Exception {
         LobbyLocationDTO lobbyLocationDTO = new LobbyLocationDTO();
         lobbyLocationDTO.setLobbyId(lobby.getLobbyId());
         lobbyLocationDTO.setMemberId(member.getMemberId());
@@ -386,7 +382,7 @@ public class LobbyControllerTest {
     }
 
     @Test
-    public void givenLobbyAndMember_memberVotesOnALocation_thenReturnsJsonArray() throws Exception {
+    void givenLobbyAndMember_memberVotesOnALocation_thenReturnsJsonArray() throws Exception {
         Location location = new Location();
         location.setLocationId(1L);
         location.setLobbyId(lobby.getLobbyId());
@@ -407,7 +403,7 @@ public class LobbyControllerTest {
     }
 
     @Test
-    public void givenLobbyAndMember_memberUnvotesOnALocation_thenReturnsJsonArray() throws Exception {
+    void givenLobbyAndMember_memberUnvotesOnALocation_thenReturnsJsonArray() throws Exception {
         Location location = new Location();
         location.setLocationId(1L);
         location.setLobbyId(lobby.getLobbyId());

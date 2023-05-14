@@ -46,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * This tests if the EventController works.
  */
 @WebMvcTest(EventController.class)
-public class EventControllerTest {
+class EventControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -75,7 +75,7 @@ public class EventControllerTest {
     }
 
     @Test
-    public void givenEvents_whenGetEvents_thenReturnJsonArray() throws Exception {
+    void givenEvents_whenGetEvents_thenReturnJsonArray() throws Exception {
 
         List<Event> allEvents = Collections.singletonList(testEvent);
 
@@ -153,7 +153,7 @@ public class EventControllerTest {
         assertEquals(expectedEventGetDTO.getEventLocationDTO().getLatitude(), actualEventGetDTO.getEventLocationDTO().getLatitude());
     }
     @Test
-    public void givenEventId_whenGetEvent_thenReturnJson() throws Exception {
+    void givenEventId_whenGetEvent_thenReturnJson() throws Exception {
 
         given(eventService.getEvent(testEvent.getEventId())).willReturn(testEvent);
 
@@ -172,7 +172,7 @@ public class EventControllerTest {
                 .andExpect(jsonPath("$.eventRegion", is(testEvent.getEventRegion())));
     }
     @Test
-    public void givenUserAndEvent_whenJoinEvent_thenAddUserToParticipants() throws Exception {
+    void givenUserAndEvent_whenJoinEvent_thenAddUserToParticipants() throws Exception {
 
         UserEventDTO testUserEventDTO = new UserEventDTO();
         testUserEventDTO.setUserId(testUser.getUserId());
@@ -188,7 +188,7 @@ public class EventControllerTest {
         verify(eventService).addParticipant(testEvent.getEventId(), testUser.getUserId());
     }
     @Test
-    public void givenEventAndUser_whenLeaveEvent_thenReturnStatusOk() throws Exception {
+    void givenEventAndUser_whenLeaveEvent_thenReturnStatusOk() throws Exception {
 
         UserEventDTO testUserEventDTO = new UserEventDTO();
         testUserEventDTO.setUserId(testUser.getUserId());
@@ -205,7 +205,7 @@ public class EventControllerTest {
         verify(eventService, times(1)).removeParticipant(testEvent.getEventId(), testUser.getUserId());
     }
     @Test
-    public void givenValidEventId_whenDeleteEvent_thenStatusOk() throws Exception {
+    void givenValidEventId_whenDeleteEvent_thenStatusOk() throws Exception {
 
         // when
         MockHttpServletRequestBuilder deleteRequest = delete("/events/" + testEvent.getEventId() + "/delete")

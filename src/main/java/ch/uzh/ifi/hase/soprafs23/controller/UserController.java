@@ -98,11 +98,4 @@ public class UserController {
       User userInput = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(userPutDTO);
       userService.updateUser(userInput);
     }
-
-    @GetMapping("/usersTest")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public List<User> getAllUsersDetails() {
-      return userService.getUsers();
-    }
 }

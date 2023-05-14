@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
-public class EventRepositoryIntegrationTest {
+class EventRepositoryIntegrationTest {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -23,7 +23,7 @@ public class EventRepositoryIntegrationTest {
     private EventRepository eventRepository;
 
     @Test
-    public void findByEventName_success() {
+    void findByEventName_success() {
         // given
         Event event = new Event();
         event.setEventName("TestEvent");
@@ -55,7 +55,8 @@ public class EventRepositoryIntegrationTest {
         assertEquals(found.getEventMaxParticipants(), event.getEventMaxParticipants());
         assertEquals(found.getEventDate(), event.getEventDate());
     }
-    @Test void findById_success() {
+    @Test
+    void findById_success() {
         Event event = new Event();
         event.setEventName("TestEvent");
         event.setEventSport("soccer");

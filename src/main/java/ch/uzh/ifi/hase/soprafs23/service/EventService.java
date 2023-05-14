@@ -128,8 +128,4 @@ public class EventService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "User", "is"));
         }
     }
-
-    public List<Participant> getParticipants(){
-        return this.participantRepository.findAll();
-    }
 }

@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @WebAppConfiguration
 @SpringBootTest
 @ActiveProfiles("test")
-public class LobbyServiceIntegrationTest {
+class LobbyServiceIntegrationTest {
 
   @Qualifier("lobbyRepository")
   @Autowired
@@ -54,7 +54,7 @@ public class LobbyServiceIntegrationTest {
   private LobbyService lobbyService;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
       locationRepository.deleteAll();
       memberRepository.deleteAll();
       lobbyRepository.deleteAll();
@@ -94,7 +94,7 @@ public class LobbyServiceIntegrationTest {
     }
 
     @Test
-    public void createLobby_duplicateName_throwsException() {
+    void createLobby_duplicateName_throwsException() {
 
         assertTrue(lobbyRepository.findAll().isEmpty());
         assertTrue(userRepository.findAll().isEmpty());
@@ -166,7 +166,7 @@ public class LobbyServiceIntegrationTest {
     }
 
     @Test
-    public void getLobby_lobbyDoesNotExist_throwsException() {
+    void getLobby_lobbyDoesNotExist_throwsException() {
         assertTrue(lobbyRepository.findAll().isEmpty());
 
         assertThrows(ResponseStatusException.class, () -> lobbyService.getLobby(1L));
@@ -193,7 +193,7 @@ public class LobbyServiceIntegrationTest {
     }
 
     @Test
-    public void getUser_userDoesNotExist_throwsException() {
+    void getUser_userDoesNotExist_throwsException() {
         assertTrue(userRepository.findAll().isEmpty());
 
         assertThrows(ResponseStatusException.class, () -> lobbyService.getUser(1L));
@@ -234,7 +234,7 @@ public class LobbyServiceIntegrationTest {
     }
 
     @Test
-    public void getMember_memberDoesNotExist_throwsException() {
+    void getMember_memberDoesNotExist_throwsException() {
         assertTrue(lobbyRepository.findAll().isEmpty());
         assertTrue(userRepository.findAll().isEmpty());
         assertTrue(memberRepository.findAll().isEmpty());
@@ -306,7 +306,7 @@ public class LobbyServiceIntegrationTest {
     }
 
     @Test
-    public void getMemberById_memberDoesNotExist_throwsException() {
+    void getMemberById_memberDoesNotExist_throwsException() {
         assertTrue(memberRepository.findAll().isEmpty());
 
         assertThrows(ResponseStatusException.class, () -> lobbyService.getMemberById(1L));
@@ -1082,7 +1082,7 @@ public class LobbyServiceIntegrationTest {
         Lobby createdLobby = lobbyService.createLobby(testLobby);
         Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId());
 
-        List<Member> members = lobbyService.getMembers();
+        List<Member> members = memberRepository.findAll();
         Member getMember = members.get(0);
 
         assertEquals(getMember.getUserId(), testUser.getUserId());
@@ -1123,7 +1123,7 @@ public class LobbyServiceIntegrationTest {
 
         lobbyService.addLobbyLocation(testLobby.getLobbyId(), testLocation);
 
-        Location createdLocation = lobbyService.getLocations().get(0);
+        Location createdLocation = locationRepository.findAll().get(0);
 
         assertEquals(createdLocation.getLocationId(), testLocation.getLocationId());
         assertEquals(createdLocation.getLatitude(), testLocation.getLatitude());

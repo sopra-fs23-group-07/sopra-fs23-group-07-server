@@ -152,27 +152,4 @@ public class LobbyController {
       lobbyService.addLobbyMessage(lobbyId, userId, messageDTO);
       return DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobbyService.getLobby(lobbyId));
   }
-
-
-  //TESTS
-  @GetMapping("/test")
-  @ResponseStatus(HttpStatus.OK)
-  @ResponseBody
-  public List<Lobby> getAllLobbiesTest() {
-        return lobbyService.getLobbies();
-    }
-
-  @GetMapping("/membersTest")
-  @ResponseStatus(HttpStatus.OK)
-  @ResponseBody
-  public List<Member> getMembers() {
-      return lobbyService.getMembers();
-  }
-
-  @GetMapping("/locationsTest")
-  @ResponseStatus(HttpStatus.OK)
-  @ResponseBody
-  public List<Location> getLocations() {
-        return lobbyService.getLocations();
-    }
 }
