@@ -70,8 +70,9 @@ public class UserService {
         String username = userToBeCreated.getUsername();
         String email = userToBeCreated.getEmail();
 
-        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please provide a valid email address!");
+        if (email != null && (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"))) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please provide a valid email address!");
+
         }
 
         User duplicateUser = userRepository.findAll().stream()
