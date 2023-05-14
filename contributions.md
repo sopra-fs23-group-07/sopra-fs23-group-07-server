@@ -225,6 +225,7 @@
 | 7        | 08/05/2023 - 15/05/2023 | Patrick         | [#234](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/234) | event gets only created when at least 2 members have locked their choices   |
 | 7        | 08/05/2023 - 15/05/2023 | Patrick         | [#235](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/235) | add tests to increase coverage                                              |
 | 7        | 08/05/2023 - 15/05/2023 | Patrick         | [#236](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/236) | fix code smells                                                             |
+| 7        | 08/05/2023 - 15/05/2023 | Omar         | [#131](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/131) | fix issue with user profile - check token   |
 # Template
 
 | 5 | 24/04/2023 - 01/05/2023 | ? | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-[client/server?]/issues/?) | ? |
