@@ -352,7 +352,7 @@ class LobbyServiceTest {
         Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
 
         List<String> testDates = new ArrayList<>();
-        LocalDateTime currentDate = LocalDateTime.now();
+        LocalDateTime currentDate = LocalDateTime.of(2030, 1, 1, 11, 0, 0);
         testDates.add(currentDate.toString());
 
         testMember.setSelectedDates(new ArrayList<>());
