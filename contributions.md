@@ -219,7 +219,12 @@
 | 7        | 08/05/2023 - 15/05/2023 | Omar               | [#128](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/128) |                                           create toastify alerts for location in event for specific cases    |
 | 7        | 08/05/2023 - 15/05/2023 | Omar               | [#129](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/129) |                                           Restriction to choose correct region in mapbox API when inside a lobby    |
 | 7        | 08/05/2023 - 15/05/2023 | Omar               | [#130](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/130) |                                        Fix issue with selecting time and date inside a lobby    |
-
+| 7        | 08/05/2023 - 15/05/2023 | Patrick         | [#231](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/231) | check for capital letters in username to avoid duplicates and adjust tests  |
+| 7        | 08/05/2023 - 15/05/2023 | Patrick         | [#232](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/232) | check for existing duplicate email addresses and adjust tests               |
+| 7        | 08/05/2023 - 15/05/2023 | Patrick         | [#233](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/233) | check for correct e-mail pattern with "@" sign and create tests             |
+| 7        | 08/05/2023 - 15/05/2023 | Patrick         | [#234](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/234) | event gets only created when at least 2 members have locked their choices   |
+| 7        | 08/05/2023 - 15/05/2023 | Patrick         | [#235](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/235) | add tests to increase coverage                                              |
+| 7        | 08/05/2023 - 15/05/2023 | Patrick         | [#236](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/236) | fix code smells                                                             |
 # Template
 
 | 5 | 24/04/2023 - 01/05/2023 | ? | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-[client/server?]/issues/?) | ? |
