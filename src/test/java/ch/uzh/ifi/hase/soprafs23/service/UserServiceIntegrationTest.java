@@ -43,7 +43,7 @@ public class UserServiceIntegrationTest {
     assertNull(userRepository.findByUsername("testUsername"));
 
     User testUser = new User();
-    testUser.setEmail("testName");
+    testUser.setEmail("test@Name");
     testUser.setUsername("testUsername");
 
     // when
@@ -62,7 +62,7 @@ public class UserServiceIntegrationTest {
     assertNull(userRepository.findByUsername("testUsername"));
 
     User testUser = new User();
-    testUser.setEmail("testName");
+    testUser.setEmail("test@Name");
     testUser.setUsername("testUsername");
     User createdUser = userService.createUser(testUser);
 
@@ -70,7 +70,7 @@ public class UserServiceIntegrationTest {
     User testUser2 = new User();
 
     // change the name but forget about the username
-    testUser2.setEmail("testName2");
+    testUser2.setEmail("test@Name2");
     testUser2.setUsername("testUsername");
 
     // check that an error is thrown
