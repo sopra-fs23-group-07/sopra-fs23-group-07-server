@@ -14,6 +14,8 @@ public class LobbyPostDTO {
   private Integer lobbyTimeLimit;
   private Long hostMemberId;
 
+  private String hostMemberToken;
+
 
   public Long getHostMemberId() {return hostMemberId; }
 
@@ -51,5 +53,12 @@ public class LobbyPostDTO {
 
   public void setLobbyTimeLimit(Integer lobbyTimeLimit) {this.lobbyTimeLimit = lobbyTimeLimit; }
 
+    public String getHostMemberToken() {
+        return hostMemberToken;
+    }
+
+    public void setHostMemberToken(String hostMemberToken) {
+        this.hostMemberToken = hostMemberToken;
+    }
 }
 

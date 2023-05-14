@@ -62,7 +62,7 @@ public class LobbyController {
 
     lobbyService.createLobby(lobbyInput);
 
-    Member lobbyCreator = lobbyService.addMember(lobbyInput.getLobbyId(), lobbyPostDTO.getHostMemberId());
+    Member lobbyCreator = lobbyService.addMember(lobbyInput.getLobbyId(), lobbyPostDTO.getHostMemberId(), lobbyPostDTO.getHostMemberToken());
 
     // convert internal representation of user back to API
     return DTOMapper.INSTANCE.convertEntityToMemberDTO(lobbyCreator);
@@ -71,7 +71,7 @@ public class LobbyController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public MemberDTO joinLobby(@RequestBody UserLobbyDTO userLobbyDTO, @PathVariable Long lobbyId) {
-    Member createdMember = lobbyService.addMember(lobbyId, userLobbyDTO.getUserId());
+    Member createdMember = lobbyService.addMember(lobbyId, userLobbyDTO.getUserId(), userLobbyDTO.getToken());
     return DTOMapper.INSTANCE.convertEntityToMemberDTO(createdMember);
   }
   @PutMapping("{lobbyId}/leave")

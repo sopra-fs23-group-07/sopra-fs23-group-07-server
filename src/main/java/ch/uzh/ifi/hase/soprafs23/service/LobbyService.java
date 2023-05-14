@@ -218,7 +218,7 @@ public class LobbyService {
         return member.get();
     }
 
-    public Member addMember(Long lobbyId, Long userId) {
+    public Member addMember(Long lobbyId, Long userId, String token) {
         Lobby lobby = getLobby(lobbyId);
         User databaseUser = getUser(userId);
         //checkIfUserIsMemberOfALobby(databaseUser); //restriction to be member of only 1 lobby
@@ -228,6 +228,9 @@ public class LobbyService {
         if (memberRepository.findByLobbyAndUser(lobby, databaseUser).isPresent()) {
             String baseErrorMessage = "The %s provided %s already member of this lobby";
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "userId", "is"));
+        }
+        if (!databaseUser.getToken().equals(token)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Please register or login to join a lobby "));
         }
         Member member = new Member();
         member.setUser(databaseUser);
