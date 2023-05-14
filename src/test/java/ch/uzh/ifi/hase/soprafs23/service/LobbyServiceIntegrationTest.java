@@ -72,6 +72,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -103,6 +104,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -110,6 +112,7 @@ class LobbyServiceIntegrationTest {
         testUser2.setEmail("testName2");
         testUser2.setUsername("testUsername2");
         testUser2.setPassword("testPassword2");
+        testUser2.setToken("token2");
 
         userRepository.save(testUser2);
 
@@ -142,6 +145,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -180,6 +184,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -189,6 +194,7 @@ class LobbyServiceIntegrationTest {
         assertEquals(testUser.getUsername(), getUser.getUsername());
         assertEquals(testUser.getEmail(), getUser.getEmail());
         assertEquals(testUser.getPassword(), getUser.getPassword());
+        assertEquals(testUser.getToken(), getUser.getToken());
 
     }
 
@@ -210,6 +216,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -222,7 +229,7 @@ class LobbyServiceIntegrationTest {
 
         lobbyService.createLobby(testLobby);
 
-        lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
+        lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
 
         Member getMember = lobbyService.getMember(testLobby, testUser);
@@ -244,6 +251,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -271,6 +279,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -323,6 +332,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
         
         userRepository.save(testUser);
 
@@ -338,7 +348,7 @@ class LobbyServiceIntegrationTest {
         Lobby createdLobby = lobbyService.createLobby(testLobby);
 
 
-        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId());
+        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
 
         createdLobby = lobbyRepository.findByLobbyId(createdLobby.getLobbyId());
@@ -362,6 +372,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -375,7 +386,7 @@ class LobbyServiceIntegrationTest {
 
         lobbyService.createLobby(testLobby);
 
-        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId()));
+        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken()));
     }
 
     @Test
@@ -389,6 +400,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -403,9 +415,9 @@ class LobbyServiceIntegrationTest {
 
         lobbyService.createLobby(testLobby);
 
-        lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
+        lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
-        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId()));
+        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken()));
     }
     @Test
     void removeMember_lobbyIsNotEmpty() {
@@ -418,6 +430,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -426,6 +439,7 @@ class LobbyServiceIntegrationTest {
         testUser2.setEmail("testName2");
         testUser2.setUsername("testUsername2");
         testUser2.setPassword("testPassword2");
+        testUser2.setToken("token2");
 
         userRepository.save(testUser2);
 
@@ -440,8 +454,8 @@ class LobbyServiceIntegrationTest {
 
         Lobby createdLobby = lobbyService.createLobby(testLobby);
 
-        Member testMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId());
-        Member testMember2 = lobbyService.addMember(testLobby.getLobbyId(), testUser2.getUserId());
+        Member testMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
+        Member testMember2 = lobbyService.addMember(testLobby.getLobbyId(), testUser2.getUserId(), testUser2.getToken());
 
         createdLobby = lobbyRepository.findByLobbyId(testLobby.getLobbyId());
 
@@ -487,6 +501,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -499,7 +514,7 @@ class LobbyServiceIntegrationTest {
         testLobby.setHostMemberId(testUser.getUserId());
 
         Lobby createdLobby = lobbyService.createLobby(testLobby);
-        lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
+        lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
         Member testMember = lobbyService.getMember(testLobby, testUser);
@@ -528,6 +543,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -559,6 +575,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -572,7 +589,7 @@ class LobbyServiceIntegrationTest {
 
         lobbyService.createLobby(testLobby);
 
-        Member testMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
+        Member testMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
 
         List<String> testSports = new ArrayList<>();
@@ -619,7 +636,7 @@ class LobbyServiceIntegrationTest {
 //
 //        testLobby = lobbyService.createLobby(testLobby);
 //
-//        Member testMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
+//        Member testMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 //        testLocation.setMemberId(testMember.getMemberId());
 //
 //
@@ -652,6 +669,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -668,7 +686,7 @@ class LobbyServiceIntegrationTest {
 
         testLobby = lobbyService.createLobby(testLobby);
 
-        Member testMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
+        Member testMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
 
         List<String> testDates = new ArrayList<>();
@@ -694,6 +712,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -706,7 +725,7 @@ class LobbyServiceIntegrationTest {
         testLobby.setHostMemberId(testUser.getUserId());
 
         lobbyService.createLobby(testLobby);
-        lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
+        lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         Member testMember = lobbyService.getMember(testLobby, testUser);
 
@@ -756,6 +775,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -768,7 +788,7 @@ class LobbyServiceIntegrationTest {
         testLobby.setHostMemberId(testUser.getUserId());
 
         lobbyService.createLobby(testLobby);
-        lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
+        lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         Member testMember = lobbyService.getMember(testLobby, testUser);
 
@@ -789,6 +809,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -801,7 +822,7 @@ class LobbyServiceIntegrationTest {
         testLobby.setHostMemberId(testUser.getUserId());
 
         lobbyService.createLobby(testLobby);
-        lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
+        lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         Member testMember = lobbyService.getMember(testLobby, testUser);
         testMember.setHasLockedSelections(true);
@@ -828,6 +849,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -840,7 +862,7 @@ class LobbyServiceIntegrationTest {
         testLobby.setHostMemberId(testUser.getUserId());
 
         Lobby createdLobby = lobbyService.createLobby(testLobby);
-        Member addedMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
+        Member addedMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         Location testLocation = new Location();
         testLocation.setLongitude(0.0);
@@ -873,6 +895,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -885,7 +908,7 @@ class LobbyServiceIntegrationTest {
         testLobby.setHostMemberId(testUser.getUserId());
 
         Lobby createdLobby = lobbyService.createLobby(testLobby);
-        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId());
+        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         Location testLocation = new Location();
         testLocation.setLongitude(0.0);
@@ -930,6 +953,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -942,7 +966,7 @@ class LobbyServiceIntegrationTest {
         testLobby.setHostMemberId(testUser.getUserId());
 
         Lobby createdLobby = lobbyService.createLobby(testLobby);
-        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId());
+        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
         addedMember = lobbyService.getMember(createdLobby, testUser);
@@ -965,6 +989,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -977,7 +1002,7 @@ class LobbyServiceIntegrationTest {
         testLobby.setHostMemberId(testUser.getUserId());
 
         Lobby createdLobby = lobbyService.createLobby(testLobby);
-        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId());
+        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         Location testLocation = new Location();
         testLocation.setLongitude(0.0);
@@ -1034,6 +1059,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -1046,7 +1072,7 @@ class LobbyServiceIntegrationTest {
         testLobby.setHostMemberId(testUser.getUserId());
 
         Lobby createdLobby = lobbyService.createLobby(testLobby);
-        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId());
+        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
         addedMember = lobbyService.getMember(createdLobby, testUser);
@@ -1068,6 +1094,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -1080,7 +1107,7 @@ class LobbyServiceIntegrationTest {
         testLobby.setHostMemberId(testUser.getUserId());
 
         Lobby createdLobby = lobbyService.createLobby(testLobby);
-        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId());
+        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         List<Member> members = memberRepository.findAll();
         Member getMember = members.get(0);
@@ -1102,6 +1129,7 @@ class LobbyServiceIntegrationTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         userRepository.save(testUser);
 
@@ -1114,7 +1142,7 @@ class LobbyServiceIntegrationTest {
         testLobby.setHostMemberId(testUser.getUserId());
 
         Lobby createdLobby = lobbyService.createLobby(testLobby);
-        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId());
+        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         Location testLocation = new Location();
         testLocation.setLongitude(0.0);

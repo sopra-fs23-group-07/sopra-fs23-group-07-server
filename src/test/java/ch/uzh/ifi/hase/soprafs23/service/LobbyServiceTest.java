@@ -60,6 +60,7 @@ class LobbyServiceTest {
         testUser.setEmail("testName");
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
+        testUser.setToken("token");
 
         // when -> any object is being saved in the userRepository -> return the dummy
         // testUser
@@ -224,7 +225,7 @@ class LobbyServiceTest {
         Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
         Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
 
-        Member addedMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
+        Member addedMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         List<Member> testMembers = new ArrayList<>();
         testMembers.add(addedMember);
@@ -243,7 +244,7 @@ class LobbyServiceTest {
 
         testLobby.setLobbyMaxMembers(0);
 
-        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId()));
+        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken()));
     }
 
     @Test
@@ -254,7 +255,7 @@ class LobbyServiceTest {
 
         //testLobby.addLobbyMember(testMember);
 
-        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId()));
+        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken()));
     }
 
     @Test
@@ -518,20 +519,22 @@ class LobbyServiceTest {
     @Test
     void updateLobby() {
         User testUser2 = new User();
-        testUser2.setUserId(1L);
+        testUser2.setUserId(2L);
         testUser2.setEmail("testName");
         testUser2.setUsername("testUsername");
         testUser2.setPassword("testPassword");
+        testUser2.setToken("token2");
 
         Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
         Lobby createdLobby = lobbyService.createLobby(testLobby);
         createdLobby.setCreatedEventId(null);
 
         Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
-        Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
+        Mockito.when(userRepository.findByUserId(1L)).thenReturn(testUser);
+        Mockito.when(userRepository.findByUserId(2L)).thenReturn(testUser2);
 
-        Member addedMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
-        Member addedMember2 = lobbyService.addMember(testLobby.getLobbyId(), testUser2.getUserId());
+        Member addedMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
+        Member addedMember2 = lobbyService.addMember(testLobby.getLobbyId(), testUser2.getUserId(), testUser2.getToken());
 
         addedMember.setSuggestedLocation(testLocation);
         addedMember.addSelectedLocation(testLocation);

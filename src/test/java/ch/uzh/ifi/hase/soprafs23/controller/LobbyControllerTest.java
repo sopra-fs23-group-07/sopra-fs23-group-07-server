@@ -167,7 +167,7 @@ class LobbyControllerTest {
             lobby.setLobbyId(1L);
             return lobby;
         });
-        given(lobbyService.addMember(eq(1L), eq(1L))).willReturn(member);
+        given(lobbyService.addMember(eq(1L), eq(1L), eq("token"))).willReturn(member);
 
         MvcResult mvcResult = mockMvc.perform(post("/lobbies")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -176,7 +176,7 @@ class LobbyControllerTest {
                 .andReturn();
 
         verify(lobbyService).createLobby(any(Lobby.class));
-        verify(lobbyService).addMember(eq(1L), eq(1L));
+        verify(lobbyService).addMember(eq(1L), eq(1L), eq("token"));
 
         MemberDTO expectedMemberDTO = new MemberDTO();
         expectedMemberDTO.setLobbyId(1L);
@@ -201,7 +201,7 @@ class LobbyControllerTest {
         UserLobbyDTO userLobbyDTO = new UserLobbyDTO();
         userLobbyDTO.setUserId(user.getUserId());
 
-        given(lobbyService.addMember(anyLong(), anyLong())).willReturn(member);
+        given(lobbyService.addMember(anyLong(), anyLong(), anyString())).willReturn(member);
 
         MockHttpServletRequestBuilder putRequest = put("/lobbies/{lobbyId}/join", lobby.getLobbyId())
                 .contentType(MediaType.APPLICATION_JSON)
