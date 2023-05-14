@@ -127,7 +127,7 @@ public class Event implements Serializable {
         return eventParticipants.size() == eventMaxParticipants;
     }
     public boolean eventIsEmpty() {
-        return eventParticipants.size() == 0;
+        return eventParticipants.isEmpty();
     }
 
     public Integer getEventParticipantsCount() {return eventParticipants.size();}

@@ -95,15 +95,7 @@ public class UserController {
       if(userPutDTO.getUserId() != userId){
           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user with the provided ID (" + userId + ") could not be found");
       }
-      //userPutDTO.setUserId(userId);
       User userInput = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(userPutDTO);
       userService.updateUser(userInput);
-    }
-
-    @GetMapping("/usersTest")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public List<User> getAllUsersDetails() {
-      return userService.getUsers();
     }
 }

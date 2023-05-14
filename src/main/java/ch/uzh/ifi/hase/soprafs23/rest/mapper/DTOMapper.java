@@ -2,7 +2,6 @@ package ch.uzh.ifi.hase.soprafs23.rest.mapper;
 
 import ch.uzh.ifi.hase.soprafs23.entity.*;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
-import com.fasterxml.jackson.annotation.JsonView;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;

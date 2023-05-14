@@ -1,10 +1,8 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
-import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
-import ch.uzh.ifi.hase.soprafs23.entity.Location;
-import ch.uzh.ifi.hase.soprafs23.entity.Member;
-import ch.uzh.ifi.hase.soprafs23.entity.User;
+import ch.uzh.ifi.hase.soprafs23.entity.*;
 import ch.uzh.ifi.hase.soprafs23.repository.*;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.LobbyGetDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -33,7 +31,11 @@ class LobbyServiceTest {
     @Mock
     private MemberRepository memberRepository;
     @Mock
+    private EventRepository eventRepository;
+    @Mock
     private TimerRepository timerRepository;
+    @Mock
+    private ParticipantRepository participantRepository;
 
     @Mock
     LocationRepository locationRepository;
@@ -49,7 +51,7 @@ class LobbyServiceTest {
     private Location testLocation;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
         // given
@@ -59,7 +61,7 @@ class LobbyServiceTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
 
-        // when -> any object is being save in the userRepository -> return the dummy
+        // when -> any object is being saved in the userRepository -> return the dummy
         // testUser
         Mockito.when(userRepository.save(Mockito.any())).thenReturn(testUser);
 
@@ -115,7 +117,7 @@ class LobbyServiceTest {
 
     @Test
     void createLobby_validInputs() {
-        // when -> any object is being save in the userRepository -> return the dummy
+        // when -> any object is being saved in the userRepository -> return the dummy
         // testUser
         Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
         Lobby createdLobby = lobbyService.createLobby(testLobby);
@@ -132,7 +134,7 @@ class LobbyServiceTest {
     }
 
     @Test
-    public void createLobby_duplicateName_throwsException() {
+    void createLobby_duplicateName_throwsException() {
         // given -> a first user has already been created
         Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
 
@@ -163,7 +165,7 @@ class LobbyServiceTest {
     }
 
     @Test
-    public void getLobby_lobbyDoesNotExist_throwsException() {
+    void getLobby_lobbyDoesNotExist_throwsException() {
         assertThrows(ResponseStatusException.class, () -> lobbyService.getLobby(testLobby.getLobbyId()));
     }
 
@@ -181,7 +183,7 @@ class LobbyServiceTest {
     }
 
     @Test
-    public void getUser_userDoesNotExist_throwsException() {
+    void getUser_userDoesNotExist_throwsException() {
         assertThrows(ResponseStatusException.class, () -> lobbyService.getUser(testUser.getUserId()));
     }
 
@@ -197,7 +199,7 @@ class LobbyServiceTest {
     }
 
     @Test
-    public void getMember_memberDoesNotExist_throwsException() {
+    void getMember_memberDoesNotExist_throwsException() {
         assertThrows(ResponseStatusException.class, () -> lobbyService.getMember(testLobby, testUser));
     }
 
@@ -213,7 +215,7 @@ class LobbyServiceTest {
     }
 
     @Test
-    public void getMemberById_memberDoesNotExist_throwsException() {
+    void getMemberById_memberDoesNotExist_throwsException() {
         assertThrows(ResponseStatusException.class, () -> lobbyService.getMemberById(testMember.getMemberId()));
     }
 
@@ -230,7 +232,7 @@ class LobbyServiceTest {
         assertEquals(addedMember.getUserId(), testUser.getUserId());
         assertEquals(addedMember.getLobbyId(), testLobby.getLobbyId());
         assertEquals(addedMember.getEmail(), testUser.getEmail());
-        assertEquals(addedMember.getHasLockedSelections(), false);
+        assertFalse(addedMember.getHasLockedSelections());
         assertEquals(testLobby.getLobbyMembers(), testMembers);
     }
 
@@ -272,7 +274,7 @@ class LobbyServiceTest {
         members.add(testMember2);
 
         assertEquals(testLobby.getLobbyMembers(), members);
-        assertEquals(testLobby.isLobbyEmpty(), false);
+        assertFalse(testLobby.isLobbyEmpty());
         assertEquals(testLobby.getLobbyMembersCount(), 1);
 
     }
@@ -291,7 +293,7 @@ class LobbyServiceTest {
         List<Member> members = new ArrayList<>();
 
         assertEquals(testLobby.getLobbyMembers(), members);
-        assertEquals(testLobby.isLobbyEmpty(), true);
+        assertTrue(testLobby.isLobbyEmpty());
         assertEquals(testLobby.getLobbyMembersCount(), 0);
 
     }
@@ -350,7 +352,7 @@ class LobbyServiceTest {
         Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
 
         List<String> testDates = new ArrayList<>();
-        LocalDateTime currentDate = LocalDateTime.now();
+        LocalDateTime currentDate = LocalDateTime.of(2030, 1, 1, 11, 0, 0);
         testDates.add(currentDate.toString());
 
         testMember.setSelectedDates(new ArrayList<>());
@@ -375,7 +377,7 @@ class LobbyServiceTest {
         Member member = lobbyService.lockSelections(testLobby.getLobbyId(), testMember.getMemberId());
 
 
-        assertEquals(testMember.getHasLockedSelections(), true);
+        assertTrue(testMember.getHasLockedSelections());
         assertEquals(testMember.getMemberId(), member.getMemberId());
         assertEquals(testMember.getLobbyId(), member.getLobbyId());
     }
@@ -389,7 +391,7 @@ class LobbyServiceTest {
 
         Member member = lobbyService.unlockSelections(testLobby.getLobbyId(), testMember.getMemberId());
 
-        assertEquals(testMember.getHasLockedSelections(), false);
+        assertFalse(testMember.getHasLockedSelections());
         assertEquals(testMember.getMemberId(), member.getMemberId());
         assertEquals(testMember.getLobbyId(), member.getLobbyId());
     }
@@ -406,6 +408,23 @@ class LobbyServiceTest {
         locations.add(testLocation);
 
         assertEquals(testLobby.getLobbyLocations(), locations);
+    }
+    @Test
+    void removeLobbyLocation() {
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
+        Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+
+        testLobby.addLobbyMember(testMember);
+        lobbyService.addLobbyLocation(testLobby.getLobbyId(), testLocation);
+
+        List<Location> locations = new ArrayList<>();
+        locations.add(testLocation);
+
+        assertEquals(testLobby.getLobbyLocations(), locations);
+
+        lobbyService.removeLobbyLocation(testLobby.getLobbyId(), testMember.getMemberId());
+
+        assertTrue(testLobby.getLobbyLocations().isEmpty());
     }
 
 
@@ -462,10 +481,24 @@ class LobbyServiceTest {
 
         Mockito.when(memberRepository.findAll()).thenReturn(testMembers);
 
-        List<Member> members = lobbyService.getMembers();
+        List<Member> members = memberRepository.findAll();
 
 
         assertEquals(members, testMembers);
+    }
+    @Test
+    void getLobbies() {
+        Lobby lobby = new Lobby();
+        Timer timer = new Timer();
+        timer.setStartTime(LocalDateTime.of(2000,1,1,0,0));
+        timer.setLobby(lobby);
+        timerRepository.save(timer);
+        lobby.setTimer(timer);
+        lobby.setLobbyTimeLimit(0);
+        List<Lobby> lobbies = new ArrayList<>();
+        lobbies.add(lobby);
+        Mockito.when(lobbyRepository.findAll()).thenReturn(lobbies);
+        assertEquals(1, lobbyService.getLobbies().size());
     }
 
     @Test
@@ -477,9 +510,69 @@ class LobbyServiceTest {
 
         Mockito.when(locationRepository.findAll()).thenReturn(testLocations);
 
-        List<Location> locations = lobbyService.getLocations();
+        List<Location> locations = locationRepository.findAll();
 
 
         assertEquals(locations, testLocations);
+    }
+    @Test
+    void updateLobby() {
+        User testUser2 = new User();
+        testUser2.setUserId(1L);
+        testUser2.setEmail("testName");
+        testUser2.setUsername("testUsername");
+        testUser2.setPassword("testPassword");
+
+        Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
+        Lobby createdLobby = lobbyService.createLobby(testLobby);
+        createdLobby.setCreatedEventId(null);
+
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
+        Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
+
+        Member addedMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId());
+        Member addedMember2 = lobbyService.addMember(testLobby.getLobbyId(), testUser2.getUserId());
+
+        addedMember.setSuggestedLocation(testLocation);
+        addedMember.addSelectedLocation(testLocation);
+        testLobby.addLobbyLocation(testLocation);
+        addedMember.addSelectedSport("soccer");
+        List<LocalDateTime> dates = new ArrayList<>();
+        dates.add(LocalDateTime.of(2030, 1, 1, 11, 0, 0));
+        addedMember.setSelectedDates(dates);
+        addedMember.setHasLockedSelections(true);
+
+        addedMember2.setSuggestedLocation(testLocation);
+        addedMember2.addSelectedLocation(testLocation);
+        addedMember2.addSelectedSport("soccer");
+        List<LocalDateTime> dates2 = new ArrayList<>();
+        dates.add(LocalDateTime.of(2030, 1, 1, 11, 0, 0));
+        addedMember2.setSelectedDates(dates2);
+        addedMember2.setHasLockedSelections(true);
+
+        final Event[] testEvent = {new Event()};
+        Participant testParticipant = new Participant();
+
+        Mockito.when(eventRepository.save(Mockito.any(Event.class))).thenAnswer(invocation -> {
+            testEvent[0] = invocation.getArgument(0);
+            return testEvent[0];
+        });
+        Mockito.when(participantRepository.save(Mockito.any(Participant.class))).thenReturn(testParticipant);
+
+        LobbyGetDTO result = lobbyService.updateLobby(createdLobby);
+
+        assertEquals("soccer", testLobby.getLobbyDecidedSport());
+        assertEquals(LocalDateTime.of(2030, 1, 1, 11, 0, 0), testLobby.getLobbyDecidedDate());
+        assertEquals(testLocation, testLobby.getDecidedLocation());
+
+        assertEquals("soccer", testEvent[0].getEventSport());
+        assertEquals(LocalDateTime.of(2030, 1, 1, 11, 0, 0), testEvent[0].getEventDate());
+        assertEquals(testLocation.getAddress(), testEvent[0].getEventLocation().getAddress());
+
+        assertEquals("testName", testEvent[0].getEventName());
+        assertEquals(2, testEvent[0].getEventParticipants().size());
+        assertEquals("Zurich", testEvent[0].getEventRegion());
+
+        assertTrue(result.isHaveAllMembersLockedSelections());
     }
 }

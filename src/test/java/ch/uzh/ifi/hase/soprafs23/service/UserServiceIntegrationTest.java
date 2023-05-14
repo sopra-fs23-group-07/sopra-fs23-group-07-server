@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @WebAppConfiguration
 @SpringBootTest
 @ActiveProfiles("test")
-public class UserServiceIntegrationTest {
+class UserServiceIntegrationTest {
 
   @Qualifier("userRepository")
   @Autowired
@@ -33,17 +33,17 @@ public class UserServiceIntegrationTest {
   private UserService userService;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     userRepository.deleteAll();
   }
 
   @Test
-  public void createUser_validInputs_success() {
+  void createUser_validInputs_success() {
     // given
     assertNull(userRepository.findByUsername("testUsername"));
 
     User testUser = new User();
-    testUser.setEmail("testName");
+    testUser.setEmail("test@Name");
     testUser.setUsername("testUsername");
 
     // when
@@ -58,11 +58,11 @@ public class UserServiceIntegrationTest {
   }
 
   @Test
-  public void createUser_duplicateUsername_throwsException() {
+  void createUser_duplicateUsername_throwsException() {
     assertNull(userRepository.findByUsername("testUsername"));
 
     User testUser = new User();
-    testUser.setEmail("testName");
+    testUser.setEmail("test@Name");
     testUser.setUsername("testUsername");
     User createdUser = userService.createUser(testUser);
 
@@ -70,14 +70,14 @@ public class UserServiceIntegrationTest {
     User testUser2 = new User();
 
     // change the name but forget about the username
-    testUser2.setEmail("testName2");
+    testUser2.setEmail("test@Name2");
     testUser2.setUsername("testUsername");
 
     // check that an error is thrown
     assertThrows(ResponseStatusException.class, () -> userService.createUser(testUser2));
   }
   @AfterEach
-    public void clean() {
+    void clean() {
       userRepository.deleteAll();
   }
 }

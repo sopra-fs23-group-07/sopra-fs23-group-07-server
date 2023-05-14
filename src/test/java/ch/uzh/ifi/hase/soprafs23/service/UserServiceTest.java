@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class UserServiceTest {
+class UserServiceTest {
 
   @Mock
   private UserRepository userRepository;
@@ -32,13 +32,13 @@ public class UserServiceTest {
   private User testUser;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     MockitoAnnotations.openMocks(this);
 
     // given
     testUser = new User();
     testUser.setUserId(1L);
-    testUser.setEmail("testName");
+    testUser.setEmail("test@Name");
     testUser.setUsername("testUsername");
     testUser.setPassword("123");
     testUser.setToken(null);
@@ -66,7 +66,7 @@ public class UserServiceTest {
     }
 
   @Test
-  public void createUser_validInputs_success() {
+  void createUser_validInputs_success() {
     // when -> any object is being saved in the userRepository -> return the dummy
     // testUser
     User createdUser = userService.createUser(testUser);
@@ -82,16 +82,23 @@ public class UserServiceTest {
   }
 
     @Test
-    public void createUser_duplicateName_throwsException() {
+    void createUser_duplicateName_throwsException() {
         // given -> a first user has already been created
         userService.createUser(testUser);
+
+        // Create a second user with the same username
+        User inputUser = new User();
+        inputUser.setUserId(1L);
+        inputUser.setUsername("testUsername");  // Duplicate username
+        inputUser.setEmail("test@Name");  // Duplicate email
 
         // when -> setup additional mocks for UserRepository
         when(userRepository.findAll()).thenReturn(Collections.singletonList(testUser));
 
-        // then -> attempt to create a second user with the same username -> check that an error is thrown
-        assertThrows(ResponseStatusException.class, () -> userService.createUser(testUser));
+        // then -> attempt to create the second user with the same username -> check that an error is thrown
+        assertThrows(ResponseStatusException.class, () -> userService.createUser(inputUser));
     }
+
 
     @Test
     void loginUser_ShouldReturnLoggedInUser() {
@@ -135,6 +142,22 @@ public class UserServiceTest {
 
         // Set up mock repository
         when(userRepository.findByUsername(testUser.getUsername())).thenReturn(null);
+
+        // Call the method to be tested and assert that it throws the expected exception
+        assertThrows(ResponseStatusException.class, () -> userService.loginUser(testUser));
+
+        // Verify that the findByUsername method was called with the expected argument
+        ArgumentCaptor<String> usernameCaptor = ArgumentCaptor.forClass(String.class);
+        verify(userRepository).findByUsername(usernameCaptor.capture());
+        assertEquals(testUser.getUsername(), usernameCaptor.getValue());
+    }
+    @Test
+    void loginUser_ShouldThrowResponseStatusException_WhenUserNotLoggedOut() {
+
+        testUser.setStatus(UserStatus.ONLINE);
+
+        // Set up mock repository
+        when(userRepository.findByUsername(testUser.getUsername())).thenReturn(testUser);
 
         // Call the method to be tested and assert that it throws the expected exception
         assertThrows(ResponseStatusException.class, () -> userService.loginUser(testUser));
@@ -225,6 +248,7 @@ public class UserServiceTest {
         User inputUser = new User();
         inputUser.setUserId(1L);
         inputUser.setUsername("testUsername");
+        inputUser.setEmail("test@Name");
 
         // Mock the necessary method calls
         when(userRepository.findByUserId(inputUser.getUserId())).thenReturn(testUser);
@@ -255,5 +279,14 @@ public class UserServiceTest {
 
         // Call the method to be tested and assert that it throws an exception
         assertThrows(ResponseStatusException.class, () -> userService.updateUser(inputUser));
+    }
+    @Test
+    void createUser_EmailNotCorrect() {
+        User inputUser = new User();
+        inputUser.setUserId(1L);
+        inputUser.setUsername("testUsername");
+        inputUser.setEmail("testName");  // email without "@"
+
+        assertThrows(ResponseStatusException.class, () -> userService.createUser(inputUser), "Please provide a valid email address!");
     }
 }
