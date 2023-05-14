@@ -202,7 +202,18 @@
 
 | **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                           | **Comment** |
 | -------- | ----------------------- | --------------- | ------------------------------------------------------------------------------------------ | ----------- |
-| 7        | 08/05/2023 - 15/05/2023 | ?               | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-[client/server?]/issues/?) | ?           |
+| 7        | 08/05/2023 - 15/05/2023 | Suleman               | [#238](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/238) |                                            check token of user when joining a lobby     |
+| 7        | 08/05/2023 - 15/05/2023 | Suleman               | [#126](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/126) |                                            user is redirected to lobby when using link     |
+| 7        | 08/05/2023 - 15/05/2023 | Suleman               | [#125](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/125) |                                            user is redirected to lobby when using link and logging in     |
+| 7        | 08/05/2023 - 15/05/2023 | Suleman               | [#123](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/123) |                                            check user token when joining lobby     |
+| 7        | 08/05/2023 - 15/05/2023 | Suleman               | [#122](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/123) |                                            check user token when joining lobby through invite link     |
+| 7        | 08/05/2023 - 15/05/2023 | Suleman               | [#120](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/120) |                                            user is redirected to Home page when on misc URL     |
+| 7        | 08/05/2023 - 15/05/2023 | Suleman               | [#118](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/118) |                                            chat fiels is emptied after msg sent     |
+| 7        | 08/05/2023 - 15/05/2023 | Suleman               | [#119](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/119) |                                            can send chat msg with enter key     |
+| 7        | 08/05/2023 - 15/05/2023 | Suleman               | [#117](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/117) |                                            fix share lobby invite     |
+| 7        | 08/05/2023 - 15/05/2023 | Suleman               | [#114](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/114) |                                            fuxed chat update for scrolling     |
+| 7        | 08/05/2023 - 15/05/2023 | Suleman               | [#113](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/113) |                                            fixed text field positioning for chat     |
+| 7        | 08/05/2023 - 15/05/2023 | Suleman               | [#112](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/112) |                                            make lobby chat a pop up window     |
 
 # Template
 
