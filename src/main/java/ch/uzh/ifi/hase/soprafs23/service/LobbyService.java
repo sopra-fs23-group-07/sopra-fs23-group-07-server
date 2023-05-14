@@ -150,10 +150,7 @@ public class LobbyService {
     private Event checkIfEventExists(Long eventId) {
         Optional<Event> eventById = eventRepository.findById(eventId);
 
-        if (eventById.isEmpty()) {
-            return null;
-        }
-        return eventById.get();
+        return eventById.orElse(null);
     }
 
     public Lobby createLobby(Lobby newLobby) {

@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
-import ch.uzh.ifi.hase.soprafs23.entity.Event;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +18,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class UserServiceTest {
 
@@ -113,9 +112,7 @@ public class UserServiceTest {
         when(userRepository.findByUsername(any(String.class))).thenReturn(null);
 
         // Call the method to be tested and assert that it throws the expected exception
-        assertThrows(ResponseStatusException.class, () -> {
-            userService.loginUser(testUser);
-        }, "The username provided was not found");
+        assertThrows(ResponseStatusException.class, () -> userService.loginUser(testUser), "The username provided was not found");
     }
     @Test
     void loginUser_ShouldThrowBadRequestException_WhenWrongPassword() {
@@ -131,9 +128,7 @@ public class UserServiceTest {
         when(userRepository.findByUsername(testUser.getUsername())).thenReturn(testUser);
 
         // Call the method to be tested and assert that it throws the expected exception
-        assertThrows(ResponseStatusException.class, () -> {
-            userService.loginUser(wrongPasswordUser);
-        }, "Wrong password");
+        assertThrows(ResponseStatusException.class, () -> userService.loginUser(wrongPasswordUser), "Wrong password");
     }
     @Test
     void loginUser_ShouldThrowResponseStatusException_WhenUserNotFound() {
@@ -157,9 +152,7 @@ public class UserServiceTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         // Call the method to be tested
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
-            userService.getUser(testUser.getUserId());
-        });
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> userService.getUser(testUser.getUserId()));
 
         // Verify that the exception has a 404 NOT FOUND status code
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
@@ -263,5 +256,4 @@ public class UserServiceTest {
         // Call the method to be tested and assert that it throws an exception
         assertThrows(ResponseStatusException.class, () -> userService.updateUser(inputUser));
     }
-
 }
