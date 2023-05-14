@@ -67,7 +67,7 @@ public class LobbyService {
 
         LobbyGetDTO lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
 
-        if(lobby.isAtLeastTwoMembersHaveLockedSelections() && lobby.isHaveAllMembersLockedSelections() || lobby.hasTimerRunOut()) {
+        if(lobby.isAtLeastTwoMembersHaveLockedSelections() && (lobby.isHaveAllMembersLockedSelections() || lobby.hasTimerRunOut())) {
             //Event event = checkIfEventExists(lobby.getCreatedEventId());
 
             if(lobby.getCreatedEventId() == null) {
@@ -403,6 +403,12 @@ public class LobbyService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "memberId", "is",
                     lobby.getLobbyId()));
         }
+    }
+    private void checkIfTimerHasRunUp(Lobby lobby) {
+        if (lobby.hasTimerRunOut()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Timer has expired");
+        }
+
     }
     public List<Lobby> getLobbies() {
         List<Lobby> lobbies = this.lobbyRepository.findAll();

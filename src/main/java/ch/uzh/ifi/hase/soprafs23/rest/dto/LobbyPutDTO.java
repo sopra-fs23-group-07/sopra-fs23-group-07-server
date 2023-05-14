@@ -41,7 +41,4 @@ public class LobbyPutDTO {
     public LocalDate getBirthdate(){
         return birthdate;
     }
-
-    public void setBirthdate(){
-    }
 }
