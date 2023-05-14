@@ -24,7 +24,6 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * This tests if the UserController works.
  */
 @WebMvcTest(UserController.class)
-public class UserControllerTest {
+class UserControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -45,7 +44,7 @@ public class UserControllerTest {
   private UserService userService;
 
   @Test
-  public void givenUsers_whenGetUsers_thenReturnJsonArray() throws Exception {
+  void givenUsers_whenGetUsers_thenReturnJsonArray() throws Exception {
     // given
     User user = new User();
     user.setEmail("Firstname Lastname");
@@ -70,7 +69,7 @@ public class UserControllerTest {
   }
 
   @Test
-  public void createUser_validInput_userCreated() throws Exception {
+  void createUser_validInput_userCreated() throws Exception {
     // given
     User user = new User();
     user.setUserId(1L);
@@ -99,7 +98,7 @@ public class UserControllerTest {
         .andExpect(jsonPath("$.status", is(user.getStatus().toString())));
   }
   @Test
-  public void createUser_logoutUser() throws Exception{
+  void createUser_logoutUser() throws Exception{
       User user = new User();
       user.setUserId(1L);
       user.setEmail("Test User");
@@ -142,7 +141,7 @@ public class UserControllerTest {
   }
 
     @Test
-    public void createUser_getThisSpecificUser() throws Exception{
+    void createUser_getThisSpecificUser() throws Exception{
         User user = new User();
         user.setUserId(1L);
         user.setEmail("Test User");
@@ -179,7 +178,7 @@ public class UserControllerTest {
 
     }
     @Test
-    public void createUserAndLogin() throws Exception {
+    void createUserAndLogin() throws Exception {
         // given
         User user = new User();
         user.setUserId(1L);
@@ -219,7 +218,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void createUser_changeUser() throws Exception{
+    void createUser_changeUser() throws Exception{
         User user = new User();
         user.setUserId(1L);
         user.setEmail("Test User");

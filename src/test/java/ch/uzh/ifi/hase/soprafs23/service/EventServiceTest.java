@@ -21,7 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class EventServiceTest {
+class EventServiceTest {
 
     @Mock
     private EventRepository eventRepository;
@@ -37,7 +37,7 @@ public class EventServiceTest {
     private User testUser;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
         // given
@@ -80,7 +80,7 @@ public class EventServiceTest {
     }
 
     @Test
-    public void createEvent_validInputs_success() {
+    void createEvent_validInputs_success() {
         // when -> any object is being saved in the eventRepository -> return the dummy
         // testEvent
         Event createdEvent = eventService.createEvent(testEvent);
@@ -96,7 +96,7 @@ public class EventServiceTest {
         assertEquals(testEvent.getEventRegion(), createdEvent.getEventRegion());
     }
     @Test
-    public void getEvent_eventFound() {
+    void getEvent_eventFound() {
         // Set up mock repository to return the test Event object when finding event by ID
         when(eventRepository.findByEventId(1L)).thenReturn(Optional.of(testEvent));
 
@@ -109,7 +109,7 @@ public class EventServiceTest {
         verify(eventRepository, Mockito.times(1)).findByEventId(1L);
     }
     @Test
-    public void getEvent_eventNotFound() {
+    void getEvent_eventNotFound() {
         // Set up mock repository to return null when finding event by ID
         when(eventRepository.findByEventId(1L)).thenReturn(Optional.empty());
 
@@ -120,7 +120,7 @@ public class EventServiceTest {
         verify(eventRepository, Mockito.times(1)).findByEventId(1L);
     }
     @Test
-    public void getUser_userFound() {
+    void getUser_userFound() {
         // Set up mock repository to return a User with ID 1 when finding by ID
         User mockUser = new User();
         mockUser.setUserId(1L);
@@ -137,7 +137,7 @@ public class EventServiceTest {
     }
 
     @Test
-    public void getUser_userNotFound() {
+    void getUser_userNotFound() {
         // Set up mock repository to return null when finding a User by ID
         when(userRepository.findByUserId(1L)).thenReturn(null);
 
@@ -149,7 +149,7 @@ public class EventServiceTest {
     }
 
     @Test
-    public void getParticipant_participantFound() {
+    void getParticipant_participantFound() {
 
         User user = new User();
         user.setUsername("testuser");
@@ -175,7 +175,7 @@ public class EventServiceTest {
         assertEquals(foundParticipant.getUserId(), user.getUserId());
     }
     @Test
-    public void getParticipant_participantNotFound() {
+    void getParticipant_participantNotFound() {
 
         User user = new User();
         user.setUserId(1L);
@@ -219,7 +219,7 @@ public class EventServiceTest {
         verify(eventRepository, times(1)).save(any(Event.class));
     }
     @Test
-    public void addParticipant_eventIsFull_throwsException() {
+    void addParticipant_eventIsFull_throwsException() {
         when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(Optional.of(testEvent));
         when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
         testEvent.setEventMaxParticipants(1);
@@ -276,7 +276,7 @@ public class EventServiceTest {
         assertThrows(ResponseStatusException.class, () -> eventService.createEvent(event));
     }
     @Test
-    public void addParticipant_userIsAlreadyParticipant_throwsException() {
+    void addParticipant_userIsAlreadyParticipant_throwsException() {
         // Mock the behavior of the eventRepository
         when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(Optional.of(testEvent));
 

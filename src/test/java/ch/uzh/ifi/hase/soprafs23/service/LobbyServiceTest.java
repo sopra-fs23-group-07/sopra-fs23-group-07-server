@@ -51,7 +51,7 @@ class LobbyServiceTest {
     private Location testLocation;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
         // given
@@ -134,7 +134,7 @@ class LobbyServiceTest {
     }
 
     @Test
-    public void createLobby_duplicateName_throwsException() {
+    void createLobby_duplicateName_throwsException() {
         // given -> a first user has already been created
         Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
 
@@ -165,7 +165,7 @@ class LobbyServiceTest {
     }
 
     @Test
-    public void getLobby_lobbyDoesNotExist_throwsException() {
+    void getLobby_lobbyDoesNotExist_throwsException() {
         assertThrows(ResponseStatusException.class, () -> lobbyService.getLobby(testLobby.getLobbyId()));
     }
 
@@ -183,7 +183,7 @@ class LobbyServiceTest {
     }
 
     @Test
-    public void getUser_userDoesNotExist_throwsException() {
+    void getUser_userDoesNotExist_throwsException() {
         assertThrows(ResponseStatusException.class, () -> lobbyService.getUser(testUser.getUserId()));
     }
 
@@ -199,7 +199,7 @@ class LobbyServiceTest {
     }
 
     @Test
-    public void getMember_memberDoesNotExist_throwsException() {
+    void getMember_memberDoesNotExist_throwsException() {
         assertThrows(ResponseStatusException.class, () -> lobbyService.getMember(testLobby, testUser));
     }
 
@@ -215,7 +215,7 @@ class LobbyServiceTest {
     }
 
     @Test
-    public void getMemberById_memberDoesNotExist_throwsException() {
+    void getMemberById_memberDoesNotExist_throwsException() {
         assertThrows(ResponseStatusException.class, () -> lobbyService.getMemberById(testMember.getMemberId()));
     }
 
@@ -481,10 +481,24 @@ class LobbyServiceTest {
 
         Mockito.when(memberRepository.findAll()).thenReturn(testMembers);
 
-        List<Member> members = lobbyService.getMembers();
+        List<Member> members = memberRepository.findAll();
 
 
         assertEquals(members, testMembers);
+    }
+    @Test
+    void getLobbies() {
+        Lobby lobby = new Lobby();
+        Timer timer = new Timer();
+        timer.setStartTime(LocalDateTime.of(2000,1,1,0,0));
+        timer.setLobby(lobby);
+        timerRepository.save(timer);
+        lobby.setTimer(timer);
+        lobby.setLobbyTimeLimit(0);
+        List<Lobby> lobbies = new ArrayList<>();
+        lobbies.add(lobby);
+        Mockito.when(lobbyRepository.findAll()).thenReturn(lobbies);
+        assertEquals(1, lobbyService.getLobbies().size());
     }
 
     @Test
@@ -496,7 +510,7 @@ class LobbyServiceTest {
 
         Mockito.when(locationRepository.findAll()).thenReturn(testLocations);
 
-        List<Location> locations = lobbyService.getLocations();
+        List<Location> locations = locationRepository.findAll();
 
 
         assertEquals(locations, testLocations);

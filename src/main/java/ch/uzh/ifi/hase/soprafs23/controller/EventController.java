@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.controller;
 
 import ch.uzh.ifi.hase.soprafs23.entity.Event;
-import ch.uzh.ifi.hase.soprafs23.entity.Participant;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.EventGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.EventPostDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.UserEventDTO;
@@ -92,13 +91,6 @@ public class EventController {
     public void deleteEvent(@PathVariable long eventId){
 
         eventService.deleteEvent(eventId);
-    }
-
-    @GetMapping("/participantsTest")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public List<Participant> getParticipants() {
-        return eventService.getParticipants();
     }
 }
 

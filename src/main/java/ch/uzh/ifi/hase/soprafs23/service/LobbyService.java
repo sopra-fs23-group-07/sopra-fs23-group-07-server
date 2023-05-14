@@ -419,10 +419,4 @@ public class LobbyService {
         }
         return lobbies;
     }
-    public List<Member> getMembers() {
-        return this.memberRepository.findAll();
-    }
-    public List<Location> getLocations() {
-        return this.locationRepository.findAll();
-    }
 }
