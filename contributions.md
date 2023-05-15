@@ -231,6 +231,11 @@
 | 7        | 08/05/2023 - 15/05/2023 | Yannic         | [#116](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/116) |   Design of Create Lobby Page & Background image |
 | 7        | 08/05/2023 - 15/05/2023 | Yannic         | [#121](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/121) |  Bugfix of Creating lobby in some cantons throwing an error  |
 | 7        | 08/05/2023 - 15/05/2023 | Yannic         | [#88](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/88) |  implemented new design |
+| 7        | 08/05/2023 - 15/05/2023 | Raffael         | [#109](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/109) |  email validation frontend |
+| 7        | 08/05/2023 - 15/05/2023 | Raffael         | [#237](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/237) |  email validation backend |
+| 7        | 08/05/2023 - 15/05/2023 | Raffael         | [#32](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/32) |  data grid instead of table on Events page |
+
+
 # Template
 
 | 5 | 24/04/2023 - 01/05/2023 | ? | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-[client/server?]/issues/?) | ? |
