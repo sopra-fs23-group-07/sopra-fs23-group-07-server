@@ -227,6 +227,10 @@
 | 7        | 08/05/2023 - 15/05/2023 | Patrick         | [#235](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/235) | add tests to increase coverage                                              |
 | 7        | 08/05/2023 - 15/05/2023 | Patrick         | [#236](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/236) | fix code smells                                                             |
 | 7        | 08/05/2023 - 15/05/2023 | Omar         | [#131](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/131) | fix issue with user profile - check token   |
+| 7        | 08/05/2023 - 15/05/2023 | Yannic         | [#115](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/115) |  Design of Lobbies Page v1  |
+| 7        | 08/05/2023 - 15/05/2023 | Yannic         | [#116](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/116) |   Design of Create Lobby Page & Background image |
+| 7        | 08/05/2023 - 15/05/2023 | Yannic         | [#121](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/121) |  Bugfix of Creating lobby in some cantons throwing an error  |
+| 7        | 08/05/2023 - 15/05/2023 | Yannic         | [#88](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/88) |  implemented new design |
 # Template
 
 | 5 | 24/04/2023 - 01/05/2023 | ? | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-[client/server?]/issues/?) | ? |
