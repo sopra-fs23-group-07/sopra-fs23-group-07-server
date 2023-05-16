@@ -41,7 +41,7 @@ class UserServiceTest {
     testUser.setEmail("test@Name");
     testUser.setUsername("testUsername");
     testUser.setPassword("123");
-    testUser.setToken(null);
+    testUser.setToken("token");
     testUser.setStatus(UserStatus.OFFLINE);
 
     // when -> any object is being saved in the userRepository -> return the dummy
@@ -175,7 +175,8 @@ class UserServiceTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         // Call the method to be tested
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> userService.getUser(testUser.getUserId()));
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+                () -> userService.getUser(testUser.getUserId(), testUser.getToken()));
 
         // Verify that the exception has a 404 NOT FOUND status code
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
@@ -186,7 +187,7 @@ class UserServiceTest {
         when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
 
         // Call the method to be tested
-        User retrievedUser = userService.getUser(testUser.getUserId());
+        User retrievedUser = userService.getUser(testUser.getUserId(), testUser.getToken());
 
         // Assert that the captured user ID matches the ID of the test user
         assertEquals(testUser.getUserId(), retrievedUser.getUserId());
@@ -199,7 +200,7 @@ class UserServiceTest {
         when(userRepository.findByUserId(testUser.getUserId())).thenReturn(null);
 
         // Call the method to be tested and assert that it throws the expected exception
-        assertThrows(ResponseStatusException.class, () -> userService.getUser(testUser.getUserId()));
+        assertThrows(ResponseStatusException.class, () -> userService.getUser(testUser.getUserId(), testUser.getToken()));
     }
     @Test
     void logoutUser_ShouldSetUserStatusToOffline() {
@@ -221,6 +222,7 @@ class UserServiceTest {
         inputUser.setUserId(1L);
         inputUser.setUsername("updatedTestUser");
         inputUser.setPassword("updatedTestPassword");
+        inputUser.setToken("token");
         inputUser.setEmail("updatedTest@example.com");
         inputUser.setBio("BIO");
         inputUser.setBirthdate(LocalDate.parse("2000-05-05"));
@@ -249,6 +251,7 @@ class UserServiceTest {
         inputUser.setUserId(1L);
         inputUser.setUsername("testUsername");
         inputUser.setEmail("test@Name");
+        inputUser.setToken("token");
 
         // Mock the necessary method calls
         when(userRepository.findByUserId(inputUser.getUserId())).thenReturn(testUser);

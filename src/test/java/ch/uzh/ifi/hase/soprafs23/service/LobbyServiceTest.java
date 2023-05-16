@@ -174,7 +174,7 @@ class LobbyServiceTest {
     void getUser_userExists() {
         Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
 
-        User getUser = lobbyService.getUser(testUser.getUserId());
+        User getUser = lobbyService.getUser(testUser.getUserId(), testUser.getToken());
 
         assertEquals(testUser.getUserId(), getUser.getUserId());
         assertEquals(testUser.getUsername(), getUser.getUsername());
@@ -185,7 +185,7 @@ class LobbyServiceTest {
 
     @Test
     void getUser_userDoesNotExist_throwsException() {
-        assertThrows(ResponseStatusException.class, () -> lobbyService.getUser(testUser.getUserId()));
+        assertThrows(ResponseStatusException.class, () -> lobbyService.getUser(testUser.getUserId(), testUser.getToken()));
     }
 
     @Test
@@ -269,7 +269,7 @@ class LobbyServiceTest {
         Member testMember2 = new Member();
         testLobby.addLobbyMember(testMember2);
 
-        lobbyService.removeMember(testLobby.getLobbyId(), testUser.getUserId());
+        lobbyService.removeMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         List<Member> members = new ArrayList<>();
         members.add(testMember2);
@@ -289,7 +289,7 @@ class LobbyServiceTest {
 
         testLobby.addLobbyMember(testMember);
 
-        lobbyService.removeMember(testLobby.getLobbyId(), testUser.getUserId());
+        lobbyService.removeMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         List<Member> members = new ArrayList<>();
 

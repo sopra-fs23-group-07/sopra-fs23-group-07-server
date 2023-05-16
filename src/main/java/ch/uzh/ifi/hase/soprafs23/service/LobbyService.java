@@ -77,7 +77,7 @@ public class LobbyService {
 
                 for(Member member : lobby.getLobbyMembers()) {
 
-                    User databaseUser = getUser(member.getUserId());
+                    User databaseUser = userRepository.findByUserId(member.getUserId());
                     Participant participant = new Participant();
                     participant.setUser(databaseUser);
                     participant.setEventId(event.getEventId());
@@ -133,7 +133,7 @@ public class LobbyService {
         Message message = new Message();
 
         message.setUsername(user.getUsername());
-        message.setMessage(messageDTO.getMessage());
+        message.setLobbyMessage(messageDTO.getMessage());
         message.setLobbyId(lobbyId);
 
         messageRepository.save(message);
@@ -185,11 +185,14 @@ public class LobbyService {
         }
         return lobbyToFind;
     }
-    public User getUser(Long userId) {
+    public User getUser(Long userId, String token) {
         User userToFind = userRepository.findByUserId(userId);
         if (userToFind == null) {
             String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "userId", "was"));
+        }
+        if (!userToFind.getToken().equals(token)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "userToken is not valid");
         }
         return userToFind;
     }
@@ -212,7 +215,7 @@ public class LobbyService {
 
     public Member addMember(Long lobbyId, Long userId, String token) {
         Lobby lobby = getLobby(lobbyId);
-        User databaseUser = getUser(userId);
+        User databaseUser = getUser(userId, token);
         //checkIfUserIsMemberOfALobby(databaseUser); //restriction to be member of only 1 lobby
         if (lobby.isLobbyFull()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Lobby is full");
@@ -220,9 +223,6 @@ public class LobbyService {
         if (memberRepository.findByLobbyAndUser(lobby, databaseUser).isPresent()) {
             String baseErrorMessage = "The %s provided %s already member of this lobby";
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "userId", "is"));
-        }
-        if (!databaseUser.getToken().equals(token)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Please register or login to join a lobby "));
         }
         Member member = new Member();
         member.setUser(databaseUser);
@@ -237,9 +237,9 @@ public class LobbyService {
         return member;
     }
 
-    public void removeMember(Long lobbyId, Long userId) {
+    public void removeMember(Long lobbyId, Long userId, String token) {
         Lobby lobby = getLobby(lobbyId);
-        User databaseUser = getUser(userId);
+        User databaseUser = getUser(userId, token);
         Member member = getMember(lobby, databaseUser);
 
         for (Location location : member.getSelectedLocations()) {

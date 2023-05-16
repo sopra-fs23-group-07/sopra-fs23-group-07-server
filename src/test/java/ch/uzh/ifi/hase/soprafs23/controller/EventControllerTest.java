@@ -111,6 +111,7 @@ class EventControllerTest {
         eventPostDTO.setEventDate("2023-05-05T18:00:00");
         eventPostDTO.setEventLocationDTO(locationDTO);
         eventPostDTO.setEventCreator(1L);
+        eventPostDTO.setToken("token");
 
         Location location = new Location();
         location.setAddress("Seestrasse 1, 8000 Zurich");
@@ -142,7 +143,7 @@ class EventControllerTest {
 
         // then
         verify(eventService).createEvent(any(Event.class));
-        verify(eventService).addParticipant(1L, 1L);
+        verify(eventService).addParticipant(1L, 1L, "token");
         EventGetDTO actualEventGetDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), EventGetDTO.class);
         assertEquals(expectedEventGetDTO.getEventName(), actualEventGetDTO.getEventName());
         assertEquals(expectedEventGetDTO.getEventSport(), actualEventGetDTO.getEventSport());
@@ -176,16 +177,17 @@ class EventControllerTest {
 
         UserEventDTO testUserEventDTO = new UserEventDTO();
         testUserEventDTO.setUserId(testUser.getUserId());
+        testUserEventDTO.setToken(testUser.getToken());
 
         when(eventService.getEvent(anyLong())).thenReturn(testEvent);
-        doNothing().when(eventService).addParticipant(anyLong(), anyLong());
+        doNothing().when(eventService).addParticipant(anyLong(), anyLong(), anyString());
 
         mockMvc.perform(put("/events/{eventId}/join", testEvent.getEventId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(testUserEventDTO)))
                         .andExpect(status().isNoContent());
 
-        verify(eventService).addParticipant(testEvent.getEventId(), testUser.getUserId());
+        verify(eventService).addParticipant(testEvent.getEventId(), testUser.getUserId(), testUser.getToken());
     }
     @Test
     void givenEventAndUser_whenLeaveEvent_thenReturnStatusOk() throws Exception {
@@ -202,7 +204,7 @@ class EventControllerTest {
                         .andExpect(status().isOk());
 
         // Assert
-        verify(eventService, times(1)).removeParticipant(testEvent.getEventId(), testUser.getUserId());
+        verify(eventService, times(1)).removeParticipant(testEvent.getEventId(), testUser.getUserId(), testUser.getToken());
     }
     @Test
     void givenValidEventId_whenDeleteEvent_thenStatusOk() throws Exception {

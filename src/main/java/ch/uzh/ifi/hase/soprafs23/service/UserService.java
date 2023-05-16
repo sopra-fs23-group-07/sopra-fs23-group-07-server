@@ -109,12 +109,11 @@ public class UserService {
 
         return userInDb;
     }
-    public void logoutUser(long userId) {
-        User userToBeLoggedOut = getUser(userId);
+    public void logoutUser(Long userId) {
+        User userToBeLoggedOut = retrieveUser(userId);
         userToBeLoggedOut.setStatus(UserStatus.OFFLINE);
     }
-
-    public User getUser(long userId) {
+    public User retrieveUser(Long userId) {
         User userToFind = userRepository.findByUserId(userId);
         if (userToFind == null) {
             String baseErrorMessage = "The %s provided %s not found";
@@ -122,8 +121,16 @@ public class UserService {
         }
         return userToFind;
     }
+
+    public User getUser(long userId, String token) {
+        User userToFind = retrieveUser(userId);
+        if (!userToFind.getToken().equals(token)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "userToken is not valid");
+        }
+        return userToFind;
+    }
     public void updateUser(User inputUser) {
-        User databaseUser = getUser(inputUser.getUserId());
+        User databaseUser = getUser(inputUser.getUserId(), inputUser.getToken());
 
         // Check if username and email address already exist
         if ((!Objects.equals(inputUser.getUsername(), databaseUser.getUsername())) ||

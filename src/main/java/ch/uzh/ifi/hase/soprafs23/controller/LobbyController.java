@@ -77,7 +77,7 @@ public class LobbyController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public void leaveLobby(@RequestBody UserLobbyDTO userLobbyDTO, @PathVariable Long lobbyId) {
-    lobbyService.removeMember(lobbyId, userLobbyDTO.getUserId());
+    lobbyService.removeMember(lobbyId, userLobbyDTO.getUserId(), userLobbyDTO.getToken());
   }
   @DeleteMapping("{lobbyId}/delete")
   @ResponseStatus(HttpStatus.OK)

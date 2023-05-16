@@ -103,7 +103,7 @@ class UserControllerTest {
       user.setUserId(1L);
       user.setEmail("Test User");
       user.setUsername("testUsername");
-      user.setToken("1");
+      user.setToken("token");
       user.setStatus(UserStatus.ONLINE);
 
       UserPostDTO userPostDTO = new UserPostDTO();
@@ -130,14 +130,13 @@ class UserControllerTest {
       mockMvc.perform(postRequestLogout)
               .andExpect(status().isOk());
 
-      User returnedUser = user;
-      given(userService.getUser(1L)).willReturn(returnedUser);
+      given(userService.retrieveUser(1L)).willReturn(user);
 
       MockHttpServletRequestBuilder getRequest = get("/users/1").contentType(MediaType.APPLICATION_JSON);
 
       mockMvc.perform(getRequest)
               .andExpect(status().isOk())
-              .andExpect(jsonPath("$.status", is(returnedUser.getStatus().toString())));
+              .andExpect(jsonPath("$.status", is(user.getStatus().toString())));
   }
 
     @Test
@@ -166,8 +165,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.username", is(user.getUsername())))
                 .andExpect(jsonPath("$.status", is(user.getStatus().toString())));
 
-        User returnedUser = user;
-        given(userService.getUser(1L)).willReturn(returnedUser);
+        given(userService.retrieveUser(1L)).willReturn(user);
 
         MockHttpServletRequestBuilder getRequest = get("/users/1").contentType(MediaType.APPLICATION_JSON);
 
@@ -223,7 +221,7 @@ class UserControllerTest {
         user.setUserId(1L);
         user.setEmail("Test User");
         user.setUsername("testUsername");
-        user.setToken("1");
+        user.setToken("token");
         user.setStatus(UserStatus.ONLINE);
 
         UserPostDTO userPostDTO = new UserPostDTO();
@@ -231,6 +229,7 @@ class UserControllerTest {
         userPostDTO.setUsername("testUsername");
 
         given(userService.createUser(Mockito.any())).willReturn(user);
+        given(userService.retrieveUser(Mockito.any())).willReturn(user);
 
         MockHttpServletRequestBuilder postRequest = post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -249,6 +248,7 @@ class UserControllerTest {
         updatedUserPutDTO.setUserId(1L);
         updatedUserPutDTO.setEmail("Changed User");
         updatedUserPutDTO.setUsername("changedUsername");
+        updatedUserPutDTO.setToken("token");
 
         MockHttpServletRequestBuilder putRequest = put("/users/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -257,15 +257,14 @@ class UserControllerTest {
         mockMvc.perform(putRequest)
                 .andExpect(status().isNoContent());
 
-        User returnedUser = user;
-        given(userService.getUser(1L)).willReturn(returnedUser);
+        given(userService.getUser(1L, "token")).willReturn(user);
 
         MockHttpServletRequestBuilder getRequest = get("/users/1").contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(getRequest)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email", is(returnedUser.getEmail())))
-                .andExpect(jsonPath("$.username", is(returnedUser.getUsername())));
+                .andExpect(jsonPath("$.email", is(user.getEmail())))
+                .andExpect(jsonPath("$.username", is(user.getUsername())));
 
         MockHttpServletRequestBuilder wrongPutRequest = put("/users/5")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -279,8 +278,7 @@ class UserControllerTest {
    * Helper Method to convert userPostDTO into a JSON string such that the input
    * can be processed
    * Input will look like this: {"name": "Test User", "username": "testUsername"}
-   * 
-   * @param object
+   *
    * @return string
    */
   private String asJsonString(final Object object) {
@@ -288,7 +286,7 @@ class UserControllerTest {
       return new ObjectMapper().writeValueAsString(object);
     } catch (JsonProcessingException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          String.format("The request body could not be created.%s", e.toString()));
+          String.format("The request body could not be created.%s", e));
     }
   }
 }

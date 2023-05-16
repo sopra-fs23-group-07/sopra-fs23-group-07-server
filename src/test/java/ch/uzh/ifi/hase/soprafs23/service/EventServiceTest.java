@@ -57,6 +57,7 @@ class EventServiceTest {
         testEvent.setEventMaxParticipants(10);
         testUser = new User();
         testUser.setUserId(1L);
+        testUser.setToken("token");
         // when -> any object is being saved in the eventRepository -> return the dummy
         // testEvent
         when(eventRepository.save(Mockito.any())).thenReturn(testEvent);
@@ -124,10 +125,11 @@ class EventServiceTest {
         // Set up mock repository to return a User with ID 1 when finding by ID
         User mockUser = new User();
         mockUser.setUserId(1L);
+        mockUser.setToken("token");
         when(userRepository.findByUserId(1L)).thenReturn(mockUser);
 
         // Call the method under test
-        User result = eventService.getUser(1L);
+        User result = eventService.getUser(1L, "token");
 
         // Verify that the repository was called with the correct ID
         verify(userRepository, Mockito.times(1)).findByUserId(1L);
@@ -142,7 +144,7 @@ class EventServiceTest {
         when(userRepository.findByUserId(1L)).thenReturn(null);
 
         // Call the method under test and expect a ResponseStatusException
-        assertThrows(ResponseStatusException.class, () -> eventService.getUser(1L));
+        assertThrows(ResponseStatusException.class, () -> eventService.getUser(1L, "token"));
 
         // Verify that the repository was called with the correct ID
         verify(userRepository, Mockito.times(1)).findByUserId(1L);
@@ -197,7 +199,7 @@ class EventServiceTest {
         when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
 
         // Call the method to be tested
-        eventService.addParticipant(testEvent.getEventId(), testUser.getUserId());
+        eventService.addParticipant(testEvent.getEventId(), testUser.getUserId(), testUser.getToken());
 
         // Verify that the expected changes were made to the event object
         assertEquals(1, testEvent.getEventParticipants().size());
@@ -223,10 +225,10 @@ class EventServiceTest {
         when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(Optional.of(testEvent));
         when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
         testEvent.setEventMaxParticipants(1);
-        eventService.addParticipant(testEvent.getEventId(), testUser.getUserId());
+        eventService.addParticipant(testEvent.getEventId(), testUser.getUserId(), testUser.getToken());
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
-                eventService.addParticipant(testEvent.getEventId(), testUser.getUserId()));
+                eventService.addParticipant(testEvent.getEventId(), testUser.getUserId(), testUser.getToken()));
 
         // Verify that the exception message contains the expected error message
         String expectedErrorMessage = "The Event provided is full";
@@ -234,6 +236,21 @@ class EventServiceTest {
 
         // Verify that the participant was not added to the event
         assertEquals(1, testEvent.getEventParticipants().size());
+    }
+    @Test
+    void addParticipant_wrongToken_throwsException() {
+        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(Optional.of(testEvent));
+        when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
+                eventService.addParticipant(testEvent.getEventId(), testUser.getUserId(), "wrongToken"));
+
+        // Verify that the exception message contains the expected error message
+        String expectedErrorMessage = "userToken is not valid";
+        assertTrue(Objects.requireNonNull(exception.getReason()).contains(expectedErrorMessage));
+
+        // Verify that the participant was not added to the event
+        assertEquals(0, testEvent.getEventParticipants().size());
     }
 
 
@@ -253,7 +270,7 @@ class EventServiceTest {
         when(participantRepository.findByEventAndUser(testEvent, testUser)).thenReturn(Optional.of(testParticipant));
 
         // Call the method to be tested
-        eventService.removeParticipant(testEvent.getEventId(), testUser.getUserId());
+        eventService.removeParticipant(testEvent.getEventId(), testUser.getUserId(), testUser.getToken());
 
         // Verify that the expected changes were made to the event object
         assertEquals(0, testEvent.getEventParticipants().size());
@@ -285,11 +302,11 @@ class EventServiceTest {
 
         // Create an event and add the user as a participant
         Event createdEvent = eventService.createEvent(testEvent);
-        eventService.addParticipant(createdEvent.getEventId(), testUser.getUserId());
+        eventService.addParticipant(createdEvent.getEventId(), testUser.getUserId(), testUser.getToken());
 
         // Call the method to add the participant again and expect an exception to be thrown
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
-                eventService.addParticipant(createdEvent.getEventId(), testUser.getUserId()));
+                eventService.addParticipant(createdEvent.getEventId(), testUser.getUserId(), testUser.getToken()));
 
         // Verify that the exception message contains the expected error message
         String expectedErrorMessage = "The User provided is already participant of this event.";

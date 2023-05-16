@@ -8,6 +8,7 @@ public class EventPostDTO {
     private String eventRegion;
     private Integer eventMaxParticipants;
     private Long eventCreator;
+    private String token;
 
     public String getEventName() {
         return eventName;
@@ -59,6 +60,12 @@ public class EventPostDTO {
     }
     public void setEventMaxParticipants(Integer eventMaxParticipants) {
         this.eventMaxParticipants = eventMaxParticipants;
+    }
+    public String getToken() {
+        return token;
+    }
+    public void setToken(String token) {
+        this.token = token;
     }
 }
 

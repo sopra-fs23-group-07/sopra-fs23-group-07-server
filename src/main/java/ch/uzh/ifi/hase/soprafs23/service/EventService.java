@@ -69,11 +69,14 @@ public class EventService {
         }
         return eventToFind.get();
     }
-    public User getUser(long userId) {
+    public User getUser(long userId, String token) {
         User userToFind = userRepository.findByUserId(userId);
         if (userToFind == null) {
             String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "userId", "was"));
+        }
+        if (!userToFind.getToken().equals(token)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "userToken is not valid");
         }
         return userToFind;
     }
@@ -86,9 +89,9 @@ public class EventService {
         return participantToFind.get();
     }
 
-    public void addParticipant(long eventId, long userId) {
+    public void addParticipant(long eventId, long userId, String token) {
         Event event = getEvent(eventId);
-        User databaseUser = getUser(userId);
+        User databaseUser = getUser(userId, token);
         if (event.eventIsFull()) {
             String baseErrorMessage = "The %s provided %s full";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "Event", "is"));
@@ -106,9 +109,9 @@ public class EventService {
         eventRepository.save(event);
     }
 
-    public void removeParticipant(long eventId, long userId) {
+    public void removeParticipant(long eventId, long userId, String token) {
         Event event = getEvent(eventId);
-        User databaseUser = getUser(userId);
+        User databaseUser = getUser(userId, token);
         Participant participant = getParticipant(event, databaseUser);
 
         event.removeEventParticipant(participant);

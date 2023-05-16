@@ -54,7 +54,7 @@ public class EventController {
         // create event
         Event createdEvent = eventService.createEvent(eventInput);
 
-        eventService.addParticipant(eventInput.getEventId(), eventPostDTO.getEventCreator());
+        eventService.addParticipant(eventInput.getEventId(), eventPostDTO.getEventCreator(), eventPostDTO.getToken());
         // convert internal representation of event back to API
         return DTOMapper.INSTANCE.convertEntityToEventGetDTO(createdEvent);
     }
@@ -75,7 +75,7 @@ public class EventController {
     @ResponseBody
     public void joinEvent(@RequestBody UserEventDTO userEventDTO, @PathVariable long eventId){
 
-        eventService.addParticipant(eventId, userEventDTO.getUserId());
+        eventService.addParticipant(eventId, userEventDTO.getUserId(), userEventDTO.getToken());
     }
 
     @PutMapping("/{eventId}/leave")
@@ -83,7 +83,7 @@ public class EventController {
     @ResponseBody
     public void leaveEvent(@RequestBody UserEventDTO userEventDTO, @PathVariable long eventId){
 
-        eventService.removeParticipant(eventId, userEventDTO.getUserId());
+        eventService.removeParticipant(eventId, userEventDTO.getUserId(), userEventDTO.getToken());
     }
     @DeleteMapping("/{eventId}/delete")
     @ResponseStatus(HttpStatus.OK)

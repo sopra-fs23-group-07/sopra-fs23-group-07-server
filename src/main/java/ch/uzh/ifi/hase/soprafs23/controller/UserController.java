@@ -76,7 +76,7 @@ public class UserController {
     @ResponseBody
     public UserGetDTO getUser(@PathVariable long userId) {
         // fetch user
-        User foundUser = userService.getUser(userId);
+        User foundUser = userService.retrieveUser(userId);
         //converting internal representation to api representation
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(foundUser);}
 

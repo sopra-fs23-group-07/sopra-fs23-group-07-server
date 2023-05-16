@@ -189,7 +189,7 @@ class LobbyServiceIntegrationTest {
         userRepository.save(testUser);
 
 
-        User getUser = lobbyService.getUser(testUser.getUserId());
+        User getUser = lobbyService.getUser(testUser.getUserId(), testUser.getToken());
 
         assertEquals(testUser.getUsername(), getUser.getUsername());
         assertEquals(testUser.getEmail(), getUser.getEmail());
@@ -202,7 +202,7 @@ class LobbyServiceIntegrationTest {
     void getUser_userDoesNotExist_throwsException() {
         assertTrue(userRepository.findAll().isEmpty());
 
-        assertThrows(ResponseStatusException.class, () -> lobbyService.getUser(1L));
+        assertThrows(ResponseStatusException.class, () -> lobbyService.getUser(1L, "token"));
     }
 
     @Test
@@ -473,7 +473,7 @@ class LobbyServiceIntegrationTest {
         assertFalse(createdLobby.isLobbyFull());
         assertEquals(createdLobby.getLobbyMembersCount(), 2);
 
-        lobbyService.removeMember(testLobby.getLobbyId(), testUser2.getUserId());
+        lobbyService.removeMember(testLobby.getLobbyId(), testUser2.getUserId(), testUser2.getToken());
         createdLobby = lobbyRepository.findByLobbyId(createdLobby.getLobbyId());
 
 
@@ -528,7 +528,7 @@ class LobbyServiceIntegrationTest {
         assertFalse(createdLobby.isLobbyFull());
         assertEquals(createdLobby.getLobbyMembersCount(), 1);
 
-        lobbyService.removeMember(testLobby.getLobbyId(), testUser.getUserId());
+        lobbyService.removeMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         assertThrows(ResponseStatusException.class, () -> lobbyService.getLobby(testLobby.getLobbyId()));
     }

@@ -20,7 +20,7 @@ public class Message implements Serializable {
     private String username;
 
     @Column
-    private String message;
+    private String lobbyMessage;
 
     @Column(nullable = true)
     private Long lobbyId;
@@ -37,12 +37,12 @@ public class Message implements Serializable {
         this.messageId = messageId;
     }
 
-    public String getMessage() {
-        return message;
+    public String getLobbyMessage() {
+        return lobbyMessage;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setLobbyMessage(String message) {
+        this.lobbyMessage = message;
     }
 
     public String getUsername() {
