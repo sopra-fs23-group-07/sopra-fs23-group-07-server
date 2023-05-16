@@ -167,7 +167,7 @@ public interface DTOMapper {
 
   @Named("convertEntityToMessageDTO")
   @Mapping(source = "username", target = "username")
-  @Mapping(source = "message", target = "message")
+  @Mapping(source = "lobbyMessage", target = "message")
   MessageDTO convertEntityToMessageDTO(Message message);
   @BeforeMapping
   default void setVotesFromMemberVotes(Location location, @MappingTarget LobbyLocationDTO dto) {
