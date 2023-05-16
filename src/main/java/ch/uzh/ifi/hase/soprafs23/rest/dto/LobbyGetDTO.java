@@ -2,7 +2,6 @@ package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 public class LobbyGetDTO {
 
   private Long lobbyId;
@@ -13,8 +12,7 @@ public class LobbyGetDTO {
 
   private String lobbyRegion;
 
-
-    private String lobbyRegionShortCode;
+  private String lobbyRegionShortCode;
 
   private Integer lobbyTimeLimit;
 
@@ -31,15 +29,12 @@ public class LobbyGetDTO {
   private List<LobbyLocationDTO> lobbyLocationDTOs;
 
   private List<MessageDTO> lobbyMessageDTOs;
+
   private List<MemberDTO> memberDTOS;
 
-  private Integer lobbyMembersCount;
-
   private boolean haveAllMembersLockedSelections;
+
   private Long timeRemaining;
-
-
-
 
   public Long getCreatedEventId() {return createdEventId;}
 
@@ -50,8 +45,6 @@ public class LobbyGetDTO {
   public boolean isHaveAllMembersLockedSelections() {return haveAllMembersLockedSelections;}
 
   public Integer getLobbyMembersCount() {return memberDTOS.size();}
-
-  public void setLobbyMembersCount(Integer lobbyMembersCount) {this.lobbyMembersCount = lobbyMembersCount;}
 
   public List<LobbyLocationDTO> getLobbyLocationDTOs() {return lobbyLocationDTOs; }
 
@@ -85,14 +78,13 @@ public class LobbyGetDTO {
         this.lobbyRegion = lobbyRegion;
     }
 
-    public String getLobbyRegionShortCode() {
+  public String getLobbyRegionShortCode() {
         return lobbyRegionShortCode;
     }
 
-    public void setLobbyRegionShortCode(String lobbyRegionShortCode) {
-        this.lobbyRegionShortCode = lobbyRegionShortCode;
-    }
-
+  public void setLobbyRegionShortCode(String lobbyRegionShortCode) {
+      this.lobbyRegionShortCode = lobbyRegionShortCode;
+  }
 
   public Integer getLobbyTimeLimit() {return this.lobbyTimeLimit; }
 
@@ -110,15 +102,15 @@ public class LobbyGetDTO {
 
   public void setLobbyDecidedLocation(LobbyLocationDTO lobbyDecidedLocation) {this.lobbyDecidedLocation = lobbyDecidedLocation;}
 
-    public List<MessageDTO> getLobbyMessageDTOs() {
+  public List<MessageDTO> getLobbyMessageDTOs() {
         return lobbyMessageDTOs;
     }
 
-    public void setLobbyMessageDTOs(List<MessageDTO> lobbyMessageDTOs) {
+  public void setLobbyMessageDTOs(List<MessageDTO> lobbyMessageDTOs) {
         this.lobbyMessageDTOs = lobbyMessageDTOs;
     }
 
-    public String getToken() {
+  public String getToken() {
         return token;
     }
 
@@ -134,11 +126,11 @@ public class LobbyGetDTO {
       this.memberDTOS = memberDTOS;
   }
 
-    public Long getTimeRemaining() {
+  public Long getTimeRemaining() {
         return timeRemaining;
     }
 
-    public void setTimeRemaining(Long timeRemaining) {
+  public void setTimeRemaining(Long timeRemaining) {
         this.timeRemaining = timeRemaining;
     }
 }

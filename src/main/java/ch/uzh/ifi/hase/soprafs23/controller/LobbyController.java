@@ -59,6 +59,8 @@ public class LobbyController {
     // convert API user to internal representation
     Lobby lobbyInput = DTOMapper.INSTANCE.convertLobbyPostDTOtoEntity(lobbyPostDTO);
 
+    lobbyService.getUser(lobbyPostDTO.getHostMemberId(), lobbyPostDTO.getHostMemberToken());
+
     lobbyService.createLobby(lobbyInput);
 
     Member lobbyCreator = lobbyService.addMember(lobbyInput.getLobbyId(), lobbyPostDTO.getHostMemberId(), lobbyPostDTO.getHostMemberToken());

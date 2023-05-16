@@ -4,12 +4,10 @@ package ch.uzh.ifi.hase.soprafs23.rest.dto;
 public class LobbyPostDTO {
   private String lobbyName;
   private String lobbyRegion;
-
   private String lobbyRegionShortCode;
   private Integer lobbyMaxMembers;
   private Integer lobbyTimeLimit;
   private Long hostMemberId;
-
   private String hostMemberToken;
 
 
@@ -33,13 +31,13 @@ public class LobbyPostDTO {
     this.lobbyRegion = lobbyRegion;
   }
 
-    public String getLobbyRegionShortCode() {
+  public String getLobbyRegionShortCode() {
         return lobbyRegionShortCode;
     }
 
-    public void setLobbyRegionShortCode(String lobbyRegionShortCode) {
-        this.lobbyRegionShortCode = lobbyRegionShortCode;
-    }
+  public void setLobbyRegionShortCode(String lobbyRegionShortCode) {
+      this.lobbyRegionShortCode = lobbyRegionShortCode;
+  }
 
   public Integer getLobbyMaxMembers() {return lobbyMaxMembers; }
 
@@ -49,11 +47,11 @@ public class LobbyPostDTO {
 
   public void setLobbyTimeLimit(Integer lobbyTimeLimit) {this.lobbyTimeLimit = lobbyTimeLimit; }
 
-    public String getHostMemberToken() {
+  public String getHostMemberToken() {
         return hostMemberToken;
     }
 
-    public void setHostMemberToken(String hostMemberToken) {
+  public void setHostMemberToken(String hostMemberToken) {
         this.hostMemberToken = hostMemberToken;
     }
 }
