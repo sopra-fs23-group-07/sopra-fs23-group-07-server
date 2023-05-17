@@ -47,6 +47,7 @@ public class UserService {
         newUser.setToken(UUID.randomUUID().toString());
         newUser.setStatus(UserStatus.ONLINE);
         newUser.setCreationDate(LocalDate.now());
+        newUser.setAvatar(0L);
 
         checkIfUserExists(newUser, newUser);
         // saves the given entity but data is only persisted in the database once

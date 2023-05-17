@@ -5,6 +5,7 @@ public class UserPostDTO {
   private String username;
   private String password;
   private Long userId;
+  private Long avatar;
 
   public String getEmail() {
     return email;
@@ -29,5 +30,13 @@ public class UserPostDTO {
     }
   public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Long avatar) {
+        this.avatar = avatar;
     }
 }

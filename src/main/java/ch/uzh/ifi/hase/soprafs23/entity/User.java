@@ -44,6 +44,8 @@ public class User implements Serializable {
   private LocalDate birthdate;
   @Column
   private String bio;
+  @Column
+  private Long avatar;
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Participant> participants = new ArrayList<>();
   //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -145,4 +147,7 @@ public class User implements Serializable {
     public void setBio(String bio) {
         this.bio = bio;
     }
+
+    public Long getAvatar(){return avatar;}
+    public void setAvatar(Long avatar){this.avatar = avatar;}
 }

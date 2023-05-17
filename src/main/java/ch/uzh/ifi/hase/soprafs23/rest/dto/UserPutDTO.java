@@ -14,6 +14,7 @@ public class UserPutDTO {
     private String token;
     private LocalDate birthdate;
     private String bio;
+    private Long avatar;
 
     public Long getUserId() {return userId; }
 
@@ -54,5 +55,13 @@ public class UserPutDTO {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public Long getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Long avatar) {
+        this.avatar = avatar;
     }
 }

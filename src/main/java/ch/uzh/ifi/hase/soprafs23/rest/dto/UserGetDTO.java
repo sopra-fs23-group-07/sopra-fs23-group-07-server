@@ -15,6 +15,7 @@ public class UserGetDTO {
   private LocalDate creationDate;
   private LocalDate birthdate;
   private String bio;
+  private Long avatar;
   private List<UserEventGetDTO> userEventGetDTOs;
 
   public Long getUserId() {
@@ -84,5 +85,13 @@ public class UserGetDTO {
 
     public void setUserEventGetDTOs(List<UserEventGetDTO> eventGetDTOS) {
         this.userEventGetDTOs = eventGetDTOS;
+    }
+
+    public Long getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Long avatar) {
+        this.avatar = avatar;
     }
 }

@@ -30,6 +30,7 @@ public interface DTOMapper {
   @Mapping(source = "username", target = "username")
   @Mapping(source = "password", target= "password")
   @Mapping(source= "userId", target = "userId")
+  @Mapping(source = "avatar", target="avatar")
   User convertUserPostDTOtoEntity(UserPostDTO userPostDTO);
 
   @Mapping(source = "userId", target = "userId")
@@ -41,6 +42,7 @@ public interface DTOMapper {
   @Mapping(source = "birthdate", target = "birthdate")
   @Mapping(source = "bio", target = "bio")
   @Mapping(source = "events", target = "userEventGetDTOs")
+  @Mapping(source = "avatar", target="avatar")
   UserGetDTO convertEntityToUserGetDTO(User user);
     @Named("convertEntityToUserEventGetDTO")
     @Mapping(source = "eventLocation", target = "eventLocationDTO", qualifiedByName = "toLocationDTO")
@@ -64,6 +66,7 @@ public interface DTOMapper {
   @Mapping(source = "password", target= "password")
   @Mapping(source = "birthdate", target = "birthdate")
   @Mapping(source = "bio", target = "bio")
+  @Mapping(source = "avatar", target = "avatar")
   User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
 
   @BeforeMapping
