@@ -227,8 +227,12 @@ class EventServiceTest {
         testEvent.setEventMaxParticipants(1);
         eventService.addParticipant(testEvent.getEventId(), testUser.getUserId(), testUser.getToken());
 
+        Long eventId = testEvent.getEventId();
+        Long userId = testUser.getUserId();
+        String userToken = testUser.getToken();
+
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
-                eventService.addParticipant(testEvent.getEventId(), testUser.getUserId(), testUser.getToken()));
+                eventService.addParticipant(eventId, userId, userToken));
 
         // Verify that the exception message contains the expected error message
         String expectedErrorMessage = "The Event provided is full";
@@ -242,8 +246,11 @@ class EventServiceTest {
         when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(testEvent);
         when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
 
+        Long eventId = testEvent.getEventId();
+        Long userId = testUser.getUserId();
+
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
-                eventService.addParticipant(testEvent.getEventId(), testUser.getUserId(), "wrongToken"));
+                eventService.addParticipant(eventId, userId, "wrongToken"));
 
         // Verify that the exception message contains the expected error message
         String expectedErrorMessage = "userToken is not valid";
@@ -304,9 +311,13 @@ class EventServiceTest {
         Event createdEvent = eventService.createEvent(testEvent);
         eventService.addParticipant(createdEvent.getEventId(), testUser.getUserId(), testUser.getToken());
 
+        Long eventId = testEvent.getEventId();
+        Long userId = testUser.getUserId();
+        String userToken = testUser.getToken();
+
         // Call the method to add the participant again and expect an exception to be thrown
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
-                eventService.addParticipant(createdEvent.getEventId(), testUser.getUserId(), testUser.getToken()));
+                eventService.addParticipant(eventId, userId, userToken));
 
         // Verify that the exception message contains the expected error message
         String expectedErrorMessage = "The User provided is already participant of this event.";

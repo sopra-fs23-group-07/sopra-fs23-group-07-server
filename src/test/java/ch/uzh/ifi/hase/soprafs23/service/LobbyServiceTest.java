@@ -166,7 +166,8 @@ class LobbyServiceTest {
 
     @Test
     void getLobby_lobbyDoesNotExist_throwsException() {
-        assertThrows(ResponseStatusException.class, () -> lobbyService.getLobby(testLobby.getLobbyId()));
+        Long lobbyId = testLobby.getLobbyId();
+        assertThrows(ResponseStatusException.class, () -> lobbyService.getLobby(lobbyId));
     }
 
     @Test
@@ -184,7 +185,9 @@ class LobbyServiceTest {
 
     @Test
     void getUser_userDoesNotExist_throwsException() {
-        assertThrows(ResponseStatusException.class, () -> lobbyService.getUser(testUser.getUserId(), testUser.getToken()));
+        Long userId = testUser.getUserId();
+        String userToken = testUser.getToken();
+        assertThrows(ResponseStatusException.class, () -> lobbyService.getUser(userId, userToken));
     }
 
     @Test
@@ -244,7 +247,11 @@ class LobbyServiceTest {
 
         testLobby.setLobbyMaxMembers(0);
 
-        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken()));
+        Long lobbyId = testLobby.getLobbyId();
+        Long userId = testUser.getUserId();
+        String userToken = testUser.getToken();
+
+        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(lobbyId, userId, userToken));
     }
 
     @Test
@@ -255,7 +262,11 @@ class LobbyServiceTest {
 
         //testLobby.addLobbyMember(testMember);
 
-        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken()));
+        Long lobbyId = testLobby.getLobbyId();
+        Long userId = testUser.getUserId();
+        String userToken = testUser.getToken();
+
+        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(lobbyId, userId, userToken));
     }
 
     @Test
@@ -430,7 +441,9 @@ class LobbyServiceTest {
 
     @Test
     void addLobbyLocationVote_locationDoesNotExists_ThrowsException() {
-        assertThrows(ResponseStatusException.class, () -> lobbyService.addLobbyLocationVote(testLobby.getLobbyId(), testMember.getMemberId(), 1L));
+        Long lobbyId = testLobby.getLobbyId();
+        Long memberId = testMember.getMemberId();
+        assertThrows(ResponseStatusException.class, () -> lobbyService.addLobbyLocationVote(lobbyId, memberId, 1L));
     }
 
 
@@ -451,7 +464,9 @@ class LobbyServiceTest {
 
     @Test
     void removeLobbyLocationVote_locationDoesNotExists_ThrowsException() {
-        assertThrows(ResponseStatusException.class, () -> lobbyService.removeLobbyLocationVote(testLobby.getLobbyId(), testMember.getMemberId(), 1L));
+        Long lobbyId = testLobby.getLobbyId();
+        Long memberId = testMember.getMemberId();
+        assertThrows(ResponseStatusException.class, () -> lobbyService.removeLobbyLocationVote(lobbyId, memberId, 1L));
     }
 
     @Test

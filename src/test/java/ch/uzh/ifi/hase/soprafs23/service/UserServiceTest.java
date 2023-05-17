@@ -174,9 +174,12 @@ class UserServiceTest {
         // Mock the UserRepository to return a 404 NOT FOUND response when getUser is called with an unknown user ID
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
+        Long userId = testUser.getUserId();
+        String userToken = testUser.getToken();
+
         // Call the method to be tested
         ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-                () -> userService.getUser(testUser.getUserId(), testUser.getToken()));
+                () -> userService.getUser(userId, userToken));
 
         // Verify that the exception has a 404 NOT FOUND status code
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
@@ -199,8 +202,11 @@ class UserServiceTest {
 
         when(userRepository.findByUserId(testUser.getUserId())).thenReturn(null);
 
+        Long userId = testUser.getUserId();
+        String userToken = testUser.getToken();
+
         // Call the method to be tested and assert that it throws the expected exception
-        assertThrows(ResponseStatusException.class, () -> userService.getUser(testUser.getUserId(), testUser.getToken()));
+        assertThrows(ResponseStatusException.class, () -> userService.getUser(userId, userToken));
     }
     @Test
     void logoutUser_ShouldSetUserStatusToOffline() {

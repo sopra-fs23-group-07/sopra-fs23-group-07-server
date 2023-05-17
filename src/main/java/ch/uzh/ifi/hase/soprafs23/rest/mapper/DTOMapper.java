@@ -50,7 +50,7 @@ public interface DTOMapper {
         if (entityList == null) {
             return null;
         }
-        return entityList.stream().map(this::convertEntityToUserEventGetDTO).collect(Collectors.toList());
+        return entityList.stream().map(this::convertEntityToUserEventGetDTO).toList();
     }
     @AfterMapping
     default void addEventsToUserGetDTO(User user, @MappingTarget UserGetDTO userGetDTO) {
@@ -140,7 +140,7 @@ public interface DTOMapper {
       if (entityList == null) {
           return null;
       }
-      return entityList.stream().map(this::convertEntityToParticipantDTO).collect(Collectors.toList());
+      return entityList.stream().map(this::convertEntityToParticipantDTO).toList();
   }
   @AfterMapping
   default void addParticipantsToEventGetDTO(Event event, @MappingTarget EventGetDTO eventGetDTO) {
@@ -154,7 +154,7 @@ public interface DTOMapper {
       if (entityList == null) {
           return null;
       }
-      return entityList.stream().map(this::convertEntityToMemberDTO).collect(Collectors.toList());
+      return entityList.stream().map(this::convertEntityToMemberDTO).toList();
   }
   @AfterMapping
   default void addMembersToLobbyGetDTO(Lobby lobby, @MappingTarget LobbyGetDTO lobbyGetDTO) {
@@ -179,14 +179,14 @@ public interface DTOMapper {
       if (entityList == null) {
           return null;
       }
-      return entityList.stream().map(this::convertEntityToLobbyLocationDTO).collect(Collectors.toList());
+      return entityList.stream().map(this::convertEntityToLobbyLocationDTO).toList();
   }
 
   default List<MessageDTO> convertEntityListToLobbyMessageDTOList(List<Message> entityList) {
       if (entityList == null) {
           return null;
       }
-      return entityList.stream().map(this::convertEntityToMessageDTO).collect(Collectors.toList());
+      return entityList.stream().map(this::convertEntityToMessageDTO).toList();
   }
   @AfterMapping
   default void addLobbyLocationsToLobbyGetDTO(Lobby lobby, @MappingTarget LobbyGetDTO lobbyGetDTO) {

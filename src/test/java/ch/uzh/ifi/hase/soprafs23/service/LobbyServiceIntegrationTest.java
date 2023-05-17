@@ -342,14 +342,11 @@ class LobbyServiceIntegrationTest {
         testLobby.setLobbyMaxMembers(10);
         testLobby.setLobbyRegion("Zurich");
         testLobby.setLobbyTimeLimit(10);
-        testLobby.setHostMemberId(testUser.getUserId());       
-
+        testLobby.setHostMemberId(testUser.getUserId());
 
         Lobby createdLobby = lobbyService.createLobby(testLobby);
 
-
-        Member addedMember = lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
-
+        lobbyService.addMember(createdLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
         createdLobby = lobbyRepository.findByLobbyId(createdLobby.getLobbyId());
 
@@ -384,9 +381,13 @@ class LobbyServiceIntegrationTest {
         testLobby.setLobbyTimeLimit(10);
         testLobby.setHostMemberId(testUser.getUserId());
 
+        Long lobbyId = 1L;
+        Long userId = testUser.getUserId();
+        String userToken = testUser.getToken();
+
         lobbyService.createLobby(testLobby);
 
-        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken()));
+        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(lobbyId, userId, userToken));
     }
 
     @Test
@@ -412,12 +413,15 @@ class LobbyServiceIntegrationTest {
         testLobby.setLobbyTimeLimit(10);
         testLobby.setHostMemberId(testUser.getUserId());
 
+        Long lobbyId = 1L;
+        Long userId = testUser.getUserId();
+        String userToken = testUser.getToken();
 
         lobbyService.createLobby(testLobby);
 
         lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
-        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken()));
+        assertThrows(ResponseStatusException.class, () -> lobbyService.addMember(lobbyId, userId, userToken));
     }
     @Test
     void removeMember_lobbyIsNotEmpty() {
@@ -471,7 +475,7 @@ class LobbyServiceIntegrationTest {
 
         assertFalse(createdLobby.isLobbyEmpty());
         assertFalse(createdLobby.isLobbyFull());
-        assertEquals(createdLobby.getLobbyMembersCount(), 2);
+        assertEquals(2, createdLobby.getLobbyMembersCount());
 
         lobbyService.removeMember(testLobby.getLobbyId(), testUser2.getUserId(), testUser2.getToken());
         createdLobby = lobbyRepository.findByLobbyId(createdLobby.getLobbyId());
@@ -484,7 +488,7 @@ class LobbyServiceIntegrationTest {
 
         assertFalse(createdLobby.isLobbyEmpty());
         assertFalse(createdLobby.isLobbyFull());
-        assertEquals(createdLobby.getLobbyMembersCount(), 1);
+        assertEquals(1, createdLobby.getLobbyMembersCount());
 
         assertThrows(ResponseStatusException.class, () -> lobbyService.getMember(testLobby, testUser2));
 
@@ -526,11 +530,13 @@ class LobbyServiceIntegrationTest {
 
         assertFalse(createdLobby.isLobbyEmpty());
         assertFalse(createdLobby.isLobbyFull());
-        assertEquals(createdLobby.getLobbyMembersCount(), 1);
+        assertEquals(1, createdLobby.getLobbyMembersCount());
 
         lobbyService.removeMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
 
-        assertThrows(ResponseStatusException.class, () -> lobbyService.getLobby(testLobby.getLobbyId()));
+        Long lobbyId = testLobby.getLobbyId();
+
+        assertThrows(ResponseStatusException.class, () -> lobbyService.getLobby(lobbyId));
     }
 
     @Test
@@ -605,58 +611,6 @@ class LobbyServiceIntegrationTest {
                 .usingRecursiveComparison()
                 .isEqualTo(testSports);
     }
-
-    //commented out because the failing tests are blocking the deployment to sonarcloud
-//    @Test
-//    void setLocations() {
-//        assertTrue(lobbyRepository.findAll().isEmpty());
-//        assertTrue(userRepository.findAll().isEmpty());
-//        assertTrue(memberRepository.findAll().isEmpty());
-//
-//        User testUser = new User();
-//
-//        testUser.setEmail("testName");
-//        testUser.setUsername("testUsername");
-//        testUser.setPassword("testPassword");
-//
-//        userRepository.save(testUser);
-//
-//        Lobby testLobby = new Lobby();
-//
-//        testLobby.setLobbyName("testName");
-//        testLobby.setLobbyMaxMembers(10);
-//        testLobby.setLobbyRegion("Zurich");
-//        testLobby.setLobbyTimeLimit(10);
-//        testLobby.setHostMemberId(testUser.getUserId());
-//
-//
-//        Location testLocation = new Location();
-//        testLocation.setLongitude(0.0);
-//        testLocation.setLatitude(0.0);
-//
-//        testLobby = lobbyService.createLobby(testLobby);
-//
-//        Member testMember = lobbyService.addMember(testLobby.getLobbyId(), testUser.getUserId(), testUser.getToken());
-//        testLocation.setMemberId(testMember.getMemberId());
-//
-//
-//        lobbyService.addLobbyLocation(testLobby.getLobbyId(), testLocation);
-//
-//        List<String> testLocations = new ArrayList<>();
-//        testLocations.add("0.0,0.0");
-//
-//        lobbyService.setLocations(testLobby.getLobbyId(), testMember.getMemberId(), testLocations);
-//
-//        testLocation = locationRepository.findByLocationId(testLocation.getLocationId());
-//        testMember = lobbyService.getMemberById(testMember.getMemberId());
-//        Location memberLocation = testMember.getSelectedLocations().get(0);
-//
-//        assertEquals(memberLocation.getLocationId(), testLocation.getLocationId());
-//        assertEquals(memberLocation.getMemberId(), testLocation.getMemberId());
-//        assertEquals(memberLocation.getLongitude(), testLocation.getLongitude());
-//        assertEquals(memberLocation.getLatitude(), testLocation.getLatitude());
-//        assertEquals(memberLocation.getLocationType(), testLocation.getLocationType());
-//    }
 
     @Test
     void setDates() {
@@ -741,17 +695,12 @@ class LobbyServiceIntegrationTest {
 
         locationRepository.save(location);
 
-
-        List<String> locations = new ArrayList<>();
-        locations.add("0.0,0.0");
-
         List<String> sports = new ArrayList<>();
         sports.add("Football");
 
         lobbyService.setDates(testLobby.getLobbyId(), testMember.getMemberId(), dates);
         lobbyService.setSports(testLobby.getLobbyId(), testMember.getMemberId(), sports);
-        //lobbyService.addLobbyLocation(testLobby.getLobbyId(),location);
-        //lobbyService.setLocations(testLobby.getLobbyId(), testMember.getMemberId(), locations);
+
         lobbyService.addLobbyLocationVote(testLobby.getLobbyId(), testMember.getMemberId(), location.getLocationId());
 
 
@@ -792,9 +741,11 @@ class LobbyServiceIntegrationTest {
 
         Member testMember = lobbyService.getMember(testLobby, testUser);
 
+        Long lobbyId = testLobby.getLobbyId();
+        Long memberId = testMember.getMemberId();
 
 
-        assertThrows(ResponseStatusException.class, () -> lobbyService.lockSelections(testLobby.getLobbyId(), testMember.getMemberId()));
+        assertThrows(ResponseStatusException.class, () -> lobbyService.lockSelections(lobbyId, memberId));
 
     }
 
@@ -922,7 +873,7 @@ class LobbyServiceIntegrationTest {
 
         Location addedLocation = locationRepository.findByLocationId(testLocation.getLocationId());
 
-        assertEquals(addedLocation.getMemberVotes(), 0);
+        assertEquals(0, addedLocation.getMemberVotes());
         assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
         assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
         assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
@@ -934,7 +885,7 @@ class LobbyServiceIntegrationTest {
         createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
         addedMember = lobbyService.getMember(createdLobby, testUser);
 
-        assertEquals(addedLocation.getMemberVotes(), 1);
+        assertEquals(1, addedLocation.getMemberVotes());
         assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
         assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
         assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
@@ -974,7 +925,11 @@ class LobbyServiceIntegrationTest {
 
         Lobby finalCreatedLobby = createdLobby;
         Member finalAddedMember = addedMember;
-        assertThrows(ResponseStatusException.class, () -> lobbyService.addLobbyLocationVote(finalCreatedLobby.getLobbyId(), finalAddedMember.getMemberId(), 1L));
+
+        Long lobbyId = finalCreatedLobby.getLobbyId();
+        Long memberId = finalAddedMember.getMemberId();
+
+        assertThrows(ResponseStatusException.class, () -> lobbyService.addLobbyLocationVote(lobbyId, memberId, 1L));
     }
 
     @Test
@@ -1016,7 +971,7 @@ class LobbyServiceIntegrationTest {
 
         Location addedLocation = locationRepository.findByLocationId(testLocation.getLocationId());
 
-        assertEquals(addedLocation.getMemberVotes(), 0);
+        assertEquals(0, addedLocation.getMemberVotes());
         assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
         assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
         assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
@@ -1028,7 +983,7 @@ class LobbyServiceIntegrationTest {
         createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
         addedMember = lobbyService.getMember(createdLobby, testUser);
 
-        assertEquals(addedLocation.getMemberVotes(), 1);
+        assertEquals(1, addedLocation.getMemberVotes());
         assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
         assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
         assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
@@ -1040,7 +995,7 @@ class LobbyServiceIntegrationTest {
         createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
         addedMember = lobbyService.getMember(createdLobby, testUser);
 
-        assertEquals(addedLocation.getMemberVotes(), 0);
+        assertEquals(0, addedLocation.getMemberVotes());
         assertEquals(addedLocation.getLongitude(), testLocation.getLongitude());
         assertEquals(addedLocation.getLatitude(), testLocation.getLatitude());
         assertEquals(addedLocation.getLobbyId(), createdLobby.getLobbyId());
@@ -1080,7 +1035,11 @@ class LobbyServiceIntegrationTest {
 
         Lobby finalCreatedLobby = createdLobby;
         Member finalAddedMember = addedMember;
-        assertThrows(ResponseStatusException.class, () -> lobbyService.removeLobbyLocationVote(finalCreatedLobby.getLobbyId(), finalAddedMember.getMemberId(), 1L));
+
+        Long lobbyId = finalCreatedLobby.getLobbyId();
+        Long memberId = finalAddedMember.getMemberId();
+
+        assertThrows(ResponseStatusException.class, () -> lobbyService.removeLobbyLocationVote(lobbyId, memberId, 1L));
     }
 
     @Test
