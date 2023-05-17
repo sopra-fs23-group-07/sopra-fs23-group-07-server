@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs23.service;
 import ch.uzh.ifi.hase.soprafs23.entity.*;
 import ch.uzh.ifi.hase.soprafs23.repository.*;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.LobbyGetDTO;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.MessageDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -24,10 +25,8 @@ class LobbyServiceTest {
 
     @Mock
     private LobbyRepository lobbyRepository;
-
     @Mock
     private UserRepository userRepository;
-
     @Mock
     private MemberRepository memberRepository;
     @Mock
@@ -36,7 +35,7 @@ class LobbyServiceTest {
     private TimerRepository timerRepository;
     @Mock
     private ParticipantRepository participantRepository;
-
+    @Mock MessageRepository messageRepository;
     @Mock
     LocationRepository locationRepository;
 
@@ -217,7 +216,8 @@ class LobbyServiceTest {
 
     @Test
     void getMemberById_memberDoesNotExist_throwsException() {
-        assertThrows(ResponseStatusException.class, () -> lobbyService.getMemberById(testMember.getMemberId()));
+        Long memberId = testMember.getMemberId();
+        assertThrows(ResponseStatusException.class, () -> lobbyService.getMemberById(memberId));
     }
 
     @Test
@@ -276,7 +276,7 @@ class LobbyServiceTest {
 
         assertEquals(testLobby.getLobbyMembers(), members);
         assertFalse(testLobby.isLobbyEmpty());
-        assertEquals(testLobby.getLobbyMembersCount(), 1);
+        assertEquals(1, testLobby.getLobbyMembersCount());
 
     }
 
@@ -295,7 +295,7 @@ class LobbyServiceTest {
 
         assertEquals(testLobby.getLobbyMembers(), members);
         assertTrue(testLobby.isLobbyEmpty());
-        assertEquals(testLobby.getLobbyMembersCount(), 0);
+        assertEquals(0, testLobby.getLobbyMembersCount());
 
     }
 
@@ -325,25 +325,6 @@ class LobbyServiceTest {
         assertEquals(member.getMemberId(), testMember.getMemberId());
         assertEquals(member.getLobbyId(), testMember.getLobbyId());
         assertEquals(member.getSelectedSports(), testMember.getSelectedSports());
-
-    }
-
-    @Test
-    void setLocations() {
-        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
-        Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
-
-        List<String> testLocations = new ArrayList<>();
-        testLocations.add("0.0,0.0");
-
-        testMember.setSelectedLocations(new ArrayList<>());
-
-        testLobby.addLobbyMember(testMember);
-
-        lobbyService.setLocations(testLobby.getLobbyId(), testMember.getMemberId(), testLocations);
-
-        assertEquals(testMember.getSelectedLocations().get(0).getLatitude(), 0.0);
-        assertEquals(testMember.getSelectedLocations().get(0).getLongitude(), 0.0);
 
     }
 
@@ -443,7 +424,7 @@ class LobbyServiceTest {
         lobbyService.addLobbyLocationVote(testLobby.getLobbyId(), testMember.getMemberId(), testLocation.getLocationId());
 
         Location location = testLobby.getLobbyLocations().get(0);
-        assertEquals(location.getMemberVotes(), 1);
+        assertEquals(1, location.getMemberVotes());
 
     }
 
@@ -465,7 +446,7 @@ class LobbyServiceTest {
 
         lobbyService.removeLobbyLocationVote(testLobby.getLobbyId(), testMember.getMemberId(), testLocation.getLocationId());
 
-        assertEquals(testLocation.getMemberVotes(), 0);
+        assertEquals(0, testLocation.getMemberVotes());
     }
 
     @Test
@@ -577,5 +558,29 @@ class LobbyServiceTest {
         assertEquals("Zurich", testEvent[0].getEventRegion());
 
         assertTrue(result.isHaveAllMembersLockedSelections());
+    }
+    @Test
+    void addLobbyMessage() {
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setMessage("Hello");
+        messageDTO.setUsername("User");
+
+        Message message = new Message();
+        message.setLobbyId(testLobby.getLobbyId());
+        message.setUsername(testUser.getUsername());
+        message.setLobbyMessage(messageDTO.getMessage());
+
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
+        Mockito.when(memberRepository.findByLobbyAndUser(Mockito.any(), Mockito.any())).thenReturn(Optional.ofNullable(testMember));
+        Mockito.when(userRepository.findByUserId(Mockito.any())).thenReturn((testUser));
+
+        Mockito.when(messageRepository.save(Mockito.any())).thenReturn(message);
+
+        testLobby.addLobbyMember(testMember);
+        lobbyService.addLobbyMessage(testLobby.getLobbyId(), testUser.getUserId(), messageDTO);
+
+        assertFalse(testLobby.getLobbyChat().isEmpty());
+        assertEquals(message.getLobbyMessage(), testLobby.getLobbyChat().get(0).getLobbyMessage());
+        assertEquals(message.getUsername(), testLobby.getLobbyChat().get(0).getUsername());
     }
 }

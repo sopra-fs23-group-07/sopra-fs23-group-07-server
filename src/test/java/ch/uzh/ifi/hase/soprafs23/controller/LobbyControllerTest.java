@@ -378,7 +378,50 @@ class LobbyControllerTest {
                 .andExpect(jsonPath("$.lobbyLocationDTOs[0].lobbyId", is(Math.toIntExact(lobby.getLobbyId()))))
                 .andExpect(jsonPath("$.lobbyLocationDTOs[0].longitude", is(lobbyLocationDTO.getLongitude())))
                 .andExpect(jsonPath("$.lobbyLocationDTOs[0].latitude", is(lobbyLocationDTO.getLatitude())));
+    }
+    @Test
+    void givenLobbyAndLocation_removeLobbyLocation_thenReturnsJsonArray() throws Exception {
+        LobbyLocationDTO lobbyLocationDTO = new LobbyLocationDTO();
+        lobbyLocationDTO.setLobbyId(lobby.getLobbyId());
+        lobbyLocationDTO.setMemberId(member.getMemberId());
+        lobbyLocationDTO.setLatitude(0.0);
+        lobbyLocationDTO.setLongitude(0.0);
 
+
+        Location location = new Location();
+        location.setLobbyId(lobby.getLobbyId());
+        location.setMemberId(member.getMemberId());
+        location.setLatitude(0.0);
+        location.setLongitude(0.0);
+
+        Lobby lobbyWithLocation = lobby;
+        lobbyWithLocation.addLobbyLocation(location);
+
+        given(lobbyService.getLobby(anyLong())).willReturn(lobbyWithLocation);
+
+        MockHttpServletRequestBuilder postRequest = post("/lobbies/{lobbyId}/locations", lobby.getLobbyId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(lobbyLocationDTO));
+
+        // then
+        mockMvc.perform(postRequest).andExpect(status().isCreated())
+                .andExpect(jsonPath("$.lobbyName", is(lobby.getLobbyName())))
+                .andExpect(jsonPath("$.lobbyMaxMembers", is(lobby.getLobbyMaxMembers())))
+                .andExpect(jsonPath("$.lobbyRegion", is(lobby.getLobbyRegion())))
+                .andExpect(jsonPath("$.lobbyTimeLimit", is(lobby.getLobbyTimeLimit())))
+                .andExpect(jsonPath("$.lobbyId", is(Math.toIntExact(lobby.getLobbyId()))))
+                .andExpect(jsonPath("$.lobbyLocationDTOs[0].memberId", is(Math.toIntExact(member.getMemberId()))))
+                .andExpect(jsonPath("$.lobbyLocationDTOs[0].lobbyId", is(Math.toIntExact(lobby.getLobbyId()))))
+                .andExpect(jsonPath("$.lobbyLocationDTOs[0].longitude", is(lobbyLocationDTO.getLongitude())))
+                .andExpect(jsonPath("$.lobbyLocationDTOs[0].latitude", is(lobbyLocationDTO.getLatitude())));
+        //delete lobby location
+
+        MemberLocationDTO memberLocationDTO = new MemberLocationDTO();
+        memberLocationDTO.setMemberId(member.getMemberId());
+        MockHttpServletRequestBuilder deleteRequest = delete("/lobbies/{lobbyId}/locations", lobby.getLobbyId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(memberLocationDTO));
+        mockMvc.perform(deleteRequest).andExpect(status().isOk());
     }
 
     @Test

@@ -58,12 +58,12 @@ public class LobbyController {
   public MemberDTO createLobby(@RequestBody LobbyPostDTO lobbyPostDTO) {
     // convert API user to internal representation
     Lobby lobbyInput = DTOMapper.INSTANCE.convertLobbyPostDTOtoEntity(lobbyPostDTO);
-
+    //validate user
     lobbyService.getUser(lobbyPostDTO.getHostMemberId(), lobbyPostDTO.getHostMemberToken());
 
-    lobbyService.createLobby(lobbyInput);
+    Lobby newLobby = lobbyService.createLobby(lobbyInput);
 
-    Member lobbyCreator = lobbyService.addMember(lobbyInput.getLobbyId(), lobbyPostDTO.getHostMemberId(), lobbyPostDTO.getHostMemberToken());
+    Member lobbyCreator = lobbyService.addMember(newLobby.getLobbyId(), lobbyPostDTO.getHostMemberId(), lobbyPostDTO.getHostMemberToken());
 
     // convert internal representation of user back to API
     return DTOMapper.INSTANCE.convertEntityToMemberDTO(lobbyCreator);

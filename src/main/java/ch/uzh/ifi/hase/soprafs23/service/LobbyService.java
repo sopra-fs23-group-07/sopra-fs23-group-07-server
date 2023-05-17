@@ -91,15 +91,7 @@ public class LobbyService {
                     eventRepository.save(event);
                 }
 
-                //Location eventLocation = lobby.getDecidedLocation();
-                //eventLocation.setEventId(event.getEventId());
-
                 event.getEventLocation().setEventId(event.getEventId());
-
-                //eventLocation = locationRepository.save(eventLocation);
-                //locationRepository.flush();
-
-                //event.setEventLocation(eventLocation);
 
                 event = eventRepository.save(event);
                 eventRepository.flush();
@@ -110,11 +102,7 @@ public class LobbyService {
 
                 log.debug("Created Information for Event: {}", event);
             }
-
             lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
-            //lobbyGetDTO.setCreatedEventId(event.getEventId());
-
-
         }
         return lobbyGetDTO;
     }
@@ -128,7 +116,7 @@ public class LobbyService {
                     , messageDTO.getUsername()));
         }
 
-        Member member = getMember(lobby, user);
+        getMember(lobby, user);
 
         Message message = new Message();
 
@@ -270,29 +258,7 @@ public class LobbyService {
 
         return member;
     }
-    //to remove
-    public void setLocations(Long lobbyId, Long memberId, List<String> selectedLocations) {
 
-        Member member = getMemberById(memberId);
-        List<Location> locations = new ArrayList<>();
-        for (String string : selectedLocations) {
-            String[] coordinates = string.split(",");
-            String longitudeString = coordinates[0];
-            String latitudeString = coordinates[1];
-
-            double longitude = Double.parseDouble(longitudeString);
-            double latitude = Double.parseDouble(latitudeString);
-
-            Location location = new Location();
-            location.setLongitude(longitude);
-            location.setLatitude(latitude);
-            location.setAddress(string);
-
-            locations.add(location);
-            locationRepository.save(location);
-        }
-        member.setSelectedLocations(locations);
-    }
     public Member setDates(Long lobbyId, Long memberId, List<String> selectedDates) {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
@@ -364,11 +330,7 @@ public class LobbyService {
         member.setSuggestedLocation(null);
     }
     public void addLobbyLocationVote(Long lobbyId, Long memberId, Long locationId) {
-        Location location = locationRepository.findByLocationId(locationId);
-        if (location == null) {
-            String baseErrorMessage = "The %s provided %s not found";
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "locationId", "was"));
-        }
+        Location location = getLocation(locationId);
         Member member = getMemberById(memberId);
         Lobby lobby = getLobby(lobbyId);
         checkIfIsMemberOfLobby(lobby, member);
@@ -383,11 +345,7 @@ public class LobbyService {
         memberRepository.save(member);
     }
     public void removeLobbyLocationVote(Long lobbyId, Long memberId, Long locationId) {
-        Location location = locationRepository.findByLocationId(locationId);
-        if (location == null) {
-            String baseErrorMessage = "The %s provided %s not found";
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "locationId", "was"));
-        }
+        Location location = getLocation(locationId);
         Member member = getMemberById(memberId);
         Lobby lobby = getLobby(lobbyId);
         checkIfIsMemberOfLobby(lobby, member);
@@ -398,6 +356,14 @@ public class LobbyService {
         locationRepository.save(location);
         lobbyRepository.save(lobby);
         memberRepository.save(member);
+    }
+    private Location getLocation(Long locationId) {
+        Location location = locationRepository.findByLocationId(locationId);
+        if (location == null) {
+            String baseErrorMessage = "The %s provided %s not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "locationId", "was"));
+        }
+        return location;
     }
     private void checkIfIsMemberOfLobby(Lobby lobby, Member member) {
         List<Member> members = lobby.getLobbyMembers();
@@ -411,7 +377,6 @@ public class LobbyService {
         if (lobby.hasTimerRunOut()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Timer has expired");
         }
-
     }
     public List<Lobby> getLobbies() {
         List<Lobby> lobbies = this.lobbyRepository.findAll();

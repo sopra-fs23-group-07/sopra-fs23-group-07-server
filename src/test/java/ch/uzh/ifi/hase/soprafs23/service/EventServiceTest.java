@@ -99,7 +99,7 @@ class EventServiceTest {
     @Test
     void getEvent_eventFound() {
         // Set up mock repository to return the test Event object when finding event by ID
-        when(eventRepository.findByEventId(1L)).thenReturn(Optional.of(testEvent));
+        when(eventRepository.findByEventId(1L)).thenReturn(testEvent);
 
         // Call the method under test and verify that the returned Event object matches the test Event object
         Event foundEvent = eventService.getEvent(1L);
@@ -112,7 +112,7 @@ class EventServiceTest {
     @Test
     void getEvent_eventNotFound() {
         // Set up mock repository to return null when finding event by ID
-        when(eventRepository.findByEventId(1L)).thenReturn(Optional.empty());
+        when(eventRepository.findByEventId(1L)).thenReturn(null);
 
         // Call the method under test and expect a ResponseStatusException
         assertThrows(ResponseStatusException.class, () -> eventService.getEvent(1L));
@@ -195,7 +195,7 @@ class EventServiceTest {
     void addParticipant_ShouldAddParticipantToEventAndUser() {
 
         // Mock the necessary method calls
-        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(java.util.Optional.of(testEvent));
+        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(testEvent);
         when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
 
         // Call the method to be tested
@@ -222,7 +222,7 @@ class EventServiceTest {
     }
     @Test
     void addParticipant_eventIsFull_throwsException() {
-        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(Optional.of(testEvent));
+        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(testEvent);
         when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
         testEvent.setEventMaxParticipants(1);
         eventService.addParticipant(testEvent.getEventId(), testUser.getUserId(), testUser.getToken());
@@ -239,7 +239,7 @@ class EventServiceTest {
     }
     @Test
     void addParticipant_wrongToken_throwsException() {
-        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(Optional.of(testEvent));
+        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(testEvent);
         when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
@@ -257,7 +257,7 @@ class EventServiceTest {
     @Test
     void removeParticipant_ShouldRemoveParticipantFromEventAndUser() {
         // Mock the necessary method calls
-        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(java.util.Optional.of(testEvent));
+        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(testEvent);
         when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
 
         // Create a participant and add it to the testEvent's set of participants
@@ -278,7 +278,7 @@ class EventServiceTest {
     @Test
     void deleteEvent_ShouldDeleteEvent() {
         // Mock the necessary method calls
-        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(java.util.Optional.of(testEvent));
+        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(testEvent);
 
         // Call the method to be tested
         eventService.deleteEvent(testEvent.getEventId());
@@ -295,7 +295,7 @@ class EventServiceTest {
     @Test
     void addParticipant_userIsAlreadyParticipant_throwsException() {
         // Mock the behavior of the eventRepository
-        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(Optional.of(testEvent));
+        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(testEvent);
 
         // Mock the behavior of the userRepository
         when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);

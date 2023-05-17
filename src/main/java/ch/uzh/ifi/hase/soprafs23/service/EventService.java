@@ -62,12 +62,12 @@ public class EventService {
     }
 
     public Event getEvent(long eventId) {
-        Optional<Event> eventToFind = eventRepository.findByEventId(eventId);
-        if (eventToFind.isEmpty()) {
+        Event eventToFind = eventRepository.findByEventId(eventId);
+        if (eventToFind == null) {
             String baseErrorMessage = "The %s provided %s not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "eventId", "was"));
         }
-        return eventToFind.get();
+        return eventToFind;
     }
     public User getUser(long userId, String token) {
         User userToFind = userRepository.findByUserId(userId);
