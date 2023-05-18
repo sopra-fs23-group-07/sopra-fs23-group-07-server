@@ -6,6 +6,7 @@ import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.EventRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.ParticipantRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs23.util.UserUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,14 +35,17 @@ public class EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final ParticipantRepository participantRepository;
+    private final UserUtil userUtil;
 
     @Autowired
     public EventService(@Qualifier("eventRepository") EventRepository eventRepository,
                         @Qualifier("userRepository") UserRepository userRepository,
-                        @Qualifier("participantRepository") ParticipantRepository participantRepository){
+                        @Qualifier("participantRepository") ParticipantRepository participantRepository,
+                        UserUtil userUtil){
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
         this.participantRepository = participantRepository;
+        this.userUtil = userUtil;
     }
 
     public List<Event> getEvents() {
@@ -48,6 +53,9 @@ public class EventService {
     }
 
     public Event createEvent(Event newEvent) {
+        if (newEvent.getEventDate().isBefore(LocalDateTime.now())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please choose event date in the future.");
+        }
         if (newEvent.getEventMaxParticipants() > 30) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Maximum number of event participants cannot exceed 30 people.");
         }
@@ -69,17 +77,7 @@ public class EventService {
         }
         return eventToFind;
     }
-    public User getUser(long userId, String token) {
-        User userToFind = userRepository.findByUserId(userId);
-        if (userToFind == null) {
-            String baseErrorMessage = "The %s provided %s not found";
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "userId", "was"));
-        }
-        if (!userToFind.getToken().equals(token)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "userToken is not valid");
-        }
-        return userToFind;
-    }
+
     public Participant getParticipant(Event event, User user) {
         Optional<Participant> participantToFind = participantRepository.findByEventAndUser(event, user);
         if (participantToFind.isEmpty()) {
@@ -91,7 +89,7 @@ public class EventService {
 
     public void addParticipant(long eventId, long userId, String token) {
         Event event = getEvent(eventId);
-        User databaseUser = getUser(userId, token);
+        User databaseUser = userUtil.getUser(userId, token);
         if (event.eventIsFull()) {
             String baseErrorMessage = "The %s provided %s full";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "Event", "is"));
@@ -111,7 +109,7 @@ public class EventService {
 
     public void removeParticipant(long eventId, long userId, String token) {
         Event event = getEvent(eventId);
-        User databaseUser = getUser(userId, token);
+        User databaseUser = userUtil.getUser(userId, token);
         Participant participant = getParticipant(event, databaseUser);
 
         event.removeEventParticipant(participant);

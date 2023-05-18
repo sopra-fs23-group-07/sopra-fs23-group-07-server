@@ -7,6 +7,7 @@ import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.EventRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.ParticipantRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs23.util.UserUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -29,7 +30,8 @@ class EventServiceTest {
     private UserRepository userRepository;
     @Mock
     private ParticipantRepository participantRepository;
-
+    @Mock
+    private UserUtil userUtil;
     @InjectMocks
     private EventService eventService;
 
@@ -51,7 +53,7 @@ class EventServiceTest {
         testEvent.setEventId(1L);
         testEvent.setEventName("TestEvent");
         testEvent.setEventLocation(location);
-        testEvent.setEventDate(LocalDateTime.parse("2023-05-05T18:00"));
+        testEvent.setEventDate(LocalDateTime.parse("2030-05-05T18:00"));
         testEvent.setEventSport("Soccer");
         testEvent.setEventRegion("ZH");
         testEvent.setEventMaxParticipants(10);
@@ -62,6 +64,7 @@ class EventServiceTest {
         // testEvent
         when(eventRepository.save(Mockito.any())).thenReturn(testEvent);
         when(userRepository.save(Mockito.any())).thenReturn(testUser);
+        when(userUtil.getUser(testUser.getUserId(), testUser.getToken())).thenReturn(testUser);
     }
     @Test
     void getEvents_ShouldReturnListOfEvents() {
@@ -119,35 +122,6 @@ class EventServiceTest {
 
         // Verify that the repository was called with the correct ID
         verify(eventRepository, Mockito.times(1)).findByEventId(1L);
-    }
-    @Test
-    void getUser_userFound() {
-        // Set up mock repository to return a User with ID 1 when finding by ID
-        User mockUser = new User();
-        mockUser.setUserId(1L);
-        mockUser.setToken("token");
-        when(userRepository.findByUserId(1L)).thenReturn(mockUser);
-
-        // Call the method under test
-        User result = eventService.getUser(1L, "token");
-
-        // Verify that the repository was called with the correct ID
-        verify(userRepository, Mockito.times(1)).findByUserId(1L);
-
-        // Verify that the result matches the mock User
-        assertEquals(mockUser, result);
-    }
-
-    @Test
-    void getUser_userNotFound() {
-        // Set up mock repository to return null when finding a User by ID
-        when(userRepository.findByUserId(1L)).thenReturn(null);
-
-        // Call the method under test and expect a ResponseStatusException
-        assertThrows(ResponseStatusException.class, () -> eventService.getUser(1L, "token"));
-
-        // Verify that the repository was called with the correct ID
-        verify(userRepository, Mockito.times(1)).findByUserId(1L);
     }
 
     @Test
@@ -241,31 +215,12 @@ class EventServiceTest {
         // Verify that the participant was not added to the event
         assertEquals(1, testEvent.getEventParticipants().size());
     }
-    @Test
-    void addParticipant_wrongToken_throwsException() {
-        when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(testEvent);
-        when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
-
-        Long eventId = testEvent.getEventId();
-        Long userId = testUser.getUserId();
-
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
-                eventService.addParticipant(eventId, userId, "wrongToken"));
-
-        // Verify that the exception message contains the expected error message
-        String expectedErrorMessage = "userToken is not valid";
-        assertTrue(Objects.requireNonNull(exception.getReason()).contains(expectedErrorMessage));
-
-        // Verify that the participant was not added to the event
-        assertEquals(0, testEvent.getEventParticipants().size());
-    }
-
 
     @Test
     void removeParticipant_ShouldRemoveParticipantFromEventAndUser() {
         // Mock the necessary method calls
         when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(testEvent);
-        when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
+        when(userUtil.getUser(testUser.getUserId(), testUser.getToken())).thenReturn(testUser);
 
         // Create a participant and add it to the testEvent's set of participants
         Participant testParticipant = new Participant();
@@ -295,9 +250,8 @@ class EventServiceTest {
     }
     @Test
     void moreThan30Members() {
-        Event event = new Event();
-        event.setEventMaxParticipants(31);
-        assertThrows(ResponseStatusException.class, () -> eventService.createEvent(event));
+        testEvent.setEventMaxParticipants(31);
+        assertThrows(ResponseStatusException.class, () -> eventService.createEvent(testEvent));
     }
     @Test
     void addParticipant_userIsAlreadyParticipant_throwsException() {
@@ -305,7 +259,7 @@ class EventServiceTest {
         when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(testEvent);
 
         // Mock the behavior of the userRepository
-        when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
+        when(userUtil.getUser(testUser.getUserId(), testUser.getToken())).thenReturn(testUser);
 
         // Create an event and add the user as a participant
         Event createdEvent = eventService.createEvent(testEvent);

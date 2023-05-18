@@ -6,6 +6,7 @@ import ch.uzh.ifi.hase.soprafs23.entity.Member;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs23.service.LobbyService;
+import ch.uzh.ifi.hase.soprafs23.util.UserUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +26,11 @@ public class LobbyController {
 
   private final LobbyService lobbyService;
 
-    LobbyController(LobbyService lobbyService) {
+  private final UserUtil userUtil;
+
+  LobbyController(LobbyService lobbyService, UserUtil userUtil) {
       this.lobbyService = lobbyService;
+      this.userUtil = userUtil;
     }
 
   @GetMapping("")
@@ -59,7 +63,7 @@ public class LobbyController {
     // convert API user to internal representation
     Lobby lobbyInput = DTOMapper.INSTANCE.convertLobbyPostDTOtoEntity(lobbyPostDTO);
     //validate user
-    lobbyService.getUser(lobbyPostDTO.getHostMemberId(), lobbyPostDTO.getHostMemberToken());
+    userUtil.getUser(lobbyPostDTO.getHostMemberId(), lobbyPostDTO.getHostMemberToken());
 
     Lobby newLobby = lobbyService.createLobby(lobbyInput);
 

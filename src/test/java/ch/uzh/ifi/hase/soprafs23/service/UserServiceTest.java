@@ -3,21 +3,19 @@ package ch.uzh.ifi.hase.soprafs23.service;
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs23.util.UserUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -25,6 +23,8 @@ class UserServiceTest {
 
   @Mock
   private UserRepository userRepository;
+  @Mock
+  private UserUtil userUtil;
 
   @InjectMocks
   private UserService userService;
@@ -169,46 +169,6 @@ class UserServiceTest {
     }
 
     @Test
-    void getUser_ShouldThrowExceptionWhenUnknownUser() {
-
-        // Mock the UserRepository to return a 404 NOT FOUND response when getUser is called with an unknown user ID
-        when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
-
-        Long userId = testUser.getUserId();
-        String userToken = testUser.getToken();
-
-        // Call the method to be tested
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-                () -> userService.getUser(userId, userToken));
-
-        // Verify that the exception has a 404 NOT FOUND status code
-        assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
-    }
-    @Test
-    void getUser_ShouldReturnUserById() {
-
-        when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
-
-        // Call the method to be tested
-        User retrievedUser = userService.getUser(testUser.getUserId(), testUser.getToken());
-
-        // Assert that the captured user ID matches the ID of the test user
-        assertEquals(testUser.getUserId(), retrievedUser.getUserId());
-        // Assert that the returned user is the same as the test user
-        assertEquals(testUser, retrievedUser);
-    }
-    @Test
-    void getUser_UserNotFound() {
-
-        when(userRepository.findByUserId(testUser.getUserId())).thenReturn(null);
-
-        Long userId = testUser.getUserId();
-        String userToken = testUser.getToken();
-
-        // Call the method to be tested and assert that it throws the expected exception
-        assertThrows(ResponseStatusException.class, () -> userService.getUser(userId, userToken));
-    }
-    @Test
     void logoutUser_ShouldSetUserStatusToOffline() {
 
         // Mock the necessary method call
@@ -234,7 +194,7 @@ class UserServiceTest {
         inputUser.setBirthdate(LocalDate.parse("2000-05-05"));
 
         // Mock the necessary method calls
-        when(userRepository.findByUserId(inputUser.getUserId())).thenReturn(testUser);
+        when(userUtil.getUser(inputUser.getUserId(), inputUser.getToken())).thenReturn(testUser);
 
         // Call the method to be tested
         userService.updateUser(inputUser);
@@ -260,7 +220,7 @@ class UserServiceTest {
         inputUser.setToken("token");
 
         // Mock the necessary method calls
-        when(userRepository.findByUserId(inputUser.getUserId())).thenReturn(testUser);
+        when(userUtil.getUser(inputUser.getUserId(), inputUser.getToken())).thenReturn(testUser);
 
         // Call the method to be tested
         userService.updateUser(inputUser);
@@ -281,9 +241,10 @@ class UserServiceTest {
         inputUser.setUserId(1L);
         inputUser.setUsername("existingUser");  // Duplicate username
         inputUser.setEmail("existing@example.com");  // Duplicate email
+        inputUser.setToken("token");
 
         // Mock the necessary method calls
-        when(userRepository.findByUserId(inputUser.getUserId())).thenReturn(testUser);
+        when(userUtil.getUser(inputUser.getUserId(), inputUser.getToken())).thenReturn(testUser);
         when(userRepository.findAll()).thenReturn(Collections.singletonList(existingUser));
 
         // Call the method to be tested and assert that it throws an exception

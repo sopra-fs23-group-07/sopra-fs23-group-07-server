@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs23.entity.*;
 import ch.uzh.ifi.hase.soprafs23.repository.*;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.LobbyGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.MessageDTO;
+import ch.uzh.ifi.hase.soprafs23.util.UserUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -38,6 +39,8 @@ class LobbyServiceTest {
     @Mock MessageRepository messageRepository;
     @Mock
     LocationRepository locationRepository;
+    @Mock
+    UserUtil userUtil;
 
     @InjectMocks
     private LobbyService lobbyService;
@@ -74,7 +77,7 @@ class LobbyServiceTest {
 
         Mockito.when(locationRepository.save(Mockito.any())).thenReturn(testLocation);
 
-
+        Mockito.when(userUtil.getUser(Mockito.anyLong(), Mockito.anyString())).thenReturn(testUser);
 
         List<LocalDateTime> selectedDates = new ArrayList<>();
         selectedDates.add(LocalDateTime.now());
@@ -174,20 +177,13 @@ class LobbyServiceTest {
     void getUser_userExists() {
         Mockito.when(userRepository.findByUserId(Mockito.anyLong())).thenReturn(testUser);
 
-        User getUser = lobbyService.getUser(testUser.getUserId(), testUser.getToken());
+        User getUser = userUtil.getUser(testUser.getUserId(), testUser.getToken());
 
         assertEquals(testUser.getUserId(), getUser.getUserId());
         assertEquals(testUser.getUsername(), getUser.getUsername());
         assertEquals(testUser.getEmail(), getUser.getEmail());
         assertEquals(testUser.getPassword(), getUser.getPassword());
 
-    }
-
-    @Test
-    void getUser_userDoesNotExist_throwsException() {
-        Long userId = testUser.getUserId();
-        String userToken = testUser.getToken();
-        assertThrows(ResponseStatusException.class, () -> lobbyService.getUser(userId, userToken));
     }
 
     @Test

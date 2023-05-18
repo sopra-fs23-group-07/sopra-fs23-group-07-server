@@ -48,8 +48,8 @@ public class User implements Serializable {
   private Long avatar;
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Participant> participants = new ArrayList<>();
-  //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  //private List<Member> members = new ArrayList<>();
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Member> members = new ArrayList<>();
   @ManyToMany(mappedBy = "lobbyUsers")
   private List<Lobby> lobbies = new ArrayList<>();
   @ManyToMany(mappedBy = "eventUsers")

@@ -85,7 +85,6 @@ public interface DTOMapper {
   @Mapping(source = "lobbyId", target = "lobbyId")
   @Mapping(source = "lobbyName", target = "lobbyName")
   @Mapping(source = "lobbyMembers", target = "memberDTOs")
-  //@Mapping(source = "lobbyMembersCount", target = "lobbyMembersCount")
   @Mapping(source = "lobbyMaxMembers" , target = "lobbyMaxMembers")
   @Mapping(source = "lobbyRegion", target = "lobbyRegion")
   @Mapping(source = "lobbyTimeLimit", target = "lobbyTimeLimit")
@@ -95,7 +94,6 @@ public interface DTOMapper {
   @Mapping(source = "lobbyDecidedSport", target = "lobbyDecidedSport")
   @Mapping(source = "lobbyDecidedDate", target = "lobbyDecidedDate")
   @Mapping(source = "createdEventId", target = "createdEventId")
-  //@Mapping(source = "lobbyLocations", target = "lobbyLocationDTOs")
   @Mapping(target = "timeRemaining", ignore = true)
   LobbyGetDTO convertEntityToLobbyGetDTO(Lobby lobby);
     @BeforeMapping

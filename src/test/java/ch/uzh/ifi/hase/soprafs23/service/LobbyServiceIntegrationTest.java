@@ -8,6 +8,7 @@ import ch.uzh.ifi.hase.soprafs23.repository.LobbyRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.LocationRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.MemberRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs23.util.UserUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,8 @@ class LobbyServiceIntegrationTest {
 
   @Autowired
   private LobbyService lobbyService;
+  @Autowired
+  private UserUtil userUtil;
 
   @BeforeEach
   void setup() {
@@ -189,7 +192,7 @@ class LobbyServiceIntegrationTest {
         userRepository.save(testUser);
 
 
-        User getUser = lobbyService.getUser(testUser.getUserId(), testUser.getToken());
+        User getUser = userUtil.getUser(testUser.getUserId(), testUser.getToken());
 
         assertEquals(testUser.getUsername(), getUser.getUsername());
         assertEquals(testUser.getEmail(), getUser.getEmail());
@@ -202,7 +205,7 @@ class LobbyServiceIntegrationTest {
     void getUser_userDoesNotExist_throwsException() {
         assertTrue(userRepository.findAll().isEmpty());
 
-        assertThrows(ResponseStatusException.class, () -> lobbyService.getUser(1L, "token"));
+        assertThrows(ResponseStatusException.class, () -> userUtil.getUser(1L, "token"));
     }
 
     @Test

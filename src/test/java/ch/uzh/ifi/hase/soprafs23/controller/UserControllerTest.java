@@ -257,7 +257,6 @@ class UserControllerTest {
         mockMvc.perform(putRequest)
                 .andExpect(status().isNoContent());
 
-        given(userService.getUser(1L, "token")).willReturn(user);
 
         MockHttpServletRequestBuilder getRequest = get("/users/1").contentType(MediaType.APPLICATION_JSON);
 

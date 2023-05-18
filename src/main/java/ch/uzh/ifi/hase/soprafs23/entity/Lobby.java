@@ -5,10 +5,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Internal Lobby Representation
@@ -40,9 +37,6 @@ public class Lobby implements Serializable {
   @OneToMany(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   private List<Member> lobbyMembers = new ArrayList<>();
 
-  @Column(nullable = true)
-  private Integer lobbyMembersCount;
-
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinColumn(name = "userId", insertable = false, updatable = false)
   private List<User> lobbyUsers = new ArrayList<>();
@@ -53,8 +47,8 @@ public class Lobby implements Serializable {
   @Column(nullable = false)
   private String lobbyRegion;
 
-    @Column(nullable = true)
-    private String lobbyRegionShortCode;
+  @Column(nullable = true)
+  private String lobbyRegionShortCode;
 
   @Column(nullable = false)
   private Integer lobbyTimeLimit;
@@ -76,9 +70,6 @@ public class Lobby implements Serializable {
 
   @Column(nullable = false, unique = true)
   private String token;
-
-  @Column
-  private boolean haveAllMembersLockedSelections;
 
   @OneToOne(mappedBy = "lobby", cascade = CascadeType.ALL, orphanRemoval = true)
   private Timer timer;
@@ -114,8 +105,9 @@ public class Lobby implements Serializable {
       boolean endLobby = true;
 
       for(Member member : lobbyMembers) {
-          if(!member.getHasLockedSelections()) {
+          if (!member.getHasLockedSelections()) {
               endLobby = false;
+              break;
           }
       }
       return endLobby;
@@ -130,26 +122,17 @@ public class Lobby implements Serializable {
       return members >= 2;
   }
 
-  public void setHaveAllMembersLockedSelections(boolean haveAllMembersLockedSelections) {
-      this.haveAllMembersLockedSelections = haveAllMembersLockedSelections;
-  }
-
   public boolean hasTimerRunOut() {
       return getTimeRemaining() <= 0;
   }
 
     public String decideSport() {
-      Hashtable<String, Integer> sportsCount = new Hashtable<>();
+      HashMap<String, Integer> sportsCount = new HashMap<>();
       String selectedSport = "";
 
       for(Member member : lobbyMembers) {
           for (String sport : member.getSelectedSports()) {
-              if (sportsCount.get(sport) == null) {
-                  sportsCount.put(sport, 1);
-              }
-              else {
-                  sportsCount.put(sport, sportsCount.get(sport) + 1);
-              }
+              sportsCount.merge(sport, 1, Integer::sum);
               selectedSport = sport;
           }
       }
@@ -165,8 +148,8 @@ public class Lobby implements Serializable {
       return selectedSport;
   }
 
-  public Location decideLocation() {
-      if(lobbyLocations.isEmpty()) { return null; }
+  public void decideLocation() {
+      if(lobbyLocations.isEmpty()) { return; }
       Location selectedLocation = lobbyLocations.get(0);
       selectedLocation.setLocationType("DECIDED");
 
@@ -177,22 +160,15 @@ public class Lobby implements Serializable {
               selectedLocation.setLocationType("DECIDED");
           }
       }
-
-      return selectedLocation;
   }
 
   public LocalDateTime decideDate() {
-      Hashtable<LocalDateTime, Integer> dateCount = new Hashtable<>();
+      HashMap<LocalDateTime, Integer> dateCount = new HashMap<>();
       LocalDateTime selectedDate = LocalDateTime.now();
 
       for(Member member : lobbyMembers) {
           for (LocalDateTime date : member.getSelectedDates()) {
-              if (dateCount.get(date) == null) {
-                  dateCount.put(date, 1);
-              }
-              else {
-                  dateCount.put(date, dateCount.get(date) + 1);
-              }
+              dateCount.merge(date, 1, Integer::sum);
               selectedDate = date;
           }
       }
@@ -316,9 +292,6 @@ public class Lobby implements Serializable {
     public void setTimer(Timer timer) {
       this.timer = timer;
     }
-    public Timer getTimer() {
-      return timer;
-    }
 
     public Location getDecidedLocation() {
         for (Location location : lobbyLocations) {
@@ -331,10 +304,6 @@ public class Lobby implements Serializable {
 
     public List<Message> getLobbyChat() {
         return lobbyChat;
-    }
-
-    public void setLobbyChat(List<Message> lobbyChat) {
-        this.lobbyChat = lobbyChat;
     }
 
     public void addMessageToLobbyChat(Message message) {

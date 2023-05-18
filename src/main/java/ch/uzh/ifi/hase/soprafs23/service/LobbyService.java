@@ -6,6 +6,7 @@ import ch.uzh.ifi.hase.soprafs23.repository.*;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.LobbyGetDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.dto.MessageDTO;
 import ch.uzh.ifi.hase.soprafs23.rest.mapper.DTOMapper;
+import ch.uzh.ifi.hase.soprafs23.util.UserUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,6 @@ import java.util.*;
 public class LobbyService {
 
     private final Logger log = LoggerFactory.getLogger(LobbyService.class);
-
     private final LobbyRepository lobbyRepository;
     private final UserRepository userRepository;
     private final MemberRepository memberRepository;
@@ -38,8 +38,8 @@ public class LobbyService {
     private final EventRepository eventRepository;
     private final TimerRepository timerRepository;
     private final ParticipantRepository participantRepository;
-
     private final MessageRepository messageRepository;
+    private final UserUtil userUtil;
 
     @Autowired
     public LobbyService(@Qualifier("lobbyRepository") LobbyRepository lobbyRepository,
@@ -49,7 +49,8 @@ public class LobbyService {
                         @Qualifier("eventRepository") EventRepository eventRepository,
                         @Qualifier("timerRepository") TimerRepository timerRepository,
                         @Qualifier("participantRepository") ParticipantRepository participantRepository,
-                        @Qualifier("messageRepository") MessageRepository messageRepository) {
+                        @Qualifier("messageRepository") MessageRepository messageRepository,
+                        UserUtil userUtil) {
         this.lobbyRepository = lobbyRepository;
         this.userRepository = userRepository;
         this.memberRepository = memberRepository;
@@ -58,6 +59,7 @@ public class LobbyService {
         this.timerRepository = timerRepository;
         this.participantRepository = participantRepository;
         this.messageRepository = messageRepository;
+        this.userUtil = userUtil;
     }
 
     public LobbyGetDTO updateLobby(Lobby lobby) {
@@ -173,17 +175,6 @@ public class LobbyService {
         }
         return lobbyToFind;
     }
-    public User getUser(Long userId, String token) {
-        User userToFind = userRepository.findByUserId(userId);
-        if (userToFind == null) {
-            String baseErrorMessage = "The %s provided %s not found";
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "userId", "was"));
-        }
-        if (!userToFind.getToken().equals(token)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "userToken is not valid");
-        }
-        return userToFind;
-    }
     public Member getMember(Lobby lobby, User user) {
         Optional<Member> memberToFind = memberRepository.findByLobbyAndUser(lobby, user);
         if(memberToFind.isEmpty()) {
@@ -203,7 +194,7 @@ public class LobbyService {
 
     public Member addMember(Long lobbyId, Long userId, String token) {
         Lobby lobby = getLobby(lobbyId);
-        User databaseUser = getUser(userId, token);
+        User databaseUser = userUtil.getUser(userId, token);
         //checkIfUserIsMemberOfALobby(databaseUser); //restriction to be member of only 1 lobby
         if (lobby.isLobbyFull()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Lobby is full");
@@ -227,7 +218,7 @@ public class LobbyService {
 
     public void removeMember(Long lobbyId, Long userId, String token) {
         Lobby lobby = getLobby(lobbyId);
-        User databaseUser = getUser(userId, token);
+        User databaseUser = userUtil.getUser(userId, token);
         Member member = getMember(lobby, databaseUser);
 
         for (Location location : member.getSelectedLocations()) {
@@ -254,7 +245,6 @@ public class LobbyService {
         Member member = getMemberById(memberId);
         checkIfIsMemberOfLobby(lobby, member);
         member.setSelectedSports(selectedSports);
-
 
         return member;
     }
@@ -291,6 +281,9 @@ public class LobbyService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMessage);
         } else {
             member.setHasLockedSelections(true);
+            /**if (lobby.getLobbyMembers().size() == 1) {
+                throw new ResponseStatusException(HttpStatus.OK, "Event will only be created if at least two users locked their choices");
+            }**/
         }
         return member;
     }

@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs23.service;
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs23.util.UserUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -29,14 +30,13 @@ import java.util.*;
 @Service
 @Transactional
 public class UserService {
-
     private final Logger log = LoggerFactory.getLogger(UserService.class);
-
     private final UserRepository userRepository;
-
+    private final UserUtil userUtil;
     @Autowired
-    public UserService(@Qualifier("userRepository") UserRepository userRepository) {
+    public UserService(@Qualifier("userRepository") UserRepository userRepository, UserUtil userUtil) {
         this.userRepository = userRepository;
+        this.userUtil = userUtil;
     }
 
     public List<User> getUsers() {
@@ -123,15 +123,8 @@ public class UserService {
         return userToFind;
     }
 
-    public User getUser(long userId, String token) {
-        User userToFind = retrieveUser(userId);
-        if (!userToFind.getToken().equals(token)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "userToken is not valid");
-        }
-        return userToFind;
-    }
     public void updateUser(User inputUser) {
-        User databaseUser = getUser(inputUser.getUserId(), inputUser.getToken());
+        User databaseUser = userUtil.getUser(inputUser.getUserId(), inputUser.getToken());
 
         // Check if username and email address already exist
         if ((!Objects.equals(inputUser.getUsername(), databaseUser.getUsername())) ||
