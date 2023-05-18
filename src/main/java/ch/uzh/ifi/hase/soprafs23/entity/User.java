@@ -150,4 +150,8 @@ public class User implements Serializable {
 
     public Long getAvatar(){return avatar;}
     public void setAvatar(Long avatar){this.avatar = avatar;}
+
+    public List<Participant> getParticipants() {
+        return participants;
+    }
 }

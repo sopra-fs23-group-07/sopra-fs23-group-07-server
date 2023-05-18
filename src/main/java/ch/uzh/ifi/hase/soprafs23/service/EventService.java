@@ -94,6 +94,10 @@ public class EventService {
             String baseErrorMessage = "The %s provided %s full";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "Event", "is"));
         }
+        if (participantRepository.findByEventAndUser(event, databaseUser).isPresent()) {
+            String baseErrorMessage = "The %s provided %s already participant of this event";
+            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "userId", "is"));
+        }
         checkIfUserIsParticipantOfEvent(event, databaseUser);
         Participant participant = new Participant();
         participant.setUser(databaseUser);

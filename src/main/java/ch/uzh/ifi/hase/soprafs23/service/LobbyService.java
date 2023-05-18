@@ -70,7 +70,6 @@ public class LobbyService {
         LobbyGetDTO lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
 
         if(lobby.isAtLeastTwoMembersHaveLockedSelections() && (lobby.isHaveAllMembersLockedSelections() || lobby.hasTimerRunOut())) {
-            //Event event = checkIfEventExists(lobby.getCreatedEventId());
 
             if(lobby.getCreatedEventId() == null) {
 

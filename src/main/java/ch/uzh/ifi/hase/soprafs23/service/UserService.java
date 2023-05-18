@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
+import ch.uzh.ifi.hase.soprafs23.entity.Participant;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs23.util.UserUtil;
@@ -137,6 +138,10 @@ public class UserService {
 
         // Save the merged user object
         userRepository.save(databaseUser);
+        userRepository.flush();
+        for (Participant participant : databaseUser.getParticipants()) {
+            participant.setUser(databaseUser);
+        }
     }
 
     private String[] getNullPropertyNames(Object source) {
