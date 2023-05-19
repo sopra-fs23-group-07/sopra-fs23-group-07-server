@@ -1,14 +1,16 @@
 package ch.uzh.ifi.hase.soprafs23.rest.dto;
 
+import java.util.Set;
+
 public class LobbyLocationDTO {
     private Long memberId;
     private Long locationId;
-
     private Long lobbyId;
     private String address;
     private double longitude;
     private double latitude;
     private int memberVotes;
+    private Set<Long> memberVotesIds;
 
     public void setLobbyId(Long lobbyId) {
         this.lobbyId = lobbyId;
@@ -66,4 +68,11 @@ public class LobbyLocationDTO {
         this.locationId = locationId;
     }
 
+    public Set<Long> getMemberVotesIds() {
+        return memberVotesIds;
+    }
+
+    public void setMemberVotesIds(Set<Long> memberVotesIds) {
+        this.memberVotesIds = memberVotesIds;
+    }
 }

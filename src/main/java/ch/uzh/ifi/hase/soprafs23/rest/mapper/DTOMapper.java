@@ -173,6 +173,7 @@ public interface DTOMapper {
   default void setVotesFromMemberVotes(Location location, @MappingTarget LobbyLocationDTO dto) {
       // Call getMemberVotes() method here and set the votes field in the DTO
       dto.setMemberVotes(location.getMemberVotes());
+      dto.setMemberVotesIds(location.getMemberVotesIds());
   }
 
   default List<LobbyLocationDTO> convertEntityListToLobbyLocationDTOList(List<Location> entityList) {

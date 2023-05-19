@@ -99,6 +99,9 @@ public class Location implements Serializable {
     public int getMemberVotes() {
         return memberVotes.size();
     }
+    public Set<Long> getMemberVotesIds() {
+        return memberVotes;
+    }
 
     public void addMemberVotes(Long memberId) {
         if (!memberVotes.add(memberId)) {
