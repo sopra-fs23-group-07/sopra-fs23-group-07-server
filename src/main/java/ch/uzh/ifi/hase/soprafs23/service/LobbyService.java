@@ -105,7 +105,7 @@ public class LobbyService {
             }
             lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
         }
-        if (lobby.hasTimerRunOut()) {
+        if (!lobby.isAtLeastTwoMembersHaveLockedSelections() && lobby.hasTimerRunOut()) {
             lobby.setCreatedEventId(-1L);
         }
         return lobbyGetDTO;
@@ -212,6 +212,7 @@ public class LobbyService {
         lobby.addLobbyMember(member);
         lobby.addLobbyUser(databaseUser);
         databaseUser.addLobby(lobby);
+
         memberRepository.save(member);
         userRepository.save(databaseUser);
         lobbyRepository.save(lobby);
@@ -232,7 +233,7 @@ public class LobbyService {
         lobby.removeLobbyMember(member);
         lobby.removeLobbyUser(databaseUser);
         databaseUser.removeLobby(lobby);
-        //databaseUser.removeMember(member);
+
         memberRepository.delete(member);
         lobbyRepository.save(lobby);
         userRepository.save(databaseUser);
@@ -311,7 +312,7 @@ public class LobbyService {
                     " posted a location", member.getMemberId()));
         }
         location.setLobbyId(lobbyId);
-        //location.setMember(member);
+
         member.setSuggestedLocation(location);
 
         locationRepository.save(location);

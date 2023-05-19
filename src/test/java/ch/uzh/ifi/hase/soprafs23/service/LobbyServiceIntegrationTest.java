@@ -824,6 +824,7 @@ class LobbyServiceIntegrationTest {
         testLocation.setLongitude(0.0);
         testLocation.setLatitude(0.0);
         testLocation.setMemberId(addedMember.getMemberId());
+        testLocation.setLobbyId(createdLobby.getLobbyId());
 
         lobbyService.addLobbyLocation(testLobby.getLobbyId(), testLocation);
 
@@ -870,6 +871,7 @@ class LobbyServiceIntegrationTest {
         testLocation.setLongitude(0.0);
         testLocation.setLatitude(0.0);
         testLocation.setMemberId(addedMember.getMemberId());
+        testLocation.setLobbyId(createdLobby.getLobbyId());
 
         createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
         addedMember = lobbyService.getMember(createdLobby, testUser);
@@ -968,6 +970,7 @@ class LobbyServiceIntegrationTest {
         testLocation.setLongitude(0.0);
         testLocation.setLatitude(0.0);
         testLocation.setMemberId(addedMember.getMemberId());
+        testLocation.setLobbyId(createdLobby.getLobbyId());
 
         createdLobby = lobbyService.getLobby(createdLobby.getLobbyId());
         addedMember = lobbyService.getMember(createdLobby, testUser);
