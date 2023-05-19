@@ -111,7 +111,14 @@ class LobbyServiceTest {
         testLobby.setLobbyRegion("Zurich");
         testLobby.setLobbyTimeLimit(10);
         testLobby.setHostMemberId(1L);
+        testLobby.setLobbyTimeLimit(10);
         //testLobby.addLobbyMember(testMember);
+
+        Timer timer = new Timer();
+        timer.setStartTime(LocalDateTime.now());
+        timer.setLobby(testLobby);
+
+        testLobby.setTimer(timer);
 
         Mockito.when(lobbyRepository.save(Mockito.any())).thenReturn(testLobby);
 
@@ -357,18 +364,63 @@ class LobbyServiceTest {
     }
 
     @Test
-    void lockSelections() {
+    void lockSelections_1member() {
         Mockito.when(memberRepository.findByMemberId(Mockito.any())).thenReturn(Optional.ofNullable(testMember));
         Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
 
         testLobby.addLobbyMember(testMember);
 
-        Member member = lobbyService.lockSelections(testLobby.getLobbyId(), testMember.getMemberId());
+        Long lobbyId = testLobby.getLobbyId();
+        Long memberId = testMember.getMemberId();
 
+        assertThrows(ResponseStatusException.class, () -> lobbyService.lockSelections(lobbyId, memberId));
 
         assertTrue(testMember.getHasLockedSelections());
-        assertEquals(testMember.getMemberId(), member.getMemberId());
-        assertEquals(testMember.getLobbyId(), member.getLobbyId());
+
+    }
+    @Test
+    void lockSelections_2members() {
+        List<LocalDateTime> selectedDates = new ArrayList<>();
+        selectedDates.add(LocalDateTime.now());
+
+        List<Location> selectedLocations = new ArrayList<>();
+        selectedLocations.add(testLocation);
+
+        List<String> selectedSports = new ArrayList<>();
+        selectedSports.add("Football");
+
+        Member testMember2 = new Member();
+
+        testMember2.setMemberId(2L);
+        testMember2.setUserId(2L);
+        testMember2.setLobbyId(2L);
+        testMember2.setUser(testUser);
+        testMember2.setEmail("testEmail");
+        testMember2.setUsername("testUsername");
+        testMember2.setSelectedDates(selectedDates);
+        testMember2.setSelectedLocations(selectedLocations);
+        testMember2.setSelectedSports(selectedSports);
+
+        Mockito.when(memberRepository.findByMemberId(1L)).thenReturn(Optional.ofNullable(testMember));
+        Mockito.when(memberRepository.findByMemberId(testMember2.getMemberId())).thenReturn(Optional.ofNullable(testMember2));
+        Mockito.when(lobbyRepository.findByLobbyId(Mockito.anyLong())).thenReturn(testLobby);
+
+        testLobby.addLobbyMember(testMember);
+
+        Long lobbyId = testLobby.getLobbyId();
+        Long memberId = testMember.getMemberId();
+
+        assertThrows(ResponseStatusException.class, () -> lobbyService.lockSelections(lobbyId, memberId));
+
+        assertTrue(testMember.getHasLockedSelections());
+
+        testLobby.addLobbyMember(testMember2);
+
+        Member member2 = lobbyService.lockSelections(testLobby.getLobbyId(), testMember2.getMemberId());
+
+        assertTrue(member2.getHasLockedSelections());
+        assertEquals(testMember2.getMemberId(), member2.getMemberId());
+        assertEquals(testMember2.getLobbyId(), member2.getLobbyId());
     }
 
     @Test

@@ -105,6 +105,9 @@ public class LobbyService {
             }
             lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
         }
+        if (lobby.hasTimerRunOut()) {
+            lobby.setCreatedEventId(-1L);
+        }
         return lobbyGetDTO;
     }
 
@@ -148,7 +151,7 @@ public class LobbyService {
         timer.setLobby(newLobby);
         this.timerRepository.save(timer);
 
-        // Set the timer on the lobby and return it
+        // Set the timer on the lobby
         newLobby.setTimer(timer);
 
         // saves the given entity but data is only persisted in the database once
@@ -242,6 +245,7 @@ public class LobbyService {
     public Member setSports(Long lobbyId, Long memberId, List<String> selectedSports) {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
+        checkIfTimerHasRunUp(lobby);
         checkIfIsMemberOfLobby(lobby, member);
         member.setSelectedSports(selectedSports);
 
@@ -251,6 +255,7 @@ public class LobbyService {
     public Member setDates(Long lobbyId, Long memberId, List<String> selectedDates) {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
+        checkIfTimerHasRunUp(lobby);
         checkIfIsMemberOfLobby(lobby, member);
         List<LocalDateTime> dates = new ArrayList<>();
         for (String string : selectedDates) {
@@ -264,6 +269,7 @@ public class LobbyService {
     public Member lockSelections(Long lobbyId, Long memberId) {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
+        checkIfTimerHasRunUp(lobby);
         checkIfIsMemberOfLobby(lobby, member);
         String errorMessage = "";
         if (member.getSelectedSports().isEmpty()) {
@@ -280,9 +286,9 @@ public class LobbyService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMessage);
         } else {
             member.setHasLockedSelections(true);
-            /**if (lobby.getLobbyMembers().size() == 1) {
+            if (lobby.getLobbyMembers().size() == 1) {
                 throw new ResponseStatusException(HttpStatus.OK, "Event will only be created if at least two users locked their choices");
-            }**/
+            }
         }
         return member;
     }
@@ -290,6 +296,7 @@ public class LobbyService {
     public Member unlockSelections(Long lobbyId, Long memberId) {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
+        checkIfTimerHasRunUp(lobby);
         checkIfIsMemberOfLobby(lobby, member);
         member.setHasLockedSelections(false);
         return member;
@@ -297,6 +304,7 @@ public class LobbyService {
     public void addLobbyLocation (Long lobbyId, Location location) {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(location.getMemberId());
+        checkIfTimerHasRunUp(lobby);
         checkIfIsMemberOfLobby(lobby, member);
         if (member.getSuggestedLocation() != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format("Member with memberId %s has already" +
@@ -313,6 +321,7 @@ public class LobbyService {
     public void removeLobbyLocation(Long lobbyId, Long memberId) {
         Lobby lobby = getLobby(lobbyId);
         Member member = getMemberById(memberId);
+        checkIfTimerHasRunUp(lobby);
         checkIfIsMemberOfLobby(lobby, member);
         if (member.getSuggestedLocation() == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Member with memberId %s has not yet" +
@@ -325,10 +334,11 @@ public class LobbyService {
         Location location = getLocation(locationId);
         Member member = getMemberById(memberId);
         Lobby lobby = getLobby(lobbyId);
+        checkIfTimerHasRunUp(lobby);
         checkIfIsMemberOfLobby(lobby, member);
-        //member.setLocationId(locationId);
+
         location.getSelectedMembers().add(member);
-        //location.setMemberId(memberId);
+
         location.addMemberVotes(memberId);
         member.addSelectedLocation(location);
 
@@ -340,6 +350,7 @@ public class LobbyService {
         Location location = getLocation(locationId);
         Member member = getMemberById(memberId);
         Lobby lobby = getLobby(lobbyId);
+        checkIfTimerHasRunUp(lobby);
         checkIfIsMemberOfLobby(lobby, member);
         location.getSelectedMembers().remove(member);
         location.removeMemberVotes(memberId);

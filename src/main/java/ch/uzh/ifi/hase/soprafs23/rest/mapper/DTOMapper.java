@@ -48,9 +48,6 @@ public interface DTOMapper {
     UserEventGetDTO convertEntityToUserEventGetDTO(Event event);
 
     default List<UserEventGetDTO> convertEntityListToUserEventGetDTOList(List<Event> entityList) {
-        if (entityList == null) {
-            return null;
-        }
         return entityList.stream().map(this::convertEntityToUserEventGetDTO).toList();
     }
     @AfterMapping
@@ -137,9 +134,6 @@ public interface DTOMapper {
   ParticipantDTO convertEntityToParticipantDTO(Participant participant);
 
   default List<ParticipantDTO> convertEntityListToParticipantDTOList(List<Participant> entityList) {
-      if (entityList == null) {
-          return null;
-      }
       return entityList.stream().map(this::convertEntityToParticipantDTO).toList();
   }
   @AfterMapping
@@ -151,9 +145,6 @@ public interface DTOMapper {
   MemberDTO convertEntityToMemberDTO(Member member);
 
   default List<MemberDTO> convertEntityListToMemberDTOList(List<Member> entityList) {
-      if (entityList == null) {
-          return null;
-      }
       return entityList.stream().map(this::convertEntityToMemberDTO).toList();
   }
   @AfterMapping
@@ -177,16 +168,10 @@ public interface DTOMapper {
   }
 
   default List<LobbyLocationDTO> convertEntityListToLobbyLocationDTOList(List<Location> entityList) {
-      if (entityList == null) {
-          return null;
-      }
       return entityList.stream().map(this::convertEntityToLobbyLocationDTO).toList();
   }
 
   default List<MessageDTO> convertEntityListToLobbyMessageDTOList(List<Message> entityList) {
-      if (entityList == null) {
-          return null;
-      }
       return entityList.stream().map(this::convertEntityToMessageDTO).toList();
   }
   @AfterMapping
