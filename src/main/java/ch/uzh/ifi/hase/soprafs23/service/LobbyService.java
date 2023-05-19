@@ -286,10 +286,10 @@ public class LobbyService {
         if (!errorMessage.equals("")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMessage);
         } else {
-            member.setHasLockedSelections(true);
             if (lobby.getLobbyMembers().size() == 1) {
-                throw new ResponseStatusException(HttpStatus.OK, "Event will only be created if at least two users locked their choices");
+                throw new ResponseStatusException(HttpStatus.OK, "Event will only be created if at least two users saved their choices");
             }
+            member.setHasLockedSelections(true);
         }
         return member;
     }

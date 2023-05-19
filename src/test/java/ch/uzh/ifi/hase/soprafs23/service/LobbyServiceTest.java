@@ -375,7 +375,7 @@ class LobbyServiceTest {
 
         assertThrows(ResponseStatusException.class, () -> lobbyService.lockSelections(lobbyId, memberId));
 
-        assertTrue(testMember.getHasLockedSelections());
+        assertFalse(testMember.getHasLockedSelections());
 
     }
     @Test
@@ -412,7 +412,7 @@ class LobbyServiceTest {
 
         assertThrows(ResponseStatusException.class, () -> lobbyService.lockSelections(lobbyId, memberId));
 
-        assertTrue(testMember.getHasLockedSelections());
+        assertFalse(testMember.getHasLockedSelections());
 
         testLobby.addLobbyMember(testMember2);
 
