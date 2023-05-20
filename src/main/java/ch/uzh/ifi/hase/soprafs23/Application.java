@@ -25,12 +25,11 @@ public class Application {
   }
 
   @Bean
-  @SuppressWarnings("squid:S5542")
   public WebMvcConfigurer corsConfigurer() {
     return new WebMvcConfigurer() {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+        registry.addMapping("/**").allowedOrigins("https://sopra-fs23-group-07-client.oa.r.appspot.com", "http://localhost:3000").allowedMethods("*");
       }
     };
   }
