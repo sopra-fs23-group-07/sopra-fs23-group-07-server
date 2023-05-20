@@ -85,4 +85,19 @@ class UserUtilTest {
         // Call the method to be tested and assert that it throws the expected exception
         assertThrows(ResponseStatusException.class, () -> userUtil.getUser(userId, userToken));
     }
+    @Test
+    void getUser_WrongToken() {
+
+        when(userRepository.findByUserId(testUser.getUserId())).thenReturn(testUser);
+
+        Long userId = testUser.getUserId();
+        String userToken = testUser.getToken();
+
+        // Call the method to be tested
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+                () -> userUtil.getUser(userId, "wrongToken"));
+
+        // Verify that the exception has a 404 NOT FOUND status code
+        assertEquals(HttpStatus.UNAUTHORIZED, exception.getStatus());
+    }
 }

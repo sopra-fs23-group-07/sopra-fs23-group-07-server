@@ -76,6 +76,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -108,6 +109,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -116,6 +118,7 @@ class LobbyServiceIntegrationTest {
         testUser2.setUsername("testUsername2");
         testUser2.setPassword("testPassword2");
         testUser2.setToken("token2");
+        testUser2.setUserId(2L);
 
         userRepository.save(testUser2);
 
@@ -149,6 +152,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -188,6 +192,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -220,6 +225,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -255,6 +261,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -283,6 +290,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -336,6 +344,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
         
         userRepository.save(testUser);
 
@@ -373,6 +382,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -405,6 +415,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -438,6 +449,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -447,6 +459,7 @@ class LobbyServiceIntegrationTest {
         testUser2.setUsername("testUsername2");
         testUser2.setPassword("testPassword2");
         testUser2.setToken("token2");
+        testUser2.setUserId(2L);
 
         userRepository.save(testUser2);
 
@@ -509,6 +522,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -553,6 +567,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -585,6 +600,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -627,6 +643,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -670,6 +687,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -731,6 +749,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -766,6 +785,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -806,6 +826,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -853,6 +874,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -912,6 +934,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -952,6 +975,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -1023,6 +1047,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -1062,6 +1087,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -1097,6 +1123,7 @@ class LobbyServiceIntegrationTest {
         testUser.setUsername("testUsername");
         testUser.setPassword("testPassword");
         testUser.setToken("token");
+        testUser.setUserId(1L);
 
         userRepository.save(testUser);
 
@@ -1125,5 +1152,4 @@ class LobbyServiceIntegrationTest {
         assertEquals(createdLocation.getLongitude(), testLocation.getLongitude());
         assertEquals(createdLocation.getMemberId(), testLocation.getMemberId());
     }
-
 }

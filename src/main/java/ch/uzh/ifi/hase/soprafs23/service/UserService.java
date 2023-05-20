@@ -45,6 +45,7 @@ public class UserService {
     }
 
     public User createUser(User newUser) {
+        newUser.setUserId(Math.abs(new Random().nextLong(10000, 100000)));
         newUser.setToken(UUID.randomUUID().toString());
         newUser.setStatus(UserStatus.ONLINE);
         newUser.setCreationDate(LocalDate.now());

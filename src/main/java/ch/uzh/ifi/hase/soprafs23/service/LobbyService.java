@@ -272,6 +272,18 @@ public class LobbyService {
         Member member = getMemberById(memberId);
         checkIfTimerHasRunUp(lobby);
         checkIfIsMemberOfLobby(lobby, member);
+        String errorMessage = validateSelections(member);
+        if (!errorMessage.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMessage);
+        }
+        if (lobby.getLobbyMembers().size() == 1) {
+            throw new ResponseStatusException(HttpStatus.OK, "Event will only be created if at least two users saved their choices");
+        }
+        member.setHasLockedSelections(true);
+        return member;
+    }
+
+    private String validateSelections(Member member) {
         String errorMessage = "";
         if (member.getSelectedSports().isEmpty()) {
             errorMessage += "Please select at least one sport.\n";
@@ -280,18 +292,10 @@ public class LobbyService {
             errorMessage += "Please select at least one date.\n";
         }
         if (member.getSelectedLocations().isEmpty()) {
-            errorMessage += "Please vote for at least one location." +
-                    " If there are no locations to vote for, please confirm a location and vote for it.";
+            errorMessage += "Please vote for at least one location. " +
+                    "If there are no locations to vote for, please confirm a location and vote for it.";
         }
-        if (!errorMessage.equals("")) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMessage);
-        } else {
-            if (lobby.getLobbyMembers().size() == 1) {
-                throw new ResponseStatusException(HttpStatus.OK, "Event will only be created if at least two users saved their choices");
-            }
-            member.setHasLockedSelections(true);
-        }
-        return member;
+        return errorMessage;
     }
 
     public Member unlockSelections(Long lobbyId, Long memberId) {

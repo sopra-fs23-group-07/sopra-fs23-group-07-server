@@ -29,6 +29,7 @@ class UserRepositoryIntegrationTest {
     user.setUsername("firstname@lastname");
     user.setStatus(UserStatus.ONLINE);
     user.setToken("1");
+    user.setUserId(1L);
 
     entityManager.persist(user);
     entityManager.flush();
@@ -51,6 +52,7 @@ class UserRepositoryIntegrationTest {
         user.setUsername("firstname@lastname");
         user.setStatus(UserStatus.ONLINE);
         user.setToken("1");
+        user.setUserId(1L);
 
         entityManager.persist(user);
         entityManager.flush();
