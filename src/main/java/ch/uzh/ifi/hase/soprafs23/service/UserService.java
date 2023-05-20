@@ -34,6 +34,7 @@ public class UserService {
     private final Logger log = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
     private final UserUtil userUtil;
+    private Random random = new Random();
     @Autowired
     public UserService(@Qualifier("userRepository") UserRepository userRepository, UserUtil userUtil) {
         this.userRepository = userRepository;
@@ -45,7 +46,7 @@ public class UserService {
     }
 
     public User createUser(User newUser) {
-        newUser.setUserId(Math.abs(new Random().nextLong(10000, 100000)));
+        newUser.setUserId(Math.abs(random.nextLong(10000, 100000)));
         newUser.setToken(UUID.randomUUID().toString());
         newUser.setStatus(UserStatus.ONLINE);
         newUser.setCreationDate(LocalDate.now());
