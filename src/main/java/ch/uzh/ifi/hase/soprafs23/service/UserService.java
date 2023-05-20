@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.beans.PropertyDescriptor;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -34,7 +35,7 @@ public class UserService {
     private final Logger log = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
     private final UserUtil userUtil;
-    private Random random = new Random();
+    private final Random random = new SecureRandom();
     @Autowired
     public UserService(@Qualifier("userRepository") UserRepository userRepository, UserUtil userUtil) {
         this.userRepository = userRepository;

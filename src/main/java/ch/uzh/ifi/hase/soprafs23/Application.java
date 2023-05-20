@@ -25,6 +25,7 @@ public class Application {
   }
 
   @Bean
+  @SuppressWarnings("squid:S5542")
   public WebMvcConfigurer corsConfigurer() {
     return new WebMvcConfigurer() {
       @Override
