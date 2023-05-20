@@ -52,5 +52,3 @@ public class Timer implements Serializable {
         this.lobby = lobby;
     }
 }
-
-
