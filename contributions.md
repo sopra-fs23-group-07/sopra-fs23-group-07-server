@@ -263,6 +263,23 @@
 | 8        | 15/05/2023 - 22/05/2023 | Patrick         | [#248](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/248) | check if timer expired, set eventId to -1 when no event got created and adjust tests |
 | 8        | 15/05/2023 - 22/05/2023 | Patrick         | [#250](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/250) | change userId to be a random 5 digit number and adjust tests |
 | 8        | 15/05/2023 - 22/05/2023 | Patrick         | [#251](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/251) | add check that join/leave event not possible when event is over |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#150](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/150) |                                                                     add localStorage.clear and windows.Dispatch for token check and loggout user          |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#143](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/143) |                                                                    fic share invite link logging in          |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#142](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/142) |                                                                     add token check to relevant requests          |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#141](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/141) |                                                                     fix lobbyInviteGuard         |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#138](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/138) |                                                                    profile guard check token and id if they are correct       |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#137](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/137) |                                                                    login guard check token and id      |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#136](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/136) |                                                                    register guard check token and id     |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#135](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/135) |                                                                    fix register and login guards       |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#133](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/133) |                                                                    fix issue with invite link while there is local storage       |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#171](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/171) |                                                                    fix all promise bugs in client code      |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#158](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/158) |                                                                    fix bug in game      |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#157](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/157) |                                                                   fix bugs in GameRouter       |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#156](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/156) |                                                                    fix bugs in guards      |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#155](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/155) |                                                                   possible fix for bug in inviteLobbyGuard     |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#154](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/154) |                                                                    fix chat for all screens       |
+| 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#153](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/153) |                                                                   when pressing back in a lobby user leaves lobby      |
+
 
 
 
