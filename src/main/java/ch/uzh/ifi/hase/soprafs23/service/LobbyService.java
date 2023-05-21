@@ -18,6 +18,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Lobby Service
@@ -61,6 +64,15 @@ public class LobbyService {
         this.messageRepository = messageRepository;
         this.userUtil = userUtil;
     }
+    @Transactional
+    public void updateIsNewEvent(Long eventId, boolean isNewEvent) {
+        Optional<Event> optionalEvent = eventRepository.findById(eventId);
+        if (optionalEvent.isPresent()) {
+            Event event = optionalEvent.get();
+            event.setIsNewEvent(isNewEvent);
+            eventRepository.save(event);
+        }
+    }
     private static final Object eventCreationLock = new Object();
 
     public LobbyGetDTO updateLobby(Lobby lobby) {
@@ -98,6 +110,22 @@ public class LobbyService {
 
                     event = eventRepository.save(event);
                     eventRepository.flush();
+                event.getEventLocation().setEventId(event.getEventId());
+                event.setIsNewEvent(true);
+                event = eventRepository.save(event);
+                eventRepository.flush();
+                // create a ScheduledExecutorService with one thread
+                ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+                // Copy eventId into a final variable so it can be accessed within the lambda expression
+                final Long eventId = event.getEventId();
+
+                // schedule the task to run after 5 seconds
+                scheduler.schedule(() -> {
+                    // this block of code will be executed after 5 seconds
+                    updateIsNewEvent(eventId, false);
+                    scheduler.shutdown();  // shut down the executor service after the task has run
+                }, 5, TimeUnit.SECONDS);
 
                     lobby.setCreatedEventId(event.getEventId());
                     lobby = lobbyRepository.save(lobby);

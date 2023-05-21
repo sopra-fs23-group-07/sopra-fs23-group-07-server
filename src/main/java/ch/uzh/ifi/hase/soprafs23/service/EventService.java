@@ -20,6 +20,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * User Service
@@ -51,7 +55,15 @@ public class EventService {
     public List<Event> getEvents() {
         return this.eventRepository.findAll();
     }
-
+    @Transactional
+    public void updateIsNewEvent(Long eventId, boolean isNewEvent) {
+        Optional<Event> optionalEvent = eventRepository.findById(eventId);
+        if (optionalEvent.isPresent()) {
+            Event event = optionalEvent.get();
+            event.setIsNewEvent(isNewEvent);
+            eventRepository.save(event);
+        }
+    }
     public Event createEvent(Event newEvent) {
         if (newEvent.getEventDate().isBefore(LocalDateTime.now())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please choose event date in the future.");
@@ -61,9 +73,24 @@ public class EventService {
         }
         // saves the given entity but data is only persisted in the database once
         // flush() is called
+        newEvent.setIsNewEvent(true);
         newEvent = eventRepository.save(newEvent);
         newEvent.getEventLocation().setEventId(newEvent.getEventId());
         eventRepository.flush();
+
+        // create a ScheduledExecutorService with one thread
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+        // Copy eventId into a final variable so it can be accessed within the lambda expression
+        final Long eventId = newEvent.getEventId();
+
+        // schedule the task to run after 5 seconds
+        scheduler.schedule(() -> {
+            // this block of code will be executed after 5 seconds
+            updateIsNewEvent(eventId, false);
+            scheduler.shutdown();  // shut down the executor service after the task has run
+        }, 5, TimeUnit.SECONDS);
+
 
         log.debug("Created Information for Event: {}", newEvent);
         return newEvent;

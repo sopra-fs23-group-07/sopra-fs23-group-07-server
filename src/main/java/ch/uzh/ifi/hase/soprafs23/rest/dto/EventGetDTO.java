@@ -13,6 +13,7 @@ public class EventGetDTO {
     private Integer eventParticipantsCount;
     private Integer eventMaxParticipants;
     private List<ParticipantDTO> participantDTOs;
+    private boolean isNewEvent;
 
     public Long getEventId() {
         return eventId;
@@ -80,6 +81,14 @@ public class EventGetDTO {
 
     public void setEventParticipantsCount(Integer eventParticipantsCount) {
         this.eventParticipantsCount = eventParticipantsCount;
+    }
+
+    public boolean getIsNewEvent() {
+        return isNewEvent;
+    }
+
+    public void setIsNewEvent(boolean newEvent) {
+        isNewEvent = newEvent;
     }
 }
 

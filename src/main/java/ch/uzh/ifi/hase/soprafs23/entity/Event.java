@@ -46,6 +46,9 @@ public class Event implements Serializable {
     @Column(nullable = true, unique = false, updatable = false)
     private LocalDateTime eventDate;
 
+    @Column
+    private boolean isNewEvent = true;
+
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participant> eventParticipants = new ArrayList<>();
     @ManyToMany(fetch = FetchType.LAZY)
@@ -137,6 +140,14 @@ public class Event implements Serializable {
     }
     public void removeEventUser(User userToRemove) {
         eventUsers.removeIf(user -> user.equals(userToRemove));
+    }
+
+    public boolean getIsNewEvent() {
+        return isNewEvent;
+    }
+
+    public void setIsNewEvent(boolean newEvent) {
+        isNewEvent = newEvent;
     }
 }
 

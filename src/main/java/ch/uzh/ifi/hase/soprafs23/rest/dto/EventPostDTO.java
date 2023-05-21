@@ -9,6 +9,7 @@ public class EventPostDTO {
     private Integer eventMaxParticipants;
     private Long eventCreator;
     private String token;
+    private boolean isNewEvent;
 
     public String getEventName() {
         return eventName;
@@ -66,6 +67,14 @@ public class EventPostDTO {
     }
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public boolean getIsNewEvent() {
+        return isNewEvent;
+    }
+
+    public void setIsNewEvent(boolean newEvent) {
+        isNewEvent = newEvent;
     }
 }
 
