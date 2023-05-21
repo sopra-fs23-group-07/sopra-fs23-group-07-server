@@ -75,7 +75,7 @@ public class LobbyService {
     }
     private static final Object eventCreationLock = new Object();
 
-    public LobbyGetDTO updateLobby(Lobby lobby) {
+    public synchronized LobbyGetDTO updateLobby(Lobby lobby) {
         lobby.setLobbyDecidedSport(lobby.decideSport());
         lobby.decideLocation();
         lobby.setLobbyDecidedDate(lobby.decideDate());
