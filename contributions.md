@@ -236,6 +236,18 @@
 | 7        | 08/05/2023 - 15/05/2023 | Raffael         | [#32](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/32) |  data grid instead of table on Events page |
 
 
+# Week 8
+
+---
+
+| **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                           | **Comment** |
+| -------- | ----------------------- | --------------- | ------------------------------------------------------------------------------------------ | ----------- |
+| 8        | 16/05/2023 - 22/05/2023 | Omar         | [#159](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/159) |  Allow user to leave lobby even when an error occurs  |
+| 8        | 16/05/2023 - 22/05/2023 | Omar         | [#160](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/159) |  When joining a lobby map flies to the region that the user chose in Create Lobby  |
+
+
+
+
 # Template
 
 | 5 | 24/04/2023 - 01/05/2023 | ? | [#?](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-[client/server?]/issues/?) | ? |
