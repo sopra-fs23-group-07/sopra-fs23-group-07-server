@@ -242,8 +242,19 @@
 
 | **Week** | **Date**                | **Groupmember** | **Github Issue**                                                                           | **Comment** |
 | -------- | ----------------------- | --------------- | ------------------------------------------------------------------------------------------ | ----------- |
-| 8        | 16/05/2023 - 22/05/2023 | Omar         | [#159](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/159) |  Allow user to leave lobby even when an error occurs  |
-| 8        | 16/05/2023 - 22/05/2023 | Omar         | [#160](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/159) |  When joining a lobby map flies to the region that the user chose in Create Lobby  |
+| 8        | 15/05/2023 - 22/05/2023 | Omar         | [#159](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/159) |  Allow user to leave lobby even when an error occurs  |
+| 8        | 15/05/2023 - 22/05/2023 | Omar         | [#160](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/160) |  When joining a lobby map flies to the region that the user chose in Create Lobby  |
+| 8        | 15/05/2023 - 22/05/2023 | Omar         | [#161](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/161) |  Bug: checking that user added location in the chosen region does not work always  |
+| 8        | 15/05/2023 - 22/05/2023 | Omar         | [#162](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/162) |  When a user is not authenticated then localstorage should be cleared and navbarloggedOut should be shown.  |
+| 8        | 15/05/2023 - 22/05/2023 | Omar         | [#163](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/163) |  Create Guard for MyEvents page  |
+| 8        | 15/05/2023 - 22/05/2023 | Omar         | [#164](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/164) |  Bug: when creating an event always the same time is sent although user puts different input   |
+| 8        | 15/05/2023 - 22/05/2023 | Omar         | [#165](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/165) | Allow user to add and remove location in lobby  |
+| 8        | 15/05/2023 - 22/05/2023 | Omar         | [#166](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/166) | User can add location in Create event by clicking on map without confirm button   |
+| 8        | 15/05/2023 - 22/05/2023 | Omar         | [#167](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/167) | Highlight the location in a lobby that will be chosen for the event  |
+| 8        | 15/05/2023 - 22/05/2023 | Omar         | [#168](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/168) | When timer is up in a lobby and less than two people saved their choices then all lobby members will be pushed to lobbies page |
+| 8        | 15/05/2023 - 22/05/2023 | Omar         | [#169](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/169) | Allow user to reload page in a lobby without bugs |
+| 8        | 15/05/2023 - 22/05/2023 | Omar         | [#170](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/170) | If last participant leaves an event than after confirming the event will be deleted |
+
 
 
 
