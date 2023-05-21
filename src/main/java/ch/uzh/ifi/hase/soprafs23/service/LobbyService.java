@@ -61,6 +61,7 @@ public class LobbyService {
         this.messageRepository = messageRepository;
         this.userUtil = userUtil;
     }
+    private static final Object eventCreationLock = new Object();
 
     public LobbyGetDTO updateLobby(Lobby lobby) {
         lobby.setLobbyDecidedSport(lobby.decideSport());
@@ -71,39 +72,41 @@ public class LobbyService {
 
         if(lobby.isAtLeastTwoMembersHaveLockedSelections() && (lobby.isHaveAllMembersLockedSelections() || lobby.hasTimerRunOut())) {
 
-            if(lobby.getCreatedEventId() == null) {
+            synchronized (eventCreationLock) {
+                if (lobby.getCreatedEventId() == null) {
 
-                Event event = lobby.createEvent();
-                eventRepository.save(event);
-
-                for(Member member : lobby.getLobbyMembers()) {
-
-                    User databaseUser = userRepository.findByUserId(member.getUserId());
-                    Participant participant = new Participant();
-                    participant.setUser(databaseUser);
-                    participant.setEventId(event.getEventId());
-                    participant.setEvent(event);
-
-                    event.addEventParticipant(participant);
-                    event.addEventUser(databaseUser);
-                    databaseUser.addEvent(event);
-                    participantRepository.save(participant);
-                    userRepository.save(databaseUser);
+                    Event event = lobby.createEvent();
                     eventRepository.save(event);
+
+                    for (Member member : lobby.getLobbyMembers()) {
+
+                        User databaseUser = userRepository.findByUserId(member.getUserId());
+                        Participant participant = new Participant();
+                        participant.setUser(databaseUser);
+                        participant.setEventId(event.getEventId());
+                        participant.setEvent(event);
+
+                        event.addEventParticipant(participant);
+                        event.addEventUser(databaseUser);
+                        databaseUser.addEvent(event);
+                        participantRepository.save(participant);
+                        userRepository.save(databaseUser);
+                        eventRepository.save(event);
+                    }
+
+                    event.getEventLocation().setEventId(event.getEventId());
+
+                    event = eventRepository.save(event);
+                    eventRepository.flush();
+
+                    lobby.setCreatedEventId(event.getEventId());
+                    lobby = lobbyRepository.save(lobby);
+                    lobbyRepository.flush();
+
+                    log.debug("Created Information for Event: {}", event);
                 }
-
-                event.getEventLocation().setEventId(event.getEventId());
-
-                event = eventRepository.save(event);
-                eventRepository.flush();
-
-                lobby.setCreatedEventId(event.getEventId());
-                lobby = lobbyRepository.save(lobby);
-                lobbyRepository.flush();
-
-                log.debug("Created Information for Event: {}", event);
+                lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
             }
-            lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
         }
         if (!lobby.isAtLeastTwoMembersHaveLockedSelections() && lobby.hasTimerRunOut()) {
             lobby.setCreatedEventId(-1L);
