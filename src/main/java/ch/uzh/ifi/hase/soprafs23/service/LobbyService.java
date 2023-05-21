@@ -75,16 +75,16 @@ public class LobbyService {
     }
     private static final Object eventCreationLock = new Object();
 
-    public synchronized LobbyGetDTO updateLobby(Lobby lobby) {
+    public LobbyGetDTO updateLobby(Lobby lobby) {
         lobby.setLobbyDecidedSport(lobby.decideSport());
         lobby.decideLocation();
         lobby.setLobbyDecidedDate(lobby.decideDate());
 
         LobbyGetDTO lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
 
-        if(lobby.isAtLeastTwoMembersHaveLockedSelections() && (lobby.isHaveAllMembersLockedSelections() || lobby.hasTimerRunOut())) {
+        synchronized (eventCreationLock) {
+            if(lobby.isAtLeastTwoMembersHaveLockedSelections() && (lobby.isHaveAllMembersLockedSelections() || lobby.hasTimerRunOut())) {
 
-            synchronized (eventCreationLock) {
                 if (lobby.getCreatedEventId() == null) {
 
                     Event event = lobby.createEvent();
@@ -135,9 +135,10 @@ public class LobbyService {
                 }
                 lobbyGetDTO = DTOMapper.INSTANCE.convertEntityToLobbyGetDTO(lobby);
             }
-        }
-        if (!lobby.isAtLeastTwoMembersHaveLockedSelections() && lobby.hasTimerRunOut()) {
-            lobby.setCreatedEventId(-1L);
+
+            if (!lobby.isAtLeastTwoMembersHaveLockedSelections() && lobby.hasTimerRunOut()) {
+                lobby.setCreatedEventId(-1L);
+            }
         }
         return lobbyGetDTO;
     }
