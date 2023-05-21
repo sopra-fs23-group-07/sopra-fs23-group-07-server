@@ -16,8 +16,7 @@ public class UserUtil {
     public User getUser(Long userId, String token) {
         User userToFind = userRepository.findByUserId(userId);
         if (userToFind == null) {
-            String baseErrorMessage = "Please login or register";
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "userId", "was"));
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Please login or register");
         }
         if (!userToFind.getToken().equals(token)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Please login or register");

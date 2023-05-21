@@ -89,6 +89,7 @@ public class EventService {
 
     public void addParticipant(long eventId, long userId, String token) {
         Event event = getEvent(eventId);
+        checkIfEventIsOver(event);
         User databaseUser = userUtil.getUser(userId, token);
         if (event.eventIsFull()) {
             String baseErrorMessage = "The %s provided %s full";
@@ -113,6 +114,7 @@ public class EventService {
 
     public void removeParticipant(long eventId, long userId, String token) {
         Event event = getEvent(eventId);
+        checkIfEventIsOver(event);
         User databaseUser = userUtil.getUser(userId, token);
         Participant participant = getParticipant(event, databaseUser);
 
@@ -131,6 +133,11 @@ public class EventService {
         if (user.getEvents().contains(event)) {
             String baseErrorMessage = "The %s provided %s already participant of this event.";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "User", "is"));
+        }
+    }
+    private void checkIfEventIsOver(Event event) {
+        if (event.getEventDate().isBefore(LocalDateTime.now())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Event is over, you cannot join anymore");
         }
     }
 }
