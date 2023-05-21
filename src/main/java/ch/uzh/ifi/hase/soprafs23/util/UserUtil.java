@@ -20,7 +20,7 @@ public class UserUtil {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "userId", "was"));
         }
         if (!userToFind.getToken().equals(token)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "userToken is not valid");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Please login or register");
         }
         return userToFind;
     }
