@@ -171,6 +171,7 @@ public class LobbyService {
 
     public Lobby createLobby(Lobby newLobby) {
         checkIfLobbyExists(newLobby);
+        checkIfEventExists(newLobby);
         if (newLobby.getLobbyMaxMembers() > 30) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Maximum number of lobby members cannot exceed 30 people.");
         }
@@ -198,7 +199,15 @@ public class LobbyService {
         Lobby lobbyByLobbyName = lobbyRepository.findByLobbyName(lobbyToBeCreated.getLobbyName());
         String baseErrorMessage = "The %s provided %s not unique. Therefore, the lobby could not be created!";
         if (lobbyByLobbyName != null) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "lobbyName", "is"));
+            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "lobby name", "is"));
+        }
+    }
+
+    private void checkIfEventExists(Lobby lobbyToBeCreated) {
+        Event eventByLobbyName = eventRepository.findByEventName(lobbyToBeCreated.getLobbyName());
+        String baseErrorMessage = "There already exists an event with that name, please choose another name for the lobby!";
+        if (eventByLobbyName != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, baseErrorMessage);
         }
     }
     public Lobby getLobby(Long lobbyId) {

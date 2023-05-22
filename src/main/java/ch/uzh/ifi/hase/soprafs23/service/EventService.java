@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.entity.Event;
+import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
 import ch.uzh.ifi.hase.soprafs23.entity.Participant;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.EventRepository;
@@ -65,6 +66,7 @@ public class EventService {
         }
     }
     public Event createEvent(Event newEvent) {
+        checkIfEventExists(newEvent);
         if (newEvent.getEventDate().isBefore(LocalDateTime.now())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please choose event date in the future.");
         }
@@ -94,6 +96,14 @@ public class EventService {
 
         log.debug("Created Information for Event: {}", newEvent);
         return newEvent;
+    }
+
+    private void checkIfEventExists(Event eventToBeCreated) {
+        Event eventByLobbyName = eventRepository.findByEventName(eventToBeCreated.getEventName());
+        String baseErrorMessage = "The %s provided %s not unique. Therefore, the event could not be created!";
+        if (eventByLobbyName != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "event name", "is"));
+        }
     }
 
     public Event getEvent(long eventId) {
