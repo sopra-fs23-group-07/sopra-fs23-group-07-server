@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.entity.Event;
-import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
 import ch.uzh.ifi.hase.soprafs23.entity.Participant;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.EventRepository;
@@ -20,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -83,7 +81,7 @@ public class EventService {
         // create a ScheduledExecutorService with one thread
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-        // Copy eventId into a final variable so it can be accessed within the lambda expression
+        // Copy eventId into a final variable, so it can be accessed within the lambda expression
         final Long eventId = newEvent.getEventId();
 
         // schedule the task to run after 5 seconds
