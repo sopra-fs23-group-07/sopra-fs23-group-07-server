@@ -28,7 +28,7 @@ public class Event implements Serializable {
     @SequenceGenerator(name = "event_seq", sequenceName = "event_sequence", initialValue = 1)
     private Long eventId;
 
-    @Column(nullable = true)
+    @Column(nullable = true, unique = true)
     private String eventName;
 
     @OneToOne(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
