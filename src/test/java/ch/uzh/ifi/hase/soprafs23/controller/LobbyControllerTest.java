@@ -468,7 +468,36 @@ class LobbyControllerTest {
 
         // then
         mockMvc.perform(putRequest).andExpect(status().isOk());
+    }
+    @Test
+    void givenLobby_addLobbyMessage_thenReturnsJsonArray() throws Exception {
 
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setUsername(user.getUsername());
+        messageDTO.setMessage("Hello");
+
+        Message message = new Message();
+        message.setUsername(user.getUsername());
+        message.setLobbyMessage("Hello");
+
+        Lobby lobbyWithMessage = lobby;
+        lobbyWithMessage.addMessageToLobbyChat(message);
+
+        given(lobbyService.getLobby(anyLong())).willReturn(lobby);
+
+        MockHttpServletRequestBuilder postRequest = post("/lobbies/{lobbyId}/users/{userId}/messages", lobby.getLobbyId(), user.getUserId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(messageDTO));
+
+        // then
+        mockMvc.perform(postRequest).andExpect(status().isCreated())
+                .andExpect(jsonPath("$.lobbyName", is(lobby.getLobbyName())))
+                .andExpect(jsonPath("$.lobbyMaxMembers", is(lobby.getLobbyMaxMembers())))
+                .andExpect(jsonPath("$.lobbyRegion", is(lobby.getLobbyRegion())))
+                .andExpect(jsonPath("$.lobbyTimeLimit", is(lobby.getLobbyTimeLimit())))
+                .andExpect(jsonPath("$.lobbyId", is(Math.toIntExact(lobby.getLobbyId()))))
+                .andExpect(jsonPath("$.lobbyMessageDTOs[0].username", is(message.getUsername())))
+                .andExpect(jsonPath("$.lobbyMessageDTOs[0].message", is(message.getLobbyMessage())));
     }
 
   /**

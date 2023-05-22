@@ -73,7 +73,6 @@ public class LobbyService {
             eventRepository.save(event);
         }
     }
-    private static final Object eventCreationLock = new Object();
 
     public LobbyGetDTO updateLobby(Lobby lobby) {
         lobby.setLobbyDecidedSport(lobby.decideSport());
@@ -116,7 +115,7 @@ public class LobbyService {
                 // create a ScheduledExecutorService with one thread
                 ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-                // Copy eventId into a final variable so it can be accessed within the lambda expression
+                // Copy eventId into a final variable, so it can be accessed within the lambda expression
                 final Long eventId = event.getEventId();
 
                 // schedule the task to run after 5 seconds
