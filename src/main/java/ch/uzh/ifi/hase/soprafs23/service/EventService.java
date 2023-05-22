@@ -1,9 +1,11 @@
 package ch.uzh.ifi.hase.soprafs23.service;
 
 import ch.uzh.ifi.hase.soprafs23.entity.Event;
+import ch.uzh.ifi.hase.soprafs23.entity.Lobby;
 import ch.uzh.ifi.hase.soprafs23.entity.Participant;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.EventRepository;
+import ch.uzh.ifi.hase.soprafs23.repository.LobbyRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.ParticipantRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs23.util.UserUtil;
@@ -38,16 +40,20 @@ public class EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final ParticipantRepository participantRepository;
+
+    private final LobbyRepository lobbyRepository;
     private final UserUtil userUtil;
 
     @Autowired
     public EventService(@Qualifier("eventRepository") EventRepository eventRepository,
                         @Qualifier("userRepository") UserRepository userRepository,
                         @Qualifier("participantRepository") ParticipantRepository participantRepository,
+                        @Qualifier("lobbyRepository") LobbyRepository lobbyRepository,
                         UserUtil userUtil){
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
         this.participantRepository = participantRepository;
+        this.lobbyRepository = lobbyRepository;
         this.userUtil = userUtil;
     }
 
@@ -64,6 +70,7 @@ public class EventService {
         }
     }
     public Event createEvent(Event newEvent) {
+        checkIfLobbyExists(newEvent);
         checkIfEventExists(newEvent);
         if (newEvent.getEventDate().isBefore(LocalDateTime.now())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please choose event date in the future.");
@@ -101,6 +108,14 @@ public class EventService {
         String baseErrorMessage = "The %s provided %s not unique. Therefore, the event could not be created!";
         if (eventByLobbyName != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "event name", "is"));
+        }
+    }
+
+    private void checkIfLobbyExists(Event eventToBeCreated) {
+        Lobby lobbyByLobbyName = lobbyRepository.findByLobbyName(eventToBeCreated.getEventName());
+        String baseErrorMessage = "There already exists a lobby with that name, please choose another name for the event!";
+        if (lobbyByLobbyName != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, baseErrorMessage);
         }
     }
 
