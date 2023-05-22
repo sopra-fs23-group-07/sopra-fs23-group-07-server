@@ -41,8 +41,17 @@ You can verify that the server is running by visiting `localhost:8080` in your b
 
 ## Roadmap
 
-1. Friending
-2. 
+### Friending
+The next step for SpeetUp would be adding a friending system where users can friend in the app and share lobby invites directly through the SpeetUp. 
+
+### Private Lobbies
+
+Another feature that could be implemented is private lobbies, where only those users invited can join. Then you can create a lobby with only your friends by only inviting them to the lobby.
+
+### Rating Users
+
+An additional feature could be teh ability to rate users after an event is done. This way others can see if a user is fun to play with, or if he is not so friendly.
+
 
 ## Authors and Acknowledgments
 
