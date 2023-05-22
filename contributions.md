@@ -279,6 +279,8 @@
 | 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#155](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/155) |                                                                   possible fix for bug in inviteLobbyGuard     |
 | 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#154](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/154) |                                                                    fix chat for all screens       |
 | 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#153](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/153) |                                                                   when pressing back in a lobby user leaves lobby      |
+| 8        | 15/05/2023 - 22/05/2023 | Yannic         | [#174](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/174) |                                                                   First Design of CreateEvent, CreateLobby, EditProfile, Login, Register, Event, Events, FAQ, Profile, Home, Lobbies, Lobby, Navbar, Background, Buttons, Icons, Hovers       |
+| 8        | 15/05/2023 - 22/05/2023 | Yannic         | [#175](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/175) |                                                                    Detail Design of CreateEvent, CreateLobby, Event, Events, Lobbies, Lobby, Navbar, Background, Buttons, Icons, Hovers, Table     |
 
 
 
