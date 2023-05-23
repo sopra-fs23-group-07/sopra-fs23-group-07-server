@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs23.entity.Location;
 import ch.uzh.ifi.hase.soprafs23.entity.Participant;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.EventRepository;
+import ch.uzh.ifi.hase.soprafs23.repository.LobbyRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.ParticipantRepository;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs23.util.UserUtil;
@@ -30,6 +31,8 @@ class EventServiceTest {
     private UserRepository userRepository;
     @Mock
     private ParticipantRepository participantRepository;
+    @Mock
+    private LobbyRepository lobbyRepository;
     @Mock
     private UserUtil userUtil;
     @InjectMocks
@@ -257,6 +260,7 @@ class EventServiceTest {
     void addParticipant_userIsAlreadyParticipant_throwsException() {
         // Mock the behavior of the eventRepository
         when(eventRepository.findByEventId(testEvent.getEventId())).thenReturn(testEvent);
+        when(lobbyRepository.findByLobbyName(Mockito.anyString())).thenReturn(null);
 
         // Mock the behavior of the userRepository
         when(userUtil.getUser(testUser.getUserId(), testUser.getToken())).thenReturn(testUser);
