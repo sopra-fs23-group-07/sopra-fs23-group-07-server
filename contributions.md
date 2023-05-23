@@ -281,6 +281,18 @@
 | 8        | 15/05/2023 - 22/05/2023 | Suleman         | [#153](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/153) |                                                                   when pressing back in a lobby user leaves lobby      |
 | 8        | 15/05/2023 - 22/05/2023 | Yannic         | [#174](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/174) |                                                                   First Design of CreateEvent, CreateLobby, EditProfile, Login, Register, Event, Events, FAQ, Profile, Home, Lobbies, Lobby, Navbar, Background, Buttons, Icons, Hovers       |
 | 8        | 15/05/2023 - 22/05/2023 | Yannic         | [#175](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/175) |                                                                    Detail Design of CreateEvent, CreateLobby, Event, Events, Lobbies, Lobby, Navbar, Background, Buttons, Icons, Hovers, Table     |
+| 8        | 15/05/2023 - 22/05/2023 | Raffael         | [#93](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/93) | Event detail: join& leave buttons disabled depending on user being a participant    |
+| 8        | 15/05/2023 - 22/05/2023 | Raffael         | [#90](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/90), [#151](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/151) | display of error messages updated    |
+| 8        | 15/05/2023 - 22/05/2023 | Raffael         | [#93](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/93), [#237](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/237) | refined email validation and reviewed related security hotspots    |
+| 8        | 15/05/2023 - 22/05/2023 | Raffael         | [#32](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/32), [#148](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/148), [#149](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/149), [#173](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/173) | data grid   |
+| 8        | 15/05/2023 - 22/05/2023 | Raffael         | [#172](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/172),  [#252](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-server/issues/252) | Added fireworks animation when new Event gets created    |
+| 8        | 15/05/2023 - 22/05/2023 | Raffael         | [#146](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/146) | added info when user tries to access non-existant user profile    |
+| 8        | 15/05/2023 - 22/05/2023 | Raffael         | [#144](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/144) | added sharing buttons for whatsapp, telegram and email    |
+| 8        | 15/05/2023 - 22/05/2023 | Raffael         | [#145](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/145) | added spinner when profile picture loading    |
+| 8        | 15/05/2023 - 22/05/2023 | Raffael         | [#139](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/issues/139) | added Slider to CreateEvent and CreateLobby pages and refined user feedback on missing/wrong values   |
+
+
+
 
 
 
