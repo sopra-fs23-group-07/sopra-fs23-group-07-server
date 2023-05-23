@@ -328,11 +328,11 @@ public class LobbyService {
             errorMessage += "Please select at least one sport.\n";
         }
         if (member.getSelectedDates().isEmpty()) {
-            errorMessage += "Please select at least one date.\n";
+            errorMessage += "Please add at least one date by clicking on the +.\n";
         }
         if (member.getSelectedLocations().isEmpty()) {
             errorMessage += "Please vote for at least one location. " +
-                    "If there are no locations to vote for, please confirm a location and vote for it.";
+                    "If there are no locations to vote for, please add a location and vote for it.";
         }
         return errorMessage;
     }
