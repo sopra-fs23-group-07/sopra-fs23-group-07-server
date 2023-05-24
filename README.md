@@ -77,15 +77,15 @@ If you want to avoid running all tests with every change, use the following comm
 ## Roadmap
 
 ### Friending
-The next step for SpeetUp would be adding a friending system where users can friend in the app and share lobby invites directly through the SpeetUp. 
+The next step for SpeetUp would be adding a friending system where users can friend in the app and share lobby invites directly through SpeetUp. 
 
 ### Private Lobbies
 
-Another feature that could be implemented is private lobbies, where only those users invited can join. Then you can create a lobby with only your friends by only inviting them to the lobby.
+Another feature that could be implemented is private lobbies, where only those users invited can join. Then you can create a lobby with just your friends by only inviting them to the lobby.
 
 ### Rating Users
 
-An additional feature could be teh ability to rate users after an event is done. This way others can see if a user is fun to play with, or if he is not so friendly.
+An additional feature could be the ability to rate users after an event is done. This way others can see if a user is fun to play with, or if he is not so friendly.
 
 
 ## Authors and Acknowledgments
