@@ -15,9 +15,9 @@ If you have ever tried to organize a sports event with friends then you know how
 
 ## Technologies
 * [Springboot Framework](https://spring.io/projects/spring-boot)
-* [Google Cloud](https://cloud.google.com)
-* [JPA]()
-* [Java]()
+* [Google App Engine](https://cloud.google.com)
+* [H2 Database Engine](https://www.h2database.com/html/main.html)
+* [Java](https://www.java.com/en/)
 * [Gradle](https://gradle.org)
 
 
@@ -91,12 +91,12 @@ An additional feature could be teh ability to rate users after an event is done.
 ## Authors and Acknowledgments
 
 * **Suleman Ali Khan** - *Developer* - [SuleKhan](https://github.com/SuleKhan)
-* **Omar Abo Hamida** - *Developer* - [SuleKhan](https://github.com/SuleKhan)
-* **Patrick Schelling** - *Developer* - [SuleKhan](https://github.com/SuleKhan)
-* **Yannic Laurent Meyer** - *Developer* - [SuleKhan](https://github.com/SuleKhan)
-* **Raffael Kummer** - *Developer* - [SuleKhan](https://github.com/SuleKhan)
+* **Omar Abo Hamida** - *Developer* - [oaboha](https://github.com/oaboha)
+* **Patrick Schelling** - *Developer* - [patrick9051](https://github.com/patrick9051)
+* **Yannic Laurent Meyer** - *Developer* - [cinnayre](https://github.com/cinnayre) (committed with [yanmey](https://github.com/yanmey))
+* **Raffael Kummer** - *Developer* - [theraffael](https://github.com/theraffael)
 
-* **Mete** - *Scrum Master* - [SuleKhan](https://github.com/SuleKhan)
+* **Mete Polat** - *Scrum Master* - [polatmete](https://github.com/polatmete)
 
 ## License
 
