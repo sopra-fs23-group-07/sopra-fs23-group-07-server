@@ -51,6 +51,28 @@ Run the following commands to build and run Gradle
 
 You can verify that the server is running by visiting `localhost:8080` in your browser.
 
+### Test
+
+```bash
+./gradlew test
+```
+
+### Development Mode
+You can start the backend in development mode, this will automatically trigger a new build and reload the application
+once the content of a file has been changed.
+
+Start two terminal windows and run:
+
+`./gradlew build --continuous`
+
+and in the other one:
+
+`./gradlew bootRun`
+
+If you want to avoid running all tests with every change, use the following command instead:
+
+`./gradlew build --continuous -xtest`
+
 
 ## Roadmap
 
