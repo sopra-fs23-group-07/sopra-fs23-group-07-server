@@ -72,7 +72,7 @@ public class EventService {
     public Event createEvent(Event newEvent) {
         checkIfLobbyExists(newEvent);
         checkIfEventExists(newEvent);
-        if (newEvent.getEventDate().isBefore(LocalDateTime.now())) {
+        if (newEvent.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please choose event date in the future.");
         }
         if (newEvent.getEventMaxParticipants() > 30) {
